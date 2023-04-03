@@ -37,19 +37,60 @@ Ejercicio 2
  a) Los subdominios son disjuntos
  b) Los subdominios están completos
  c) Los subdominios son correctos
- 
- Respuesta a), b) y c)
+ Respuesta a), b).
  
  // particion: x es un cuadrado perfecto; x es > 0 pero no es un cuadrado perfecto
  a) Los subdominios son disjuntos
  b) Los subdominios están completos
  c) Los subdominios son correctos
- 
- Respuesta a) y c)
+ Respuesta a), b), c)
  
  // particion: x=0, x=1, x=7, x=16
  a) Los subdominios son disjuntos
  b) Los subdominios están completos
  c) Los subdominios son correctos
- 
  Respuesta a) y c)
+ 
+ 
+ Ejercicio 6
+ // particion: x e y no son  0
+ a) Los subdominios son disjuntos
+ b) Los subdominios están completos
+ c) Los subdominios son correctos
+ Respuesta a) y c)
+ 
+ // particion: x es divisible por y; y es divisible por x; x e y son primeros relativos
+ a) Los subdominios son disjuntos
+ b) Los subdominios están completos
+ c) Los subdominios son correctos
+ Respuesta: c)
+ 
+ Ejercicio 7
+ ¿Cuáles son los valores límite apropiados para probar esta función?
+ winsAndLosses = WWWWW
+ winsAndLosses = LLLLL
+ 
+ Ejercicio 8
+ a) particion en a: 0, 1
+ b) particion en a: 0
+ c) particion en a: 1
+ d) particion en a: 0, positivo, negativo
+ e) particion en a: positivo, negativo
+ f) particion en a: 1, !=1
+ g) particion en a: (donde "pequeño" encaja en long y "grande" no)
+ Respuesta: a), e), g)
+ 
+ Ejercicio 9
+ Si solo queremos cubrir cada subdominio de las tres particiones, ¿cuántos valores diferentes de a necesitaríamos?.
+ // particion en a: 0, positivo, negativo
+ // particion en a: 1, !=1
+ // particion on a: donde "pequeño" encaja en long y "grande" no)
+ Respuesta: 3,2,2 valores. (7 valores).
+ 
+ Ejercicio 10
+ Con este enfoque, ¿cuántos casos de prueba se necesitan para cubrir las siguientes tres particiones?
+
+ // particion en a: 0, positivo, negativo
+ // particion en b: 0, positive, negativo
+ // particion en a.multiply(b): 0, positivo, negativo
+ Respuesta: 9 casos de prueba.
