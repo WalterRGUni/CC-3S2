@@ -1,3 +1,5 @@
+## Sprint 1
+### Criterio de aceptación 1.1
 **Pregunta:** Explica el funcionamiento de los siguientes código dentro del sprint1.
 
 ```
@@ -48,43 +50,10 @@ El primer código se tiene la clase TestBoardConsole, el cual realiza pruebas a 
 
 El segundo código es la implementación de la clase Console. Tiene un constructor, al cual debe pasarsele un atributo tipo Board con el que se inicializa su campo board. Se define el método displayBoard, el cual imprime en la consola el tablero 3x3, usando para ello el campo board y llamando su método getCell para obtener el valor de cada celda.
 
+### Criterio de aceptación 1.2 y 1.3
 
-Ahora consideramos `AC 1.2` y `AC 1.3` porque son similares. La decisión que debemos tomar es cómo representar una celda no válida. 
-
-El código existente ha usado `0` para representar una celda vacía. Sea `-1` denota una celda inválida. 
-
-Agregamos el siguiente código de prueba nuevo, donde un `3` denota una fila o columna no válida. 
-
-```
-// Criterio de aceptación 1.2 
-@ Test
-public void testInvalidRow(){
-   assertEqual(“ “, board.getCell(3, 0), -1);
-  }
-
- // criterio de aceptación 1.3
-@ Test
-public void testInvalidColumn(){
-   assertEqual(“ “, board.getCell(0, 3), -1);
-  }
-```
-Aunque estas pruebas no tienen ningún error de sintaxis, fallan porque `grid [3] [0]` y `grid [0] [3]` en la declaración de retorno de `getCell` están fuera de límite a lo siguiente:
-
-```
-public int getCell(int row, int column){
-       if(row >= 0 && row < 3 && column >= 0 && column < 3)
-           return grid[row][column]; 
-      else
-           return -1
-    }
-``` 
-Ahora el código de trabajo ha implementado la primera historia de usuario. 
-
-**Pregunta:** ¿se necesita refactorización?
-
-Según el DoD , debemos verificar si se cumple el objetivo de cobertura de la prueba y si el código fuente ha cumplido con las pautas de codificación. En efecto, cada declaración en `Board` ha sido compilada por al menos una de las tres pruebas. 
-
-La revisión del código no encontró ningún problema con el estilo de codificación. Así se realiza el Sprint 1. 
+**Pregunta:** ¿se necesita refactorización?  
+**Respuesta:** Luego de implementar los tests para cuando se haga referencia a una fila o columna no válida, se tuvo que refactorizar el método getCell de la clase Board para que solo devuelva el valor de la celda cuando la fila y columna estén entre 0 y 2. Para otros valores se retorna -1 para indicar que la fila o columna son inválidas.
 
 #### Cobertura de código 
 
