@@ -1,5 +1,176 @@
+## Proyecto Tictactoe
+
+###  Actividad Individual
+
+Descarga la actividad incompleta desde aquí:https://github.com/kapumota/Actividades/tree/main/Total/TictocToe 
+
+Inicia un repositorio llamado CC-3S2 y dentro una carpeta llamada Actividades. Dentro de esta carpeta abre una carpeta llamada `TicTacToe` y coloca todas tus respuestas.
+
+
+## El ejemplo con el juego Tic-Tac-Toe
+
+A continuación,  usamos el juego `TicTacToe` para ilustrar el proceso Scrum para el desarrollo de software. Nos enfocamos en la integración de prácticas de ingeniería de software en el proceso más que en la gestión del trabajo en equipo. 
+
+
+### Implementación e Ingeniería de Software 
+
+Antes de profundizar en los sprints individuales, proporcionamos una descripción general del código fuente completo de `TicTacToe`. 
+
+![](https://github.com/kapumota/Actividades/blob/main/Total/Imagenes/Sprints.png)
+
+
+Supongamos que la planificación inicial del proyecto TicTacToe ha determinado las siguientes historias de usuarios en el backlog products: 
+
+**Historia de usuario 1:** Como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego `TicTacToe`. 
+
+
+**Historia de usuario 2:**  Como jugador X, necesito colocar una ficha en un tablero tic-tac-toe para poder hacer un movimiento. 
+
+**Historia de usuario 3:**  Como jugador, necesito saber si el juego termina después de cada movimiento. 
+
+El sprint 1 tiene dos paquetes que muestran el incremento de producción y código de prueba desde la implementación de `AC1.1` a `AC 1.2-AC 1.3`. 
+
+Los dos paquetes del `sprint 2` presentan el código antes y después de la refactorización cuando se implementa inicialmente la funcionalidad de la segunda y tercera historia. 
+
+El primer paquete de `sprint 3` (`sprint 3_0`) es la implementación inicial de todas las historias. El segundo paquete, `sprint 3_1`, resulta de la refactorización del sprint `3_0`. Los cambios en el tercer paquete, `sprint3_2`, se ocupan de los informes de análisis de código estático. 
+
+El paquete `sprintX_autoplay` contiene el código fuente que permite a un jugador jugar contra la computadora. Se utiliza para discutir la evolución del software. 
+
+Ten en cuenta que el código está organizado de forma ilustrativa. Su estructura es ciertamente diferente a la de un proyecto de campo real, que generalmente utiliza una herramienta de control de versiones como git.
+
+
 ## Sprint 1
-### Criterio de aceptación 1.1
+
+Considera la primera historia: como jugador, necesito un tablero vacío de 3 x 3 para comenzar un juego de `TicTacToe`. 
+
+Escribimos el primer criterio de aceptación de la siguiente manera : 
+
+```
+AC 1.1 Tablero vacío 
+Cuando 
+Entonces 
+Y
+```
+
+Sin embargo aquí  no se especifica completamente el requisito. ¿Se puede jugar el juego en un tablero más grande (por ejemplo, 5 x 5) usando una cuadrícula de 3 x 3? 
+
+Agregamos dos criterios de aceptación sobre los límites del tablero.
+
+```
+AC 1.2 Referencia de fila no válida
+Dado 
+Cuando
+Entonces 
+```
+```
+AC 1.3 Referencia de columna no válida
+Dado 
+Cuando 
+Entonces
+```
+
+### Características del sprint 1
+
+Código de producción: separación de la lógica empresarial y la interfaz de usuario 
+
+- Lógica empresarial: crear una clase board
+- Interfaz de usuario: crear una clase del GUI del tablero (o Console) 
+
+Separación de la lógica empresarial y la interfaz de usuario
+
+![](https://github.com/kapumota/Actividades/blob/main/Total/Imagenes/Design.png)
+
+Escribir código de prueba 
+
+ - Crear pruebas a partir de los criterios de aceptación. 
+
+Para escribir una prueba, necesitamos tomar las siguientes decisiones: 
+
+- ¿Cuál es el tipo de datos de las celdas del tablero? 
+ 
+- ¿Qué valor representa `empty`? 
+
+-  ¿Cómo obtener una celda de tablero dada?
+
+. ¿Cuál es el tipo de datos de  ' turn de X'? 
+
+- ¿Cómo obtener el estado de `turn`? 
+
+
+Así, tenemos la siguiente prueba:
+
+```
+public class TestEmptyBoard {
+    private Board board = new Board ( );
+    // criterio de aceptación 1.1
+   @ Test
+    public void  testNewBoard() {
+         for (int row =0; row < 3; row ++) {
+            for (int column = 0; column < 3; column ++){
+	assertEquals(“ “, board.getCell(row, column), 0);
+	}
+         }
+         assertEquals(“ “, board.getTurn( ), ‘X’)
+      }
+}
+
+``` 
+El código de prueba anterior tiene varios errores de sintaxis porque el código de producción, es decir, la clase `Board` con los métodos `getCell` y `getTurn`, aún no está disponible. 
+
+Podemos escribir el siguiente código de producción para que la prueba pase. 
+
+```
+public class Board {
+     private int [ ][ ] grid;
+     private char turn = ‘X’;
+     public Board( ){
+             grid = new int [3 ][ 3];
+     } 
+
+public int getCell(int row, int column) {
+      return grid [row][column]; 
+    }
+  public char getTurn(){
+     return turn:
+  }
+}
+``` 
+#### Programación en pares
+
+El trabajo anterior podría realizarse a través de la programación en pares o con el estilo conductor-navegador: el `conductor` escribe el código en el teclado, mientras que el `navegador` piensa estratégicamente si el código debe ir (arquitectura, problemas, mejoras). 
+
+Para completar la clase de GUI, primero escribimos una prueba de GUI. El objetivo es simplemente mostrar el tablero vacío visualizado, cuando la clase GUI está disponible. No se necesita una aserción. 
+
+La prueba hará que la visualización se quede dos segundos para que podamos ver el efecto. 
+
+
+![](https://github.com/kapumota/Actividades/blob/main/Total/Imagenes/Tablero1.png)
+
+```
+public class TestBoardGUI {
+    private Board board;
+   								
+    @ Test
+    public void testEmptyBoard ( ){
+          new GUI (board);
+           try {
+               Thread. sleep(2000);
+          } catch (InterruptedException e) {
+                e.printStackTrace( ){
+           }
+    }
+}
+``` 
+
+Procedemos a escribir la clase GUI para que pase la prueba. Actualmente, no hay necesidad de admitir ninguna acción de GUI. La interfaz pública se muestra a continuación, donde la GUI se compone de un objeto `Board`. 
+
+```
+public class GUI extends JFrame {
+    public GUI(Board board);
+    public Board getBoard(){
+  }
+```
+
 **Pregunta:** Explica el funcionamiento de los siguientes código dentro del sprint1.
 
 ```
@@ -44,16 +215,51 @@ public class Console {
     }
 }
 ```
+
 **Respuesta:**  
 
 El primer código se tiene la clase TestBoardConsole, el cual realiza pruebas a las clases Board y Console. Para ello define el método setUp, el cual es llamado antes de cada prueba. Este método instancia un objeto de la clase Board, con el que inicializa el campo board. Este campo es usado en el método testEmptyBoard, al ser pasado como argumento al constructor de Console para instanciar un objeto de la clase Console. Sobre este objeto se llama al método displayBoard, el cual muestra el tablero vacío en la consola.  
 
 El segundo código es la implementación de la clase Console. Tiene un constructor, al cual debe pasarsele un atributo tipo Board con el que se inicializa su campo board. Se define el método displayBoard, el cual imprime en la consola el tablero 3x3, usando para ello el campo board y llamando su método getCell para obtener el valor de cada celda.
 
-### Criterio de aceptación 1.2 y 1.3
+Ahora consideramos `AC 1.2` y `AC 1.3` porque son similares. La decisión que debemos tomar es cómo representar una celda no válida. 
 
-**Pregunta:** ¿se necesita refactorización?  
+El código existente ha usado `0` para representar una celda vacía. Sea `-1` denota una celda inválida. 
+
+Agregamos el siguiente código de prueba nuevo, donde un `3` denota una fila o columna no válida. 
+
+```
+// Criterio de aceptación 1.2 
+@ Test
+public void testInvalidRow(){
+   assertEqual(“ “, board.getCell(3, 0), -1);
+  }
+
+ // criterio de aceptación 1.3
+@ Test
+public void testInvalidColumn(){
+   assertEqual(“ “, board.getCell(0, 3), -1);
+  }
+```
+Aunque estas pruebas no tienen ningún error de sintaxis, fallan porque `grid [3] [0]` y `grid [0] [3]` en la declaración de retorno de `getCell` están fuera de límite a lo siguiente:
+
+```
+public int getCell(int row, int column){
+       if(row >= 0 && row < 3 && column >= 0 && column < 3)
+           return grid[row][column]; 
+      else
+           return -1
+    }
+``` 
+Ahora el código de trabajo ha implementado la primera historia de usuario. 
+
+**Pregunta:** ¿se necesita refactorización?
+
 **Respuesta:** Luego de implementar los tests para cuando se haga referencia a una fila o columna no válida, se tuvo que refactorizar el método getCell de la clase Board para que solo devuelva el valor de la celda cuando la fila y columna estén entre 0 y 2. Para otros valores se retorna -1 para indicar que la fila o columna son inválidas.
+
+Según el DoD , debemos verificar si se cumple el objetivo de cobertura de la prueba y si el código fuente ha cumplido con las pautas de codificación. En efecto, cada declaración en `Board` ha sido compilada por al menos una de las tres pruebas. 
+
+La revisión del código no encontró ningún problema con el estilo de codificación. Así se realiza el Sprint 1. 
 
 #### Cobertura de código 
 
@@ -101,6 +307,8 @@ public class Board {
 }
 ``` 
 **Pregunta:** Realiza la cobertura de código. Explica tus respuestas.
+
+**Respuesta:** Al realizar las pruebas unitarias usando la clase TestEmptyBoard2 se obtiene una covertura del 85% de las líneas (6 de 7). Esto se debe a que en las pruebas nunca se ejecuta la línea "return -1" del método getCell, ya que no se llama a este método con valores inválidos de fila o columna.
 
 Revisa: https://www.jetbrains.com/help/idea/code-coverage.html 
 
@@ -338,6 +546,8 @@ Para escribir una prueba para `AC4.1`, necesitamos imaginar un escenario concret
 
 **Pregunta (V/F)** La secuencia de cuatro movimientos, `X (0,0), O (1,1), X (0,1), O (1,0)` no cumple la  necesidad. 
 
+**Respuesta** Falso. Si cumple la necesidad, ya que no existen XXX u OOO aún y es el turno de X.
+
 Como es el turno de X, X puede moverse en `(0, 2)`, lo que resulta en una victoria y tenemos la siguiente prueba, que también pretende visualizar el escenario. 
 
 ```
@@ -424,11 +634,71 @@ Por ejemplo, `AC 4.1` requiere dos X en celdas específicas para pasar a formar 
 
 Para hacer que `testXWon` pase, `updateGameState` se enfoca en los escenarios `CROSS_WON`. Indica  al menos tres pruebas para `AC4.1` para cubrir tres X seguidas de manera horizontal, vertical y diagonal. 
 
+**Respuesta**
+```
+public void testXWonHorizontal(){
+     board.makeMove(1, 0);
+     board.makeMove(2, 1);
+     board.makeMove(1, 1);
+     board.makeMove(2, 2);
+     board.makeMove(1, 2);
+
+      assertEquals(“ ”, board.getGamesState(); GameState. CROSS_WON);
+      new GUI(board);
+      try {
+             Thread.sleep(2000);
+          } catch (InterruptedException e) {
+               e.printStackTrace();
+       }
+}
+```
+```
+public void testXWonVertical(){
+     board.makeMove(0, 0);
+     board.makeMove(1, 1);
+     board.makeMove(1, 0);
+     board.makeMove(1, 2);
+     board.makeMove(2, 0);
+
+      assertEquals(“ ”, board.getGamesState(); GameState. CROSS_WON);
+      new GUI(board);
+      try {
+             Thread.sleep(2000);
+          } catch (InterruptedException e) {
+               e.printStackTrace();
+       }
+}
+```
+```
+public void testXWonDiagonal(){
+     board.makeMove(0, 0);
+     board.makeMove(1, 0);
+     board.makeMove(1, 1);
+     board.makeMove(1, 2);
+     board.makeMove(2, 2);
+
+      assertEquals(“ ”, board.getGamesState(); GameState. CROSS_WON);
+      new GUI(board);
+      try {
+             Thread.sleep(2000);
+          } catch (InterruptedException e) {
+               e.printStackTrace();
+       }
+}
+```
+
 Muestra que el método `testXWon` anterior ha cubierto `AC4.2` y `AC 4.4` y que el juego continuó hasta la jugada ganadora `board.makeMove (0, 2)`. 
+
+**Rpta:** El método testXWon cubre AC 4.2 porque luego que X hace el primer movimiento (0,0) aún no se ha formado XXX y el juego continúa y cambia el turno a O.
+También cubre AC 4.4 porque cuando O hace su primer movimiento (1, 1) aún no se ha formado OOO y el juego continúa y cambia el turno a X.
 
 ¿`AC4.3` es similar a `AC 4.1` ?. ¿Se trata de los escenarios `NAUGHT_WON`?. 
 
+**Rpta:** Son similares pero con la diferencia que AC 4.1 es el escenario CROSS_WON y AC 4.3 es el escenario NAUGHT_WON
+
 ¿Toda las pruebas para `AC4.1-AC4.5` permitirán completar la clase de `Board`?. 
+
+**Rpta:** Si, las pruebas AC4.1-AC4.5 permiten completar la clase Board con métodos que implementen los diferentes escenarios por los que el juego puede terminar.
 
 ### Refactorización 
 
@@ -448,6 +718,8 @@ public enum Cell {EMPTY, CROSS, NOUGHT}
 ```
 
 **Pregunta** ¿ Cuál es el problema de initialBoard  y por que le cambiamos el nombre a `resetGame`. 
+
+**Respuesta** Porque al ejecutarse el juego vuelve a su estado inicial, es decir hace un reset, por lo que lo más adecuado sería llamarlo resetGame.
 
 El nombre de la clase, `Board`, no explica claramente la abstracción. Se trata más del juego de tictactoe que del tablero de juego. 
 
@@ -598,5 +870,7 @@ Para implementar las características anteriores, podemos crear una subclase de 
 La elección de un movimiento automático en la historia de usuario  ocurre justo después de que el jugador humano se mueva. Podemos lograr esto sobreescribiendo `makeMove` e implementando los criterios de aceptación `5.2-5.4` por métodos individuales. 
 
 **Pregunta:** Verifica esto en el código del paquete del proyecto TicTacToe entregado.
+
+**Respuesta:** Se verifica que se ha creado una clase AutoTicTacToe que extiende TicTacToeGame, la cual implementa el que el jugador pueda jugar contra una computadora. Cuando la computadora empieza, esta juega con X y realiza un movimiento aleatorio válido. Sin embargo  no están implementados los métodos makeWinningMove y blockOpponentWinningMove (solo retornan false), los cuales deberían realizar el movimiento ganador si es posible y bloquear una jugada ganadora del jugador. Por lo que cuando la computadora le toca realizar un movimiento solo verifica que lo realize en una celda vacía.  
 
 La capacidad de anticipar cambios potenciales es una habilidad esencial para que los ingenieros de software desarrollen software confiable que se adapte a los requisitos en evolución.
