@@ -10,7 +10,9 @@ public class WordTest {
     public void oneIncorrectLetter() {
         var word = new Word("A");
         var score = word.guess("A");
-        assertThat(score.letter(0)).isEqualTo(CORRECT);
+        assertScoreForLetter(score, 0, Letter.CORRECT);
     }
-
+    private void assertScoreForLetter(Score score, int position, Letter expected){
+        assertThat(score.letter(position)).isEqualTo(CORRECT);
+    }
 }
