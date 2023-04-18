@@ -1,15 +1,42 @@
 package produccion;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class SosGui extends JFrame {
+
+  JuegoSimple juegoSimple;
+  PanelCentral panelCentral;
+  PanelSuperior panelSuperior;
+  PanelInferior panelInferior;
+  PanelIzquierdo panelIzquierdo;
+  PanelDerecho panelDerecho;
+  Container panelDeContenido;
   private Font fuente = new Font("SansSerif", Font.PLAIN, 16);
-  private int tamanioTablero = 8; // número de celdas por lado en la cuadrícula
+  private int tamanioTablero; // número de celdas por lado en la cuadrícula
   private static final int TAMANIO_CELDA = 30;
 
-  public SosGui() {
+  public SosGui(JuegoSimple juegoSimple) {
+    this.juegoSimple = juegoSimple;
+    tamanioTablero = juegoSimple.getTamanioTablero();
     setPanelDeContenido();
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     pack();
@@ -18,22 +45,22 @@ public class SosGui extends JFrame {
   }
 
   public void setPanelDeContenido() {
-    PanelCentral panelCentral = new PanelCentral();
+    panelCentral = new PanelCentral();
     panelCentral
         .setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 1,
             tamanioTablero * TAMANIO_CELDA + 1));
+    panelInferior = new PanelInferior();
 
-    PanelSuperior panelSuperior = new PanelSuperior();
-
-    PanelInferior panelInferior = new PanelInferior();
-
-    PanelIzquierdo panelIzquierdo = new PanelIzquierdo();
+    panelIzquierdo = new PanelIzquierdo();
     panelIzquierdo.setPreferredSize(new Dimension(150, tamanioTablero * TAMANIO_CELDA));
 
-    PanelDerecho panelDerecho = new PanelDerecho();
+    panelDerecho = new PanelDerecho();
     panelDerecho.setPreferredSize(new Dimension(150, tamanioTablero * TAMANIO_CELDA));
 
-    Container panelDeContenido = getContentPane();
+    panelSuperior = new PanelSuperior();
+    panelSuperior.setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 300, 50));
+
+    panelDeContenido = getContentPane();
     panelDeContenido.setLayout(new BorderLayout());
 
     panelDeContenido.add(panelCentral, BorderLayout.CENTER);
@@ -108,6 +135,24 @@ public class SosGui extends JFrame {
       JTextField txtTamanioTablero = new JTextField(3);
       txtTamanioTablero.setFont(fuente);
       txtTamanioTablero.setText(String.valueOf(tamanioTablero));
+      txtTamanioTablero.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          int tamanio = Integer.parseInt(txtTamanioTablero.getText());
+          if (juegoSimple.setTamanioTablero(tamanio)) {
+            tamanioTablero = tamanio;
+            panelDeContenido.repaint();
+            panelSuperior.setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 301, 50));
+            panelIzquierdo.setPreferredSize(new Dimension(150, tamanioTablero * TAMANIO_CELDA + 1));
+            SosGui.this.pack();
+          } else {
+            JOptionPane.showMessageDialog(SosGui.this
+                , "El tamaño debe estar entre 3 y 20", "Error de tamaño",
+                JOptionPane.ERROR_MESSAGE);
+            txtTamanioTablero.setText(String.valueOf(tamanioTablero));
+          }
+        }
+      });
       txtTamanioTablero.setHorizontalAlignment(JTextField.CENTER);
       pnlTamanioTablero.add(txtTamanioTablero);
       add(pnlTamanioTablero, BorderLayout.EAST);
@@ -116,6 +161,7 @@ public class SosGui extends JFrame {
   }
 
   private class PanelInferior extends JPanel {
+
     PanelInferior() {
       setLayout(new BorderLayout());
       setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -132,7 +178,8 @@ public class SosGui extends JFrame {
   }
 
   private class PanelIzquierdo extends JPanel {
-    PanelIzquierdo(){
+
+    PanelIzquierdo() {
       setBorder(new EmptyBorder(20, 20, 20, 20));
       setBackground(Color.WHITE);
       JLabel lblJugAzul = new JLabel("Jugador Azul");
@@ -162,6 +209,7 @@ public class SosGui extends JFrame {
   }
 
   private class PanelDerecho extends JPanel {
+
     PanelDerecho() {
       setBorder(new EmptyBorder(20, 20, 20, 20));
       setBackground(Color.WHITE);
@@ -191,6 +239,6 @@ public class SosGui extends JFrame {
   }
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(() -> new SosGui());
+    SwingUtilities.invokeLater(() -> new SosGui(new JuegoSimple(8)));
   }
 }
