@@ -25,8 +25,8 @@ public class CalculatorTest {
     }
 
     @Test
-    public void whenSubstractionTwoNumbersThenReturnCorrectAnswer() {
-        assertEquals(5, calculadora.substraction(7,2));
+    public void whenSubtractionTwoNumbersThenReturnCorrectAnswer() {
+        assertEquals(5, calculadora.subtraction(7,2));
     }
 
     @Test
@@ -45,5 +45,26 @@ public class CalculatorTest {
     @Test
     public void whenSquareRootThenReturnCorrectAnswer() {
         assertEquals(3.0, calculadora.squareRoot(9));
+    }
+
+    @Test
+    public void whenSquareRootOfNegativeThenThrowException() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+           calculadora.squareRoot(-4);
+        });
+        assertEquals("No se puede sacar raiz cuadrada a un número negativo", exception.getMessage());
+    }
+
+    @Test
+    public void whenExponentiationThenReturnCorrectAnswer() {
+        assertEquals(25, calculadora.exponentiation(5, 2));
+    }
+
+    @Test
+    public void whenExponentiation0toThePower0ThenThrowException() {
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculadora.exponentiation(0, 0);
+        });
+        assertEquals("0 a la 0 no está definido", exception.getMessage());
     }
 }

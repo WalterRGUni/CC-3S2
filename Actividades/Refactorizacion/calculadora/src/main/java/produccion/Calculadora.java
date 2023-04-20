@@ -15,7 +15,7 @@ public class Calculadora {
         return a + b;
     }
 
-    public int substraction(int a, int b) {
+    public int subtraction(int a, int b) {
         return a - b;
     }
 
@@ -28,6 +28,18 @@ public class Calculadora {
     }
 
     public double squareRoot(int a) {
-        return Math.sqrt(a);
+        if(a < 0) {
+            throw new IllegalArgumentException("No se puede sacar raiz cuadrada a un número negativo");
+        } else {
+            return Math.sqrt(a);
+        }
+    }
+
+    public int exponentiation(int a, int n) {
+        if(a == 0 && n == 0) {
+            throw new IllegalArgumentException("0 a la 0 no está definido");
+        } else {
+            return (int)Math.pow(a, n);
+        }
     }
 }
