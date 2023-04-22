@@ -28,6 +28,8 @@ public class SosGui extends JFrame {
     JRadioButton btnSAzul;
     JRadioButton btnORojo;
     JRadioButton btnSRojo;
+    JRadioButton btnJuegoSimple;
+    JRadioButton btnJuegoGeneral;
 
     public SosGui(JuegoSimple juego) {
         this.juego = juego;
@@ -37,6 +39,14 @@ public class SosGui extends JFrame {
         pack();
         setTitle("Juego SOS");
         setVisible(true);
+    }
+
+    public void setTipoJuego(JuegoSimple juego) {
+        this.juego = juego;
+    }
+
+    public JuegoSimple getTipoJuego() {
+        return this.juego;
     }
 
     public void setPanelDeContenido() {
@@ -73,16 +83,16 @@ public class SosGui extends JFrame {
                         filaSeleccionada = e.getY() / TAMANIO_CELDA;
                         colSeleccionada = e.getX() / TAMANIO_CELDA;
                         JuegoSimple.Celda celdaSeleccionada = null;
-                        if(juego.getTurno() == JuegoSimple.Turno.AZUL){
-                            if(btnOAzul.isSelected()){
+                        if (juego.getTurno() == JuegoSimple.Turno.AZUL) {
+                            if (btnOAzul.isSelected()) {
                                 celdaSeleccionada = JuegoSimple.Celda.O;
-                            } else if(btnSAzul.isSelected()){
+                            } else if (btnSAzul.isSelected()) {
                                 celdaSeleccionada = JuegoSimple.Celda.S;
                             }
-                        } else if(juego.getTurno() == JuegoSimple.Turno.ROJO){
-                            if(btnORojo.isSelected()){
+                        } else if (juego.getTurno() == JuegoSimple.Turno.ROJO) {
+                            if (btnORojo.isSelected()) {
                                 celdaSeleccionada = JuegoSimple.Celda.O;
-                            } else if(btnSRojo.isSelected()){
+                            } else if (btnSRojo.isSelected()) {
                                 celdaSeleccionada = JuegoSimple.Celda.S;
                             }
                         }
@@ -101,8 +111,8 @@ public class SosGui extends JFrame {
             setBackground(Color.WHITE);
             dibujarLineas(g);
             dibujarTablero(g);
-            if(juego.getEstadoJuego() == JuegoSimple.EstadoJuego.GANO_ROJO
-                    || juego.getEstadoJuego() == JuegoSimple.EstadoJuego.GANO_AZUL){
+            if (juego.getEstadoJuego() == JuegoSimple.EstadoJuego.GANO_ROJO
+                    || juego.getEstadoJuego() == JuegoSimple.EstadoJuego.GANO_AZUL) {
                 dibujarGanador(g);
             }
         }
@@ -122,71 +132,71 @@ public class SosGui extends JFrame {
         private void dibujarTablero(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(Color.BLACK);
-            g2d.setFont(new Font("SansSerif", Font.PLAIN, 5*TAMANIO_CELDA/6));
+            g2d.setFont(new Font("SansSerif", Font.PLAIN, 5 * TAMANIO_CELDA / 6));
             for (int fila = 0; fila < juego.getFilasTotales(); fila++) {
                 for (int col = 0; col < juego.getColumnasTotales(); col++) {
-                    int x1 = col*TAMANIO_CELDA + 1*TAMANIO_CELDA/6;
-                    int y1 = fila*TAMANIO_CELDA + 5*TAMANIO_CELDA/6;
-                    if(juego.getCelda(fila, col) == JuegoSimple.Celda.S) {
+                    int x1 = col * TAMANIO_CELDA + 1 * TAMANIO_CELDA / 6;
+                    int y1 = fila * TAMANIO_CELDA + 5 * TAMANIO_CELDA / 6;
+                    if (juego.getCelda(fila, col) == JuegoSimple.Celda.S) {
                         g2d.drawString("S", x1, y1);
-                    } else if(juego.getCelda(fila, col) == JuegoSimple.Celda.O) {
+                    } else if (juego.getCelda(fila, col) == JuegoSimple.Celda.O) {
                         g2d.drawString("O", x1, y1);
                     }
                 }
             }
         }
 
-        private void dibujarGanador(Graphics g){
+        private void dibujarGanador(Graphics g) {
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(4));
             g2d.setColor(juego.getTurno() == JuegoSimple.Turno.AZUL ? Color.BLUE : Color.RED);
-            if(juego.getLineaGanadora() == JuegoSimple.LineaGanadora.HOR_IZQ) {
-                int x1 = colSeleccionada*TAMANIO_CELDA + TAMANIO_CELDA;
-                int y1 = filaSeleccionada*TAMANIO_CELDA + TAMANIO_CELDA/2;
-                int x2 = x1 - 3*TAMANIO_CELDA;
+            if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.HOR_IZQ) {
+                int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
+                int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA / 2;
+                int x2 = x1 - 3 * TAMANIO_CELDA;
                 int y2 = y1;
                 g2d.drawLine(x1, y1, x2, y2);
-            } else if(juego.getLineaGanadora() == JuegoSimple.LineaGanadora.HOR_DER) {
-                int x1 = colSeleccionada*TAMANIO_CELDA;
-                int y1 = filaSeleccionada*TAMANIO_CELDA + TAMANIO_CELDA/2;
-                int x2 = x1 + 3*TAMANIO_CELDA;
+            } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.HOR_DER) {
+                int x1 = colSeleccionada * TAMANIO_CELDA;
+                int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA / 2;
+                int x2 = x1 + 3 * TAMANIO_CELDA;
                 int y2 = y1;
                 g2d.drawLine(x1, y1, x2, y2);
-            } else if(juego.getLineaGanadora() == JuegoSimple.LineaGanadora.VERT_ARR) {
-                int x1 = colSeleccionada*TAMANIO_CELDA+ TAMANIO_CELDA/2;
-                int y1 = filaSeleccionada*TAMANIO_CELDA + TAMANIO_CELDA;
+            } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.VERT_ARR) {
+                int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA / 2;
+                int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
                 int x2 = x1;
-                int y2 = y1 - 3*TAMANIO_CELDA;
+                int y2 = y1 - 3 * TAMANIO_CELDA;
                 g2d.drawLine(x1, y1, x2, y2);
-            } else if(juego.getLineaGanadora() == JuegoSimple.LineaGanadora.VERT_ABJ) {
-                int x1 = colSeleccionada*TAMANIO_CELDA+ TAMANIO_CELDA/2;
-                int y1 = filaSeleccionada*TAMANIO_CELDA;
+            } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.VERT_ABJ) {
+                int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA / 2;
+                int y1 = filaSeleccionada * TAMANIO_CELDA;
                 int x2 = x1;
-                int y2 = y1 + 3*TAMANIO_CELDA;
+                int y2 = y1 + 3 * TAMANIO_CELDA;
                 g2d.drawLine(x1, y1, x2, y2);
-            } else if(juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_IZQ_ARR) {
-                int x1 = colSeleccionada*TAMANIO_CELDA + TAMANIO_CELDA;
-                int y1 = filaSeleccionada*TAMANIO_CELDA + TAMANIO_CELDA;
-                int x2 = x1 - 3*TAMANIO_CELDA;
-                int y2 = y1- 3*TAMANIO_CELDA;
+            } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_IZQ_ARR) {
+                int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
+                int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
+                int x2 = x1 - 3 * TAMANIO_CELDA;
+                int y2 = y1 - 3 * TAMANIO_CELDA;
                 g2d.drawLine(x1, y1, x2, y2);
-            } else if(juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_DER_ARR) {
-                int x1 = colSeleccionada*TAMANIO_CELDA;
-                int y1 = filaSeleccionada*TAMANIO_CELDA + TAMANIO_CELDA;
-                int x2 = x1 + 3*TAMANIO_CELDA;
-                int y2 = y1- 3*TAMANIO_CELDA;
+            } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_IZQ_ABJ) {
+                int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
+                int y1 = filaSeleccionada * TAMANIO_CELDA;
+                int x2 = x1 - 3 * TAMANIO_CELDA;
+                int y2 = y1 + 3 * TAMANIO_CELDA;
                 g2d.drawLine(x1, y1, x2, y2);
-            } else if(juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_DER_ARR) {
-                int x1 = colSeleccionada*TAMANIO_CELDA;
-                int y1 = filaSeleccionada*TAMANIO_CELDA + TAMANIO_CELDA;
-                int x2 = x1 + 3*TAMANIO_CELDA;
-                int y2 = y1- 3*TAMANIO_CELDA;
+            } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_DER_ARR) {
+                int x1 = colSeleccionada * TAMANIO_CELDA;
+                int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
+                int x2 = x1 + 3 * TAMANIO_CELDA;
+                int y2 = y1 - 3 * TAMANIO_CELDA;
                 g2d.drawLine(x1, y1, x2, y2);
-            } else if(juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_DER_ABJ) {
-                int x1 = colSeleccionada*TAMANIO_CELDA;
-                int y1 = filaSeleccionada*TAMANIO_CELDA;
-                int x2 = x1 + 3*TAMANIO_CELDA;
-                int y2 = y1+ 3*TAMANIO_CELDA;
+            } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_DER_ABJ) {
+                int x1 = colSeleccionada * TAMANIO_CELDA;
+                int y1 = filaSeleccionada * TAMANIO_CELDA;
+                int x2 = x1 + 3 * TAMANIO_CELDA;
+                int y2 = y1 + 3 * TAMANIO_CELDA;
                 g2d.drawLine(x1, y1, x2, y2);
             }
         }
@@ -207,15 +217,33 @@ public class SosGui extends JFrame {
             lblSos.setFont(fuente);
             pnlTipoJuego.add(lblSos);
 
-            JRadioButton btnJuegoSimple = new JRadioButton("Juego Simple", true);
+            btnJuegoSimple = new JRadioButton("Juego Simple", true);
             btnJuegoSimple.setBorder(BorderFactory.createEmptyBorder());
             btnJuegoSimple.setFont(fuente);
             btnJuegoSimple.setBackground(Color.WHITE);
 
-            JRadioButton btnJuegoGeneral = new JRadioButton("Juego General", false);
+            btnJuegoGeneral = new JRadioButton("Juego General", false);
             btnJuegoGeneral.setBorder(BorderFactory.createEmptyBorder());
             btnJuegoGeneral.setFont(fuente);
             btnJuegoGeneral.setBackground(Color.WHITE);
+
+            btnJuegoSimple.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(getTipoJuego().getClass() == JuegoGeneral.class) {
+                        setTipoJuego(new JuegoSimple(juego.getTamanioTablero()));
+                    }
+                }
+            });
+
+            btnJuegoGeneral.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(getTipoJuego().getClass() == JuegoSimple.class) {
+                        setTipoJuego(new JuegoGeneral(juego.getTamanioTablero()));
+                    }
+                }
+            });
 
             pnlTipoJuego.add(btnJuegoSimple);
             pnlTipoJuego.add(btnJuegoGeneral);

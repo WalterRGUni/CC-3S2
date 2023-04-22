@@ -38,7 +38,7 @@ public class TestJuegoSimple {
         juego.realizarMovimiento(0, 0, JuegoSimple.Celda.S);
         juego.realizarMovimiento(1, 1, JuegoSimple.Celda.O);
         juego.realizarMovimiento(2, 2, JuegoSimple.Celda.S);
-        assertEquals(juego.getEstadoJuego(), JuegoSimple.EstadoJuego.GANO_AZUL);
+        assertEquals(JuegoSimple.EstadoJuego.GANO_AZUL, juego.getEstadoJuego());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class TestJuegoSimple {
         juego.realizarMovimiento(0, 0, JuegoSimple.Celda.S);
         juego.realizarMovimiento(1, 1, JuegoSimple.Celda.O);
         juego.realizarMovimiento(2, 2, JuegoSimple.Celda.S);
-        assertEquals(juego.getEstadoJuego(), JuegoSimple.EstadoJuego.GANO_ROJO);
+        assertEquals(JuegoSimple.EstadoJuego.GANO_ROJO, juego.getEstadoJuego());
     }
 
     // Criterio de aceptación 5.2
@@ -62,6 +62,6 @@ public class TestJuegoSimple {
         juego.realizarMovimiento(2, 0, JuegoSimple.Celda.S);
         juego.realizarMovimiento(2, 1, JuegoSimple.Celda.S);
         juego.realizarMovimiento(2, 2, JuegoSimple.Celda.S);
-        assertEquals(juego.getEstadoJuego(), JuegoSimple.EstadoJuego.EMPATE);
+        assertEquals(JuegoSimple.EstadoJuego.EMPATE, juego.getEstadoJuego());
     }
 }
