@@ -13,7 +13,6 @@ public class JuegoGeneral extends JuegoSimple {
     super(tamanio);
     this.numeroSosAzul = 0;
     this.numeroSosRojo = 0;
-    this.lineasSos = new ArrayList<>();
   }
 
   @Override
@@ -21,7 +20,6 @@ public class JuegoGeneral extends JuegoSimple {
     if (fila >= 0 && fila < totalFilas && columna >= 0 && columna < totalColumnas
         && tablero[fila][columna] == Celda.VACIA) {
       tablero[fila][columna] = valorCelda;
-      actualizarEstadoJuego(fila, columna);
       if (hizoSos(fila, columna)) {
         if (getTurno() == Turno.AZUL) {
           System.out.println("Sos azul: " + numeroSosAzul);
@@ -31,6 +29,7 @@ public class JuegoGeneral extends JuegoSimple {
       } else if (getEstadoJuego() == EstadoJuego.JUGANDO) {
         turno = (turno == Turno.ROJO) ? Turno.AZUL : Turno.ROJO;
       }
+      actualizarEstadoJuego(fila, columna);
     }
   }
 

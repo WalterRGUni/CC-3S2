@@ -135,14 +135,7 @@ public class SosGui extends JFrame {
       dibujarTablero(g);
       panelInferior.actualizarTurnoActual();
       panelInferior.actualizarResultado();
-      if (juego.getClass() == JuegoGeneral.class) {
-        dibujarSos(g);
-
-      } else if (juego.getEstadoJuego() == JuegoSimple.EstadoJuego.GANO_ROJO
-          || juego.getEstadoJuego() == JuegoSimple.EstadoJuego.GANO_AZUL) {
-        dibujarGanador(g);
-
-      }
+      dibujarSos(g);
     }
 
     private void dibujarSos(Graphics g) {
@@ -186,61 +179,6 @@ public class SosGui extends JFrame {
             g2d.drawString("O", x1, y1);
           }
         }
-      }
-    }
-
-    private void dibujarGanador(Graphics g) {
-      Graphics2D g2d = (Graphics2D) g;
-      g2d.setStroke(new BasicStroke(4));
-      g2d.setColor(juego.getTurno() == JuegoSimple.Turno.AZUL ? Color.BLUE : Color.RED);
-      if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.HOR_IZQ) {
-        int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
-        int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA / 2;
-        int x2 = x1 - 3 * TAMANIO_CELDA;
-        int y2 = y1;
-        g2d.drawLine(x1, y1, x2, y2);
-      } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.HOR_DER) {
-        int x1 = colSeleccionada * TAMANIO_CELDA;
-        int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA / 2;
-        int x2 = x1 + 3 * TAMANIO_CELDA;
-        int y2 = y1;
-        g2d.drawLine(x1, y1, x2, y2);
-      } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.VERT_ARR) {
-        int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA / 2;
-        int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
-        int x2 = x1;
-        int y2 = y1 - 3 * TAMANIO_CELDA;
-        g2d.drawLine(x1, y1, x2, y2);
-      } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.VERT_ABJ) {
-        int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA / 2;
-        int y1 = filaSeleccionada * TAMANIO_CELDA;
-        int x2 = x1;
-        int y2 = y1 + 3 * TAMANIO_CELDA;
-        g2d.drawLine(x1, y1, x2, y2);
-      } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_IZQ_ARR) {
-        int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
-        int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
-        int x2 = x1 - 3 * TAMANIO_CELDA;
-        int y2 = y1 - 3 * TAMANIO_CELDA;
-        g2d.drawLine(x1, y1, x2, y2);
-      } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_IZQ_ABJ) {
-        int x1 = colSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
-        int y1 = filaSeleccionada * TAMANIO_CELDA;
-        int x2 = x1 - 3 * TAMANIO_CELDA;
-        int y2 = y1 + 3 * TAMANIO_CELDA;
-        g2d.drawLine(x1, y1, x2, y2);
-      } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_DER_ARR) {
-        int x1 = colSeleccionada * TAMANIO_CELDA;
-        int y1 = filaSeleccionada * TAMANIO_CELDA + TAMANIO_CELDA;
-        int x2 = x1 + 3 * TAMANIO_CELDA;
-        int y2 = y1 - 3 * TAMANIO_CELDA;
-        g2d.drawLine(x1, y1, x2, y2);
-      } else if (juego.getLineaGanadora() == JuegoSimple.LineaGanadora.DIAG_DER_ABJ) {
-        int x1 = colSeleccionada * TAMANIO_CELDA;
-        int y1 = filaSeleccionada * TAMANIO_CELDA;
-        int x2 = x1 + 3 * TAMANIO_CELDA;
-        int y2 = y1 + 3 * TAMANIO_CELDA;
-        g2d.drawLine(x1, y1, x2, y2);
       }
     }
   }
