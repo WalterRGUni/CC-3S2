@@ -4,30 +4,29 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa un juego simple SOS.
+ */
 public class JuegoSimple {
-
-  protected static int totalFilas = 8;
-  protected static int totalColumnas = 8;
-
-  protected List<LineaSos> lineasSos;
+  private static int totalFilas = 8;
+  private static int totalColumnas = 8;
+  private List<LineaSos> lineasSos;
+  private Celda[][] tablero;
+  private Turno turno;
+  private Turno ganador;
+  private EstadoJuego estadoJuegoActual;
 
   public enum Celda {
     VACIA, S, O
   }
-  protected Celda[][] tablero;
 
   public enum Turno {
     ROJO, AZUL
   }
 
-  protected Turno turno;
-
   public enum EstadoJuego {
     JUGANDO, EMPATE, GANO_ROJO, GANO_AZUL
   }
-
-  Turno ganador;
-  protected EstadoJuego estadoJuegoActual;
 
   public JuegoSimple(int tamanio) {
     this.lineasSos = new ArrayList<>();
@@ -36,10 +35,17 @@ public class JuegoSimple {
     iniciarJuego(tamanio);
   }
 
+  public static int getTotalFilas() {
+    return totalFilas;
+  }
+
+  public static int getTotalColumnas() {
+    return totalColumnas;
+  }
+
   public List<LineaSos> getLineasSos() {
     return lineasSos;
   }
-
 
   public boolean setTamanioTablero(int tamanio) {
     if (tamanio > 2 && tamanio <= 20) {
@@ -54,6 +60,10 @@ public class JuegoSimple {
     return totalFilas;
   }
 
+  /**
+   * Inicializa un tablero del tamaño dado
+   * @param tamanio Número de celdas por lado en el tablero
+   */
   private void iniciarJuego(int tamanio) {
     setTamanioTablero(tamanio);
     for (int fila = 0; fila < totalFilas; ++fila) {
@@ -68,6 +78,10 @@ public class JuegoSimple {
 
   public void setTurno(Turno turno) {
     this.turno = turno;
+  }
+
+  public Turno getTurno() {
+    return turno;
   }
 
   public void resetearJuego(int tamanio) {
@@ -90,10 +104,18 @@ public class JuegoSimple {
     }
   }
 
-  public Turno getTurno() {
-    return turno;
+  public void setCelda(int fila, int columna, Celda valorCelda) {
+    if (fila >= 0 && fila < totalFilas && columna >= 0 && columna < totalColumnas) {
+      tablero[fila][columna] = valorCelda;
+    }
   }
 
+  /**
+   * Llena la celda en la fila y columna seleccionada con el valor dado por valor Celda
+   * @param fila fila de celda en la que se realiza el movimiento
+   * @param columna columna de celda en la que se realiza el movimiento
+   * @param valorCelda valor 'S' u 'O' que se pondrá en la celda
+   */
   public void realizarMovimiento(int fila, int columna, Celda valorCelda) {
     if (fila >= 0 && fila < totalFilas && columna >= 0 && columna < totalColumnas
         && tablero[fila][columna] == Celda.VACIA) {
@@ -105,6 +127,11 @@ public class JuegoSimple {
     }
   }
 
+  /**
+   * Actualiza el estado de juego según haya ganado el azul, rojo o haya un empate
+   * @param fila fila del movimiento actual
+   * @param columna columna del movimiento actual
+   */
   public void actualizarEstadoJuego(int fila, int columna) {
     if (hizoSos(fila, columna)) {
       ganador = getTurno();
@@ -114,6 +141,11 @@ public class JuegoSimple {
     }
   }
 
+  /**
+   * Este método se llama después de verificar que no hubo SOS
+   * Verifica que no hay más celdas vacías y por lo tanto es empate
+   * @return true cuando hay empate
+   */
   public boolean esEmpate() {
     for (int fila = 0; fila < totalFilas; ++fila) {
       for (int col = 0; col < totalColumnas; ++col) {
@@ -197,4 +229,8 @@ public class JuegoSimple {
   public EstadoJuego getEstadoJuego() {
     return estadoJuegoActual;
   }
+  public void setEstadoJuego(EstadoJuego estadoJuegoActual) {
+    this.estadoJuegoActual = estadoJuegoActual;
+  }
+
 }
