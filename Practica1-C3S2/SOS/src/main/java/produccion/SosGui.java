@@ -50,6 +50,7 @@ public class SosGui extends JFrame {
   JRadioButton btnSRojo;
   JRadioButton btnJuegoSimple;
   JRadioButton btnJuegoGeneral;
+  JTextField txtTamanioTablero;
 
   public SosGui(JuegoSimple juego) {
     this.juego = juego;
@@ -118,9 +119,6 @@ public class SosGui extends JFrame {
               }
             }
             juego.realizarMovimiento(filaSeleccionada, colSeleccionada, celdaSeleccionada);
-            System.out.println(juego.getEstadoJuego());
-          } else {
-            juego.resetearJuego();
           }
           repaint();
         }
@@ -241,7 +239,7 @@ public class SosGui extends JFrame {
       JLabel lblTamanioTablero = new JLabel("Tamaño tablero");
       lblTamanioTablero.setFont(fuente);
       pnlTamanioTablero.add(lblTamanioTablero);
-      JTextField txtTamanioTablero = new JTextField(3);
+      txtTamanioTablero = new JTextField(3);
       txtTamanioTablero.setFont(fuente);
       txtTamanioTablero.setText(String.valueOf(tamanioTablero));
       txtTamanioTablero.addActionListener(new ActionListener() {
@@ -291,6 +289,18 @@ public class SosGui extends JFrame {
       JButton btnNuevoJuego = new JButton("Nuevo Juego");
       btnNuevoJuego.setFont(fuente);
       add(btnNuevoJuego, BorderLayout.EAST);
+      btnNuevoJuego.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          juego.resetearJuego(8);
+          tamanioTablero = juego.getTamanioTablero();
+          txtTamanioTablero.setText(String.valueOf(tamanioTablero));
+//          panelCentral
+//                  .setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 1,
+//                          tamanioTablero * TAMANIO_CELDA + 1));
+          panelCentral.repaint();
+        }
+      });
     }
 
     void actualizarTurnoActual() {

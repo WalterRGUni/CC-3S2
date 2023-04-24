@@ -33,7 +33,7 @@ public class JuegoSimple {
     this.lineasSos = new ArrayList<>();
     setTamanioTablero(tamanio);
     tablero = new Celda[totalFilas][totalColumnas];
-    iniciarJuego();
+    iniciarJuego(tamanio);
   }
 
   public List<LineaSos> getLineasSos() {
@@ -54,7 +54,8 @@ public class JuegoSimple {
     return totalFilas;
   }
 
-  private void iniciarJuego() {
+  private void iniciarJuego(int tamanio) {
+    setTamanioTablero(tamanio);
     for (int fila = 0; fila < totalFilas; ++fila) {
       for (int col = 0; col < totalColumnas; ++col) {
         tablero[fila][col] = Celda.VACIA;
@@ -62,14 +63,15 @@ public class JuegoSimple {
     }
     estadoJuegoActual = EstadoJuego.JUGANDO;
     turno = Turno.AZUL;
+    lineasSos.clear();
   }
 
   public void setTurno(Turno turno) {
     this.turno = turno;
   }
 
-  public void resetearJuego() {
-    iniciarJuego();
+  public void resetearJuego(int tamanio) {
+    iniciarJuego(tamanio);
   }
 
   public int getFilasTotales() {

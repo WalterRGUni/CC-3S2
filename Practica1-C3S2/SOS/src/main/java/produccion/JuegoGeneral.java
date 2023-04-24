@@ -20,13 +20,7 @@ public class JuegoGeneral extends JuegoSimple {
     if (fila >= 0 && fila < totalFilas && columna >= 0 && columna < totalColumnas
         && tablero[fila][columna] == Celda.VACIA) {
       tablero[fila][columna] = valorCelda;
-      if (hizoSos(fila, columna)) {
-        if (getTurno() == Turno.AZUL) {
-          System.out.println("Sos azul: " + numeroSosAzul);
-        } else {
-          System.out.println("Sos rojo: " + numeroSosRojo);
-        }
-      } else if (getEstadoJuego() == EstadoJuego.JUGANDO) {
+      if (!hizoSos(fila, columna) && getEstadoJuego() == EstadoJuego.JUGANDO) {
         turno = (turno == Turno.ROJO) ? Turno.AZUL : Turno.ROJO;
       }
       actualizarEstadoJuego(fila, columna);
