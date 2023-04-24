@@ -118,11 +118,11 @@ public class JuegoSimple {
    */
   public void realizarMovimiento(int fila, int columna, Celda valorCelda) {
     if (fila >= 0 && fila < totalFilas && columna >= 0 && columna < totalColumnas
-        && tablero[fila][columna] == Celda.VACIA) {
-      tablero[fila][columna] = valorCelda;
+        && getCelda(fila, columna) == Celda.VACIA) {
+      setCelda(fila, columna, valorCelda);
       actualizarEstadoJuego(fila, columna);
       if (getEstadoJuego() == EstadoJuego.JUGANDO) {
-        turno = (turno == Turno.ROJO) ? Turno.AZUL : Turno.ROJO;
+        setTurno((getTurno() == Turno.ROJO) ? Turno.AZUL : Turno.ROJO);
       }
     }
   }
@@ -235,9 +235,7 @@ public class JuegoSimple {
   public void aniadirLineaSos(int col1, int fil1, int col2, int fil2){
     lineasSos.add(new LineaSos(col1, fil1, col2, fil2, getTurno() == Turno.ROJO ? Color.RED : Color.BLUE));
   }
-/*
-*/
- */
+
   public EstadoJuego getEstadoJuego() {
     return estadoJuegoActual;
   }

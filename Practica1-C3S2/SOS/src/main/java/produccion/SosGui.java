@@ -28,33 +28,38 @@ import javax.swing.border.EmptyBorder;
 import produccion.JuegoSimple.EstadoJuego;
 import produccion.JuegoSimple.Turno;
 
+/**
+ * Interfaz gráfica del juego SOS
+ */
 public class SosGui extends JFrame {
 
-  JuegoSimple juego;
-  PanelCentral panelCentral;
-  PanelSuperior panelSuperior;
-  PanelInferior panelInferior;
-  PanelIzquierdo panelIzquierdo;
-  PanelDerecho panelDerecho;
-  Container panelDeContenido;
+  private JuegoSimple juego;
+  private PanelCentral panelCentral;
+  private PanelSuperior panelSuperior;
+  private PanelInferior panelInferior;
+  private PanelIzquierdo panelIzquierdo;
+  private PanelDerecho panelDerecho;
+  private Container panelDeContenido;
   private Font fuente = new Font("SansSerif", Font.PLAIN, 16);
-  //private int tamanioTablero; // número de celdas por lado en la cuadrícula
   private static final int TAMANIO_CELDA = 30;
 
-  int filaSeleccionada;
-  int colSeleccionada;
+  private int filaSeleccionada;
+  private int colSeleccionada;
 
-  JRadioButton btnOAzul;
-  JRadioButton btnSAzul;
-  JRadioButton btnORojo;
-  JRadioButton btnSRojo;
-  JRadioButton btnJuegoSimple;
-  JRadioButton btnJuegoGeneral;
-  JTextField txtTamanioTablero;
+  private JRadioButton btnOAzul;
+  private JRadioButton btnSAzul;
+  private JRadioButton btnORojo;
+  private JRadioButton btnSRojo;
+  private JRadioButton btnJuegoSimple;
+  private JRadioButton btnJuegoGeneral;
+  private JTextField txtTamanioTablero;
 
+  /**
+   * Crea la interfaz de acuerdo al tipo de juego
+   * @param juego tipo de juego
+   */
   public SosGui(JuegoSimple juego) {
     this.juego = juego;
-    //tamanioTablero = juego.getTamanioTablero();
     setPanelDeContenido();
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     pack();
@@ -70,6 +75,9 @@ public class SosGui extends JFrame {
     return this.juego;
   }
 
+  /**
+   * Panel que contiene toda la interfaz del juego
+   */
   public void setPanelDeContenido() {
     panelCentral = new PanelCentral();
     panelCentral
@@ -96,9 +104,12 @@ public class SosGui extends JFrame {
     panelDeContenido.add(panelInferior, BorderLayout.SOUTH);
   }
 
-  private class PanelCentral extends JPanel {
+  /**
+   * Panel que contiene al tablero
+   */
+  public class PanelCentral extends JPanel {
 
-    PanelCentral() {
+    public PanelCentral() {
       addMouseListener(new MouseAdapter() {
         public void mouseClicked(MouseEvent e) {
           if (juego.getEstadoJuego() == JuegoSimple.EstadoJuego.JUGANDO) {
@@ -136,7 +147,11 @@ public class SosGui extends JFrame {
       dibujarSos(g);
     }
 
-    private void dibujarSos(Graphics g) {
+    /**
+     * Dibuja todas las líneas SOS del color del jugador que las realizó
+     * @param g
+     */
+    public void dibujarSos(Graphics g) {
       Graphics2D g2d = (Graphics2D) g;
       g2d.setStroke(new BasicStroke(4));
 
@@ -151,6 +166,10 @@ public class SosGui extends JFrame {
       }
     }
 
+    /**
+     * Dibuja las líneas del tablero
+     * @param g
+     */
     private void dibujarLineas(Graphics g) {
       g.setColor(Color.LIGHT_GRAY);
 
@@ -163,6 +182,10 @@ public class SosGui extends JFrame {
       }
     }
 
+    /**
+     * Dibuja las letras 'S' u 'O' en el tablero
+     * @param g
+     */
     private void dibujarTablero(Graphics g) {
       Graphics2D g2d = (Graphics2D) g;
       g2d.setColor(Color.BLACK);
@@ -181,9 +204,12 @@ public class SosGui extends JFrame {
     }
   }
 
-  private class PanelSuperior extends JPanel {
+  /**
+   * Panel que contiene el tipo de juego y tamaño del tablero
+   */
+  public class PanelSuperior extends JPanel {
 
-    PanelSuperior() {
+    public PanelSuperior() {
       setLayout(new BorderLayout());
       setBorder(new EmptyBorder(10, 10, 10, 10));
       setBackground(Color.WHITE);
@@ -206,6 +232,7 @@ public class SosGui extends JFrame {
       btnJuegoGeneral.setFont(fuente);
       btnJuegoGeneral.setBackground(Color.WHITE);
 
+      // Realiza el cambio del tipo de juego a Juego Simple
       btnJuegoSimple.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -215,6 +242,7 @@ public class SosGui extends JFrame {
         }
       });
 
+      // Realiza el cambio del tipo de juego a Juego General
       btnJuegoGeneral.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -233,7 +261,7 @@ public class SosGui extends JFrame {
 
       add(pnlTipoJuego, BorderLayout.WEST);
 
-      // Elegir tamaño de tablero
+      // Ingresa tamaño del tablero
       JPanel pnlTamanioTablero = new JPanel();
       pnlTamanioTablero.setBackground(Color.WHITE);
       JLabel lblTamanioTablero = new JLabel("Tamaño tablero");
@@ -242,6 +270,8 @@ public class SosGui extends JFrame {
       txtTamanioTablero = new JTextField(3);
       txtTamanioTablero.setFont(fuente);
       txtTamanioTablero.setText(String.valueOf(juego.getTamanioTablero()));
+
+      // Cambia el tamaño del tablero
       txtTamanioTablero.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -267,21 +297,25 @@ public class SosGui extends JFrame {
 
   }
 
-  private class PanelInferior extends JPanel {
+  /**
+   * Panel que contiene el turno actual, muestra el resultado y contiene al botón NuevoJuego
+   */
+  public class PanelInferior extends JPanel {
 
-    JLabel lblTurno;
-    JLabel lblResultado;
+    private JLabel lblTurno;
+    private JLabel lblResultado;
     PanelInferior() {
       setLayout(new BorderLayout());
       setBorder(new EmptyBorder(10, 10, 10, 10));
       setBackground(Color.WHITE);
 
+      // Muestra el turno actual
       String turno = juego.getTurno() == Turno.AZUL ? "Azul" : "Rojo";
       lblTurno = new JLabel("Turno actual: " + turno);
       lblTurno.setFont(fuente);
       add(lblTurno, BorderLayout.WEST);
 
-
+      //Muestra el resultado
       lblResultado = new JLabel("");
       lblResultado.setFont(fuente);
       add(lblResultado, BorderLayout.CENTER);
@@ -289,24 +323,29 @@ public class SosGui extends JFrame {
       JButton btnNuevoJuego = new JButton("Nuevo Juego");
       btnNuevoJuego.setFont(fuente);
       add(btnNuevoJuego, BorderLayout.EAST);
+
+      // Resetea el juego al estado inicial
       btnNuevoJuego.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
           juego.resetearJuego(8);
           txtTamanioTablero.setText(String.valueOf(juego.getTamanioTablero()));
-//          panelCentral
-//                  .setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 1,
-//                          tamanioTablero * TAMANIO_CELDA + 1));
           panelCentral.repaint();
         }
       });
     }
 
+    /**
+     * Actualiza el turno en la interfaz
+     */
     void actualizarTurnoActual() {
       String turno = juego.getTurno() == Turno.AZUL ? "Azul" : "Rojo";
       lblTurno.setText("Turno actual: " + turno);
     }
 
+    /**
+     * Actualiza el resultado en la interfaz
+     */
     void actualizarResultado() {
       String resultado = "";
       if(juego.getEstadoJuego() == EstadoJuego.GANO_AZUL) {
@@ -320,6 +359,9 @@ public class SosGui extends JFrame {
     }
   }
 
+  /**
+   * Muestra la letra seleccionada por el juagdor azul
+   */
   private class PanelIzquierdo extends JPanel {
 
     PanelIzquierdo() {
@@ -351,6 +393,9 @@ public class SosGui extends JFrame {
     }
   }
 
+  /**
+   * Muestra la letra seleccionada por el juagdor rojo
+   */
   private class PanelDerecho extends JPanel {
 
     PanelDerecho() {
