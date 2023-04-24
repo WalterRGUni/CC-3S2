@@ -65,4 +65,6 @@ public class TestJuegoSimple {
     juego.realizarMovimiento(2, 2, JuegoSimple.Celda.S);
     assertEquals(JuegoSimple.EstadoJuego.EMPATE, juego.getEstadoJuego());
   }
+
+
 }

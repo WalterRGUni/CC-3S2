@@ -45,6 +45,7 @@ public class TestJuegoGeneral {
     assertTrue(juego.getTurno() == JuegoSimple.Turno.ROJO);
   }
 
+  // Criterio de aceptación 7.1
   @Test
   public void testJuegoGeneralConGanadorAzul() {
     juego.realizarMovimiento(0, 0, JuegoSimple.Celda.S);
@@ -73,6 +74,7 @@ public class TestJuegoGeneral {
     assertTrue(juego.getEstadoJuego() == JuegoSimple.EstadoJuego.GANO_ROJO);
   }
 
+  // Criterio de aceptación 7.2
   @Test
   public void testJuegoGeneralConEmpate() {
     juego.realizarMovimiento(0, 0, JuegoSimple.Celda.S);

@@ -38,7 +38,7 @@ public class SosGui extends JFrame {
   PanelDerecho panelDerecho;
   Container panelDeContenido;
   private Font fuente = new Font("SansSerif", Font.PLAIN, 16);
-  private int tamanioTablero; // número de celdas por lado en la cuadrícula
+  //private int tamanioTablero; // número de celdas por lado en la cuadrícula
   private static final int TAMANIO_CELDA = 30;
 
   int filaSeleccionada;
@@ -54,7 +54,7 @@ public class SosGui extends JFrame {
 
   public SosGui(JuegoSimple juego) {
     this.juego = juego;
-    tamanioTablero = juego.getTamanioTablero();
+    //tamanioTablero = juego.getTamanioTablero();
     setPanelDeContenido();
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     pack();
@@ -73,18 +73,18 @@ public class SosGui extends JFrame {
   public void setPanelDeContenido() {
     panelCentral = new PanelCentral();
     panelCentral
-        .setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 1,
-            tamanioTablero * TAMANIO_CELDA + 1));
+        .setPreferredSize(new Dimension(juego.getTamanioTablero() * TAMANIO_CELDA + 1,
+                juego.getTamanioTablero()* TAMANIO_CELDA + 1));
     panelInferior = new PanelInferior();
 
     panelIzquierdo = new PanelIzquierdo();
-    panelIzquierdo.setPreferredSize(new Dimension(150, tamanioTablero * TAMANIO_CELDA));
+    panelIzquierdo.setPreferredSize(new Dimension(150, juego.getTamanioTablero() * TAMANIO_CELDA));
 
     panelDerecho = new PanelDerecho();
-    panelDerecho.setPreferredSize(new Dimension(150, tamanioTablero * TAMANIO_CELDA));
+    panelDerecho.setPreferredSize(new Dimension(150, juego.getTamanioTablero() * TAMANIO_CELDA));
 
     panelSuperior = new PanelSuperior();
-    panelSuperior.setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 300, 50));
+    panelSuperior.setPreferredSize(new Dimension(juego.getTamanioTablero() * TAMANIO_CELDA + 300, 50));
 
     panelDeContenido = getContentPane();
     panelDeContenido.setLayout(new BorderLayout());
@@ -154,12 +154,12 @@ public class SosGui extends JFrame {
     private void dibujarLineas(Graphics g) {
       g.setColor(Color.LIGHT_GRAY);
 
-      for (int fila = 0; fila <= tamanioTablero; fila++) {
-        g.drawLine(0, fila * TAMANIO_CELDA, tamanioTablero * TAMANIO_CELDA, fila * TAMANIO_CELDA);
+      for (int fila = 0; fila <= juego.getTamanioTablero(); fila++) {
+        g.drawLine(0, fila * TAMANIO_CELDA, juego.getTamanioTablero() * TAMANIO_CELDA, fila * TAMANIO_CELDA);
       }
 
-      for (int col = 0; col <= tamanioTablero; col++) {
-        g.drawLine(col * TAMANIO_CELDA, 0, col * TAMANIO_CELDA, tamanioTablero * TAMANIO_CELDA);
+      for (int col = 0; col <= juego.getTamanioTablero(); col++) {
+        g.drawLine(col * TAMANIO_CELDA, 0, col * TAMANIO_CELDA, juego.getTamanioTablero() * TAMANIO_CELDA);
       }
     }
 
@@ -241,22 +241,22 @@ public class SosGui extends JFrame {
       pnlTamanioTablero.add(lblTamanioTablero);
       txtTamanioTablero = new JTextField(3);
       txtTamanioTablero.setFont(fuente);
-      txtTamanioTablero.setText(String.valueOf(tamanioTablero));
+      txtTamanioTablero.setText(String.valueOf(juego.getTamanioTablero()));
       txtTamanioTablero.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
           int tamanio = Integer.parseInt(txtTamanioTablero.getText());
           if (juego.setTamanioTablero(tamanio)) {
-            tamanioTablero = tamanio;
+            juego.setTamanioTablero(tamanio);
             panelDeContenido.repaint();
-            panelSuperior.setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 301, 50));
-            panelIzquierdo.setPreferredSize(new Dimension(150, tamanioTablero * TAMANIO_CELDA + 1));
+            panelSuperior.setPreferredSize(new Dimension(juego.getTamanioTablero() * TAMANIO_CELDA + 301, 50));
+            panelIzquierdo.setPreferredSize(new Dimension(150, juego.getTamanioTablero() * TAMANIO_CELDA + 1));
             SosGui.this.pack();
           } else {
             JOptionPane.showMessageDialog(SosGui.this
                 , "El tamaño debe estar entre 3 y 20", "Error de tamaño",
                 JOptionPane.ERROR_MESSAGE);
-            txtTamanioTablero.setText(String.valueOf(tamanioTablero));
+            txtTamanioTablero.setText(String.valueOf(juego.getTamanioTablero()));
           }
         }
       });
@@ -293,8 +293,7 @@ public class SosGui extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
           juego.resetearJuego(8);
-          tamanioTablero = juego.getTamanioTablero();
-          txtTamanioTablero.setText(String.valueOf(tamanioTablero));
+          txtTamanioTablero.setText(String.valueOf(juego.getTamanioTablero()));
 //          panelCentral
 //                  .setPreferredSize(new Dimension(tamanioTablero * TAMANIO_CELDA + 1,
 //                          tamanioTablero * TAMANIO_CELDA + 1));
