@@ -49,6 +49,7 @@ public class JuegoSimple {
 
   public boolean setTamanioTablero(int tamanio) {
     if (tamanio > 2 && tamanio <= 20) {
+      tablero = new Celda[tamanio][tamanio];
       totalFilas = tamanio;
       totalColumnas = tamanio;
       return true;

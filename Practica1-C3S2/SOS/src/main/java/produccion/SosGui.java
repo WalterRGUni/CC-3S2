@@ -278,6 +278,14 @@ public class SosGui extends JFrame {
           int tamanio = Integer.parseInt(txtTamanioTablero.getText());
           if (juego.setTamanioTablero(tamanio)) {
             juego.setTamanioTablero(tamanio);
+
+            if (getTipoJuego().getClass() == JuegoSimple.class) {
+              setTipoJuego(new JuegoSimple(juego.getTamanioTablero()));
+            }
+            if (getTipoJuego().getClass() == JuegoGeneral.class) {
+              setTipoJuego(new JuegoGeneral(juego.getTamanioTablero()));
+            }
+
             panelDeContenido.repaint();
             panelSuperior.setPreferredSize(new Dimension(juego.getTamanioTablero() * TAMANIO_CELDA + 301, 50));
             panelIzquierdo.setPreferredSize(new Dimension(150, juego.getTamanioTablero() * TAMANIO_CELDA + 1));
