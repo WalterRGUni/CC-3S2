@@ -28,7 +28,7 @@ public class JuegoSimple {
     }
 
     public enum EstadoJuego {
-        JUGANDO, EMPATE, GANO_ROJO, GANO_AZUL
+        JUGANDO, EMPATE, GANO_ROJO, GANO_AZUL, INICIO
     }
 
     public JuegoSimple(int tamanio) {
@@ -94,7 +94,8 @@ public class JuegoSimple {
                 tablero[fila][col] = Celda.VACIA;
             }
         }
-        estadoJuegoActual = EstadoJuego.JUGANDO;
+        //estadoJuegoActual = EstadoJuego.JUGANDO;
+        estadoJuegoActual = EstadoJuego.INICIO;
         turno = Turno.AZUL;
         lineasSos.clear();
     }

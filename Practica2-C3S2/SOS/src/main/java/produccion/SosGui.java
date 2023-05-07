@@ -544,15 +544,34 @@ public class SosGui extends JFrame {
             boxLetraRojo.add(btnSRojo);
             boxLetraRojo.add(btnORojo);
 
-            JButton btnNuevoJuego = new JButton("Iniciar Juego");
-            btnNuevoJuego.setFont(fuente);
+            JButton btnIniciarJuego = new JButton("Iniciar Juego");
+            btnIniciarJuego.setFont(fuente);
+
+            btnIniciarJuego.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    juego.setEstadoJuego(EstadoJuego.JUGANDO);
+                    if(juego.getClass() == AutoJuegoSimple.class && btnComputadoraAzul.isSelected()) {
+                        Celda celda;
+                        if (btnSAzul.isSelected()) {
+                            celda = Celda.S;
+                        } else {
+                            celda = Celda.O;
+                        }
+                        juego.realizarMovimiento(0, 0, celda);
+                        panelCentral.repaint();
+                    }
+
+
+                }
+            });
 
             panelLetras.add(boxLetraRojo);
 
             add(btnHumanoRojo);
             add(panelLetras);
             add(btnComputadoraRojo);
-            add(btnNuevoJuego);
+            add(btnIniciarJuego);
 
         }
     }

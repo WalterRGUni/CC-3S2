@@ -14,6 +14,9 @@ public class AutoJuegoSimple extends JuegoSimple {
     }
 
     public void realizarMovimiento(int fila, int columna, Celda celda) {
+        if(getEstadoJuego() != EstadoJuego.JUGANDO) {
+            return;
+        }
         if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.COMPUTADORA) {
             realizarAutoMovimiento(celda);
         } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.COMPUTADORA) {
