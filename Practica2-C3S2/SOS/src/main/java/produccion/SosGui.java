@@ -123,7 +123,7 @@ public class SosGui extends JFrame {
                         }
                         juego.realizarMovimiento(filaSeleccionada, colSeleccionada, celdaSeleccionada);
                     }
-                    repaint();
+                    panelCentral.repaint();
                 }
             });
         }
@@ -243,6 +243,16 @@ public class SosGui extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     if (getTipoJuego().getClass() == JuegoSimple.class) {
                         setTipoJuego(new JuegoGeneral(juego.getTamanioTablero()));
+                    } else if(getTipoJuego().getClass() == AutoJuegoSimple.class) {
+                        TipoJugador jugadorAzul = TipoJugador.HUMANO;
+                        TipoJugador jugadorRojo = TipoJugador.HUMANO;
+                        if(btnComputadoraAzul.isSelected()) {
+                            jugadorAzul = TipoJugador.COMPUTADORA;
+                        }
+                        if(btnComputadoraRojo.isSelected()) {
+                            jugadorRojo = TipoJugador.COMPUTADORA;
+                        }
+                        setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), jugadorAzul, jugadorRojo));
                     }
                 }
             });
@@ -396,11 +406,17 @@ public class SosGui extends JFrame {
             btnComputadoraAzul.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (btnComputadoraRojo.isSelected()) {
+                    if (btnComputadoraRojo.isSelected() && btnJuegoSimple.isSelected()) {
                         setTipoJuego(new AutoJuegoSimple(juego.getTamanioTablero(), TipoJugador.COMPUTADORA, TipoJugador.COMPUTADORA));
-                    } else {
+                    } else if(btnComputadoraRojo.isSelected() && btnJuegoGeneral.isSelected()){
+                        setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), TipoJugador.COMPUTADORA, TipoJugador.COMPUTADORA));
+                    } else if(btnHumanoRojo.isSelected() && btnJuegoSimple.isSelected()){
                         setTipoJuego(new AutoJuegoSimple(juego.getTamanioTablero(), TipoJugador.COMPUTADORA, TipoJugador.HUMANO));
+                    } else if(btnHumanoRojo.isSelected() && btnJuegoGeneral.isSelected()){
+                        setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), TipoJugador.COMPUTADORA, TipoJugador.HUMANO));
                     }
+
+
                     Celda celda;
                     if (btnSAzul.isSelected()) {
                         celda = Celda.S;
@@ -487,11 +503,16 @@ public class SosGui extends JFrame {
             btnComputadoraRojo.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (btnComputadoraAzul.isSelected()) {
+                    if (btnComputadoraAzul.isSelected() && btnJuegoSimple.isSelected()) {
                         setTipoJuego(new AutoJuegoSimple(juego.getTamanioTablero(), TipoJugador.COMPUTADORA, TipoJugador.COMPUTADORA));
-                    } else {
+                    } else if(btnComputadoraAzul.isSelected() && btnJuegoGeneral.isSelected()){
+                        setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), TipoJugador.COMPUTADORA, TipoJugador.COMPUTADORA));
+                    } else if(btnHumanoAzul.isSelected() && btnJuegoSimple.isSelected()){
                         setTipoJuego(new AutoJuegoSimple(juego.getTamanioTablero(), TipoJugador.HUMANO, TipoJugador.COMPUTADORA));
+                    } else if(btnHumanoAzul.isSelected() && btnJuegoGeneral.isSelected()){
+                        setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), TipoJugador.HUMANO, TipoJugador.COMPUTADORA));
                     }
+
                     Celda celda;
                     if (btnSRojo.isSelected()) {
                         celda = Celda.S;
@@ -551,7 +572,7 @@ public class SosGui extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     juego.setEstadoJuego(EstadoJuego.JUGANDO);
-                    if(juego.getClass() == AutoJuegoSimple.class && btnComputadoraAzul.isSelected()) {
+                    if(btnComputadoraAzul.isSelected()) {
                         Celda celda;
                         if (btnSAzul.isSelected()) {
                             celda = Celda.S;
@@ -560,6 +581,7 @@ public class SosGui extends JFrame {
                         }
                         juego.realizarMovimiento(0, 0, celda);
                         panelCentral.repaint();
+                        System.out.println(juego.getClass().getName());
                     }
 
 
