@@ -12,6 +12,16 @@ public class AutoJuegoGeneral extends JuegoGeneral {
         this.jugadorRojo = jugadorRojo;
     }
 
+    public TipoJugador getTipoJugador(String jugador) {
+        if(jugador.equals("Azul")) {
+            return jugadorAzul;
+        } else if(jugador.equals("Rojo")){
+            return jugadorRojo;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public void realizarMovimiento(int fila, int columna, Celda celda) {
         if (getEstadoJuego() != EstadoJuego.JUGANDO) {
@@ -19,7 +29,6 @@ public class AutoJuegoGeneral extends JuegoGeneral {
         }
         if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
             while (getEstadoJuego() == EstadoJuego.JUGANDO) {
-                System.out.println(1111111111);
                 if (getTurno() == Turno.AZUL) {
                     realizarAutoMovimiento(getCeldaJugadorAzul());
                 } else if (getTurno() == Turno.ROJO) {
@@ -29,13 +38,11 @@ public class AutoJuegoGeneral extends JuegoGeneral {
         } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.COMPUTADORA) {
             realizarAutoMovimiento(celda);
             while (hizoSos(fila, columna)) {
-                System.out.println(2222222);
                 realizarAutoMovimiento(celda);
             }
         } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.COMPUTADORA) {
             realizarAutoMovimiento(celda);
             while (hizoSos(fila, columna)) {
-                System.out.println(33333);
                 realizarAutoMovimiento(celda);
             }
         } else if (getTurno() == Turno.ROJO && jugadorAzul == TipoJugador.COMPUTADORA) {
@@ -61,6 +68,7 @@ public class AutoJuegoGeneral extends JuegoGeneral {
         return true;
     }
 
+
     public boolean realizaJugadaSos() {
         for (int i = 0; i < getTotalFilas(); i++) {
             for (int j = 0; j < getTotalColumnas(); j++) {
@@ -85,27 +93,26 @@ public class AutoJuegoGeneral extends JuegoGeneral {
     }
 
     public void realizarMovimientoAleatorio(Celda celda) {
-        System.out.println("Movimiento aleatorio");
         Random random = new Random();
         int numeroCeldas = getNumeroCeldasVacias();
-        System.out.println(numeroCeldas);
-        int movimientoObjetivo = random.nextInt(numeroCeldas);
-        int index = 0;
-        for (int fil = 0; fil < getTotalFilas(); ++fil) {
-            for (int col = 0; col < getTotalColumnas(); ++col) {
-                if (getCelda(fil, col) == Celda.VACIA) {
-                    if (movimientoObjetivo == index) {
-                        super.realizarMovimiento(fil, col, celda);
-                        return;
-                    } else
-                        index++;
+        if(numeroCeldas > 0) {
+            int movimientoObjetivo = random.nextInt(numeroCeldas);
+            int index = 0;
+            for (int fil = 0; fil < getTotalFilas(); ++fil) {
+                for (int col = 0; col < getTotalColumnas(); ++col) {
+                    if (getCelda(fil, col) == Celda.VACIA) {
+                        if (movimientoObjetivo == index) {
+                            super.realizarMovimiento(fil, col, celda);
+                            return;
+                        } else
+                            index++;
+                    }
                 }
             }
         }
-
     }
 
-    private int getNumeroCeldasVacias() {
+    public int getNumeroCeldasVacias() {
         int numeroCeldasVacias = 0;
         for (int fil = 0; fil < getTotalFilas(); ++fil) {
             for (int col = 0; col < getTotalColumnas(); ++col) {
@@ -114,7 +121,8 @@ public class AutoJuegoGeneral extends JuegoGeneral {
                 }
             }
         }
-        System.out.println(numeroCeldasVacias);
         return numeroCeldasVacias;
     }
+
+
 }

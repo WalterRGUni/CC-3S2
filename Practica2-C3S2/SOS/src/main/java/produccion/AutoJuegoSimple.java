@@ -13,6 +13,16 @@ public class AutoJuegoSimple extends JuegoSimple {
         this.jugadorRojo = jugadorRojo;
     }
 
+    public TipoJugador getTipoJugador(String jugador) {
+        if(jugador.equals("Azul")) {
+            return jugadorAzul;
+        } else if(jugador.equals("Rojo")){
+            return jugadorRojo;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public void realizarMovimiento(int fila, int columna, Celda celda) {
         if(getEstadoJuego() != EstadoJuego.JUGANDO) {
@@ -72,7 +82,6 @@ public class AutoJuegoSimple extends JuegoSimple {
     }
 
     public void realizarMovimientoAleatorio(Celda celda) {
-        System.out.println("Movimiento aleatorio");
         Random random = new Random();
         int movimientoObjetivo = random.nextInt(getNumeroCeldasVacias());
         int index = 0;
@@ -90,16 +99,16 @@ public class AutoJuegoSimple extends JuegoSimple {
 
     }
 
-    private int getNumeroCeldasVacias() {
-        int numberoCeldasVacias = 0;
+    public int getNumeroCeldasVacias() {
+        int numeroCeldasVacias = 0;
         for (int fil = 0; fil < getTotalFilas(); ++fil) {
             for (int col = 0; col < getTotalColumnas(); ++col) {
                 if (getCelda(fil, col) == Celda.VACIA) {
-                    numberoCeldasVacias++;
+                    numeroCeldasVacias++;
                 }
             }
         }
-        return numberoCeldasVacias;
+        return numeroCeldasVacias;
     }
 
 }
