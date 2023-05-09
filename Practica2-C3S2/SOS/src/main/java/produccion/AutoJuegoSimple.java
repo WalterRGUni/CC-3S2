@@ -2,7 +2,7 @@ package produccion;
 
 import java.util.Random;
 
-public class AutoJuegoSimple extends JuegoSimple {
+public class AutoJuegoSimple extends JuegoSimple implements  AutoJuego{
 
     TipoJugador jugadorAzul;
     TipoJugador jugadorRojo;
@@ -52,10 +52,11 @@ public class AutoJuegoSimple extends JuegoSimple {
     }
 
 
-    public void realizarAutoMovimiento(Celda celda) {
+    public boolean realizarAutoMovimiento(Celda celda) {
         if (!realizarJugadaGanadora()) {
             realizarMovimientoAleatorio(celda);
         }
+        return true;
     }
 
     public boolean realizarJugadaGanadora() {

@@ -3,10 +3,9 @@ package prueba;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import produccion.AutoJuegoGeneral;
-import produccion.JuegoSimple;
-import produccion.JuegoSimple.EstadoJuego;
-import produccion.JuegoSimple.Celda;
+import produccion.EstadoJuego;
 import produccion.TipoJugador;
+import produccion.Celda;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -32,13 +31,13 @@ public class TestAutoJuegoGeneral {
     @Test
     public void testAutoJuegoGeneralCompletoHumanoAzulComputadoraRojo() {
         juego = new AutoJuegoGeneral(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
-        juego.setEstadoJuego(JuegoSimple.EstadoJuego.JUGANDO);
+        juego.setEstadoJuego(EstadoJuego.JUGANDO);
 
-        while(juego.getEstadoJuego() == JuegoSimple.EstadoJuego.JUGANDO) {
+        while(juego.getEstadoJuego() == EstadoJuego.JUGANDO) {
             for(int i=0;i<3;i++){
                 for(int j=0;j<3;j++){
-                    if(juego.getCelda(i, j) == JuegoSimple.Celda.VACIA) {
-                        juego.realizarMovimiento(i, j, JuegoSimple.Celda.S);
+                    if(juego.getCelda(i, j) == Celda.VACIA) {
+                        juego.realizarMovimiento(i, j, Celda.S);
                     }
                 }
             }

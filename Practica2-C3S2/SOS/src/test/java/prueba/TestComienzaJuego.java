@@ -3,22 +3,27 @@ package prueba;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import produccion.Celda;
 import produccion.JuegoGeneral;
 import produccion.JuegoSimple;
+import produccion.EstadoJuego;
 
 public class TestComienzaJuego {
+  JuegoSimple juego;
 
   @Test
   public void testComienzaJuegoSimpleConTamanioSeleccionado() {
-    var juegoSimple = new JuegoSimple(5);
-    juegoSimple.realizarMovimiento(0, 0, JuegoSimple.Celda.S);
-    assertEquals(JuegoSimple.Celda.S, juegoSimple.getCelda(0, 0));
+    juego = new JuegoSimple(5);
+    juego.setEstadoJuego(EstadoJuego.JUGANDO);
+    juego.realizarMovimiento(0, 0, Celda.S);
+    assertEquals(Celda.S, juego.getCelda(0, 0));
   }
 
   @Test
   public void testComienzaJuegoGeneralConTamanioSeleccionado() {
-    var juegoGeneral = new JuegoGeneral(9);
-    juegoGeneral.realizarMovimiento(2, 2, JuegoGeneral.Celda.O);
-    assertEquals(JuegoGeneral.Celda.O, juegoGeneral.getCelda(2, 2));
+    juego = new JuegoGeneral(9);
+    juego.setEstadoJuego(EstadoJuego.JUGANDO);
+    juego.realizarMovimiento(2, 2, Celda.O);
+    assertEquals(Celda.O, juego.getCelda(2, 2));
   }
 }

@@ -19,17 +19,8 @@ public class JuegoSimple {
     private Celda celdaJugadorAzul;
     private Celda celdaJugadorRojo;
 
-    public enum Celda {
-        VACIA, S, O
-    }
 
-    public enum Turno {
-        ROJO, AZUL
-    }
 
-    public enum EstadoJuego {
-        JUGANDO, EMPATE, GANO_ROJO, GANO_AZUL, INICIO
-    }
 
     public JuegoSimple(int tamanio) {
         this.lineasSos = new ArrayList<>();

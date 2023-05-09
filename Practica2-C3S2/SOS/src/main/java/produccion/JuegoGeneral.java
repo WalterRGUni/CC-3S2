@@ -1,7 +1,5 @@
 package produccion;
 
-import java.awt.Color;
-
 public class JuegoGeneral extends JuegoSimple {
   private int numeroSosAzul; // puntos del jugador azul
   private int numeroSosRojo; // puntos del jugador rojo

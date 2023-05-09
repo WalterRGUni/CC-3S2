@@ -2,7 +2,7 @@ package produccion;
 
 import java.util.Random;
 
-public class AutoJuegoGeneral extends JuegoGeneral {
+public class AutoJuegoGeneral extends JuegoGeneral implements  AutoJuego {
     TipoJugador jugadorAzul;
     TipoJugador jugadorRojo;
 
@@ -22,11 +22,19 @@ public class AutoJuegoGeneral extends JuegoGeneral {
         }
     }
 
+    /**
+     * Realiza un movimiento en un AutoJuegoGeneral
+     * @param fila fila de celda en la que se realiza el movimiento
+     * @param columna columna de celda en la que se realiza el movimiento
+     * @param celda valor 'S' u 'O' que se pondrá en la celda
+     */
     @Override
     public void realizarMovimiento(int fila, int columna, Celda celda) {
+        // Si aun no inicia el juego no realiza movimiento
         if (getEstadoJuego() != EstadoJuego.JUGANDO) {
             return;
         }
+        // Si ambos jugadores son la computadora continúa realizando jugadas hasta que ya no haya celdas vacías
         if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
             while (getEstadoJuego() == EstadoJuego.JUGANDO) {
                 if (getTurno() == Turno.AZUL) {
@@ -37,29 +45,29 @@ public class AutoJuegoGeneral extends JuegoGeneral {
             }
         } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.COMPUTADORA) {
             realizarAutoMovimiento(celda);
-            while (hizoSos(fila, columna)) {
+            while (hizoSos(fila, columna)) { // Si la computadora hace SOS, continúa jugando
                 realizarAutoMovimiento(celda);
             }
         } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.COMPUTADORA) {
             realizarAutoMovimiento(celda);
-            while (hizoSos(fila, columna)) {
+            while (hizoSos(fila, columna)) { // Si la computadora hace SOS, continúa jugando
                 realizarAutoMovimiento(celda);
             }
         } else if (getTurno() == Turno.ROJO && jugadorAzul == TipoJugador.COMPUTADORA) {
             super.realizarMovimiento(fila, columna, getCeldaJugadorRojo());
             if(!hizoSos(fila, columna)) {
-                while(realizarAutoMovimiento(getCeldaJugadorAzul())){
+                while(realizarAutoMovimiento(getCeldaJugadorAzul())){ // Si la computadora hace SOS, continúa jugando
                 }
             }
         } else if (getTurno() == Turno.AZUL && jugadorRojo == TipoJugador.COMPUTADORA) {
             super.realizarMovimiento(fila, columna, getCeldaJugadorAzul());
             if(!hizoSos(fila, columna)) {
-                while(realizarAutoMovimiento(getCeldaJugadorRojo())){
+                while(realizarAutoMovimiento(getCeldaJugadorRojo())){ // Si la computadora hace SOS, continúa jugando
                 }
             }
         }
     }
-
+    
     public boolean realizarAutoMovimiento(Celda celda) {
         if (!realizaJugadaSos()) {
             realizarMovimientoAleatorio(celda);

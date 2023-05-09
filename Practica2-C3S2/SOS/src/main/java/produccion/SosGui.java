@@ -1,8 +1,7 @@
 package produccion;
 
-import produccion.JuegoSimple.Celda;
-import produccion.JuegoSimple.EstadoJuego;
-import produccion.JuegoSimple.Turno;
+import produccion.EstadoJuego;
+import produccion.Turno;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -104,21 +103,21 @@ public class SosGui extends JFrame {
         public PanelCentral() {
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    if (juego.getEstadoJuego() == JuegoSimple.EstadoJuego.JUGANDO) {
+                    if (juego.getEstadoJuego() == EstadoJuego.JUGANDO) {
                         filaSeleccionada = e.getY() / TAMANIO_CELDA;
                         colSeleccionada = e.getX() / TAMANIO_CELDA;
-                        JuegoSimple.Celda celdaSeleccionada = null;
-                        if (juego.getTurno() == JuegoSimple.Turno.AZUL) {
+                        Celda celdaSeleccionada = null;
+                        if (juego.getTurno() == Turno.AZUL) {
                             if (btnOAzul.isSelected()) {
-                                celdaSeleccionada = JuegoSimple.Celda.O;
+                                celdaSeleccionada = Celda.O;
                             } else if (btnSAzul.isSelected()) {
-                                celdaSeleccionada = JuegoSimple.Celda.S;
+                                celdaSeleccionada = Celda.S;
                             }
-                        } else if (juego.getTurno() == JuegoSimple.Turno.ROJO) {
+                        } else if (juego.getTurno() == Turno.ROJO) {
                             if (btnORojo.isSelected()) {
-                                celdaSeleccionada = JuegoSimple.Celda.O;
+                                celdaSeleccionada = Celda.O;
                             } else if (btnSRojo.isSelected()) {
-                                celdaSeleccionada = JuegoSimple.Celda.S;
+                                celdaSeleccionada = Celda.S;
                             }
                         }
                         juego.realizarMovimiento(filaSeleccionada, colSeleccionada, celdaSeleccionada);
@@ -189,9 +188,9 @@ public class SosGui extends JFrame {
                 for (int col = 0; col < juego.getColumnasTotales(); col++) {
                     int x1 = col * TAMANIO_CELDA + 1 * TAMANIO_CELDA / 6;
                     int y1 = fila * TAMANIO_CELDA + 5 * TAMANIO_CELDA / 6;
-                    if (juego.getCelda(fila, col) == JuegoSimple.Celda.S) {
+                    if (juego.getCelda(fila, col) == Celda.S) {
                         g2d.drawString("S", x1, y1);
-                    } else if (juego.getCelda(fila, col) == JuegoSimple.Celda.O) {
+                    } else if (juego.getCelda(fila, col) == Celda.O) {
                         g2d.drawString("O", x1, y1);
                     }
                 }
