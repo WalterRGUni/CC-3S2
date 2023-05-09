@@ -1,6 +1,7 @@
 package produccion;
 
 public class JuegoGeneral extends JuegoSimple {
+
   private int numeroSosAzul; // puntos del jugador azul
   private int numeroSosRojo; // puntos del jugador rojo
 
@@ -12,8 +13,9 @@ public class JuegoGeneral extends JuegoSimple {
 
   /**
    * Llena la celda en la fila y columna seleccionada con el valor dado por valor Celda
-   * @param fila fila de celda en la que se realiza el movimiento
-   * @param columna columna de celda en la que se realiza el movimiento
+   *
+   * @param fila       fila de celda en la que se realiza el movimiento
+   * @param columna    columna de celda en la que se realiza el movimiento
    * @param valorCelda valor 'S' u 'O' que se pondrá en la celda
    */
   @Override
@@ -30,7 +32,8 @@ public class JuegoGeneral extends JuegoSimple {
 
   /**
    * Actualiza el estado de juego según haya ganado el azul, rojo o haya un empate
-   * @param fila fila del movimiento actual
+   *
+   * @param fila    fila del movimiento actual
    * @param columna columna del movimiento actual
    */
   @Override
@@ -59,13 +62,13 @@ public class JuegoGeneral extends JuegoSimple {
     if (getCelda(fila, col) == Celda.S) {
       boolean realizoSos = false;
       if (col > 1 && getCelda(fila, col - 1) == Celda.O && getCelda(fila, col - 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col-2, fila);
+        aniadirLineaSos(col, fila, col - 2, fila);
         actualizarPuntos();
         realizoSos = true;
       }
       if (col < getColumnasTotales() - 2 && getCelda(fila, col + 1) == Celda.O && getCelda(fila,
           col + 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col+2, fila);
+        aniadirLineaSos(col, fila, col + 2, fila);
         actualizarPuntos();
         realizoSos = true;
       }
@@ -76,69 +79,69 @@ public class JuegoGeneral extends JuegoSimple {
       }
       if (fila < getFilasTotales() - 2 && getCelda(fila + 1, col) == Celda.O && getCelda(fila + 2,
           col) == Celda.S) {
-        aniadirLineaSos(col, fila, col, fila+2);
+        aniadirLineaSos(col, fila, col, fila + 2);
         actualizarPuntos();
         realizoSos = true;
       }
       if (fila > 1 && col > 1 && getCelda(fila - 1, col - 1) == Celda.O
           && getCelda(fila - 2, col - 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col-2, fila-2);
+        aniadirLineaSos(col, fila, col - 2, fila - 2);
         actualizarPuntos();
         realizoSos = true;
       }
       if (fila > 1 && col < getColumnasTotales() - 2 && getCelda(fila - 1, col + 1) == Celda.O
           && getCelda(fila - 2, col + 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col+2, fila-2);
+        aniadirLineaSos(col, fila, col + 2, fila - 2);
         actualizarPuntos();
         realizoSos = true;
       }
       if (fila < getFilasTotales() - 2 && col > 1 && getCelda(fila + 1, col - 1) == Celda.O
           && getCelda(fila + 2, col - 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col-2, fila+2);
+        aniadirLineaSos(col, fila, col - 2, fila + 2);
         actualizarPuntos();
         realizoSos = true;
       }
       if (fila < getFilasTotales() - 2 && col < getColumnasTotales() - 2 && getCelda(fila + 1,
           col + 1) == Celda.O && getCelda(fila + 2, col + 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col-2, fila+2);
+        aniadirLineaSos(col, fila, col - 2, fila + 2);
         actualizarPuntos();
         realizoSos = true;
       }
-        if (realizoSos) {
-            return realizoSos;
-        }
+      if (realizoSos) {
+        return realizoSos;
+      }
     }
     if (getCelda(fila, col) == Celda.O) {
       boolean realizoSos = false;
       if (col > 0 && col < getColumnasTotales() - 1 && getCelda(fila, col - 1) == Celda.S
           && getCelda(fila, col + 1) == Celda.S) {
-        aniadirLineaSos(col-1, fila, col+1, fila);
+        aniadirLineaSos(col - 1, fila, col + 1, fila);
         actualizarPuntos();
         realizoSos = true;
       }
       if (fila > 0 && fila < getFilasTotales() - 1 && getCelda(fila - 1, col) == Celda.S
           && getCelda(fila + 1, col) == Celda.S) {
-        aniadirLineaSos(col, fila-1, col, fila+1);
+        aniadirLineaSos(col, fila - 1, col, fila + 1);
         actualizarPuntos();
         realizoSos = true;
       }
       if (fila > 0 && fila < getFilasTotales() - 1 && col > 0 && col < getColumnasTotales() - 1
           && getCelda(fila - 1, col - 1) == Celda.S
           && getCelda(fila + 1, col + 1) == Celda.S) {
-        aniadirLineaSos(col-1, fila-1, col+1, fila+1);
-      actualizarPuntos();
+        aniadirLineaSos(col - 1, fila - 1, col + 1, fila + 1);
+        actualizarPuntos();
         realizoSos = true;
       }
       if (fila > 0 && fila < getFilasTotales() - 1 && col > 0 && col < getColumnasTotales() - 1
           && getCelda(fila - 1, col + 1) == Celda.S
           && getCelda(fila + 1, col - 1) == Celda.S) {
-        aniadirLineaSos(col+1, fila-1, col-1, fila+1);
+        aniadirLineaSos(col + 1, fila - 1, col - 1, fila + 1);
         actualizarPuntos();
         realizoSos = true;
       }
-        if (realizoSos) {
-            return realizoSos;
-        }
+      if (realizoSos) {
+        return realizoSos;
+      }
     }
     return false;
   }
@@ -146,7 +149,7 @@ public class JuegoGeneral extends JuegoSimple {
   /**
    * Incrementa un punto al jugador que hizo SOS
    */
-  public void actualizarPuntos(){
+  public void actualizarPuntos() {
     if (getTurno() == Turno.AZUL) {
       numeroSosAzul++;
     } else {

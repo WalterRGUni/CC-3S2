@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import produccion.JuegoSimple;
 import produccion.Celda;
 import produccion.EstadoJuego;
+import produccion.JuegoSimple;
 import produccion.Turno;
 
 public class TestJuegoSimple {
@@ -70,5 +70,4 @@ public class TestJuegoSimple {
     juego.realizarMovimiento(2, 2, Celda.S);
     assertEquals(EstadoJuego.EMPATE, juego.getEstadoJuego());
   }
-
 }

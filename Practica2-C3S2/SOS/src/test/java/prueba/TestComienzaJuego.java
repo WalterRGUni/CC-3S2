@@ -4,11 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import produccion.Celda;
+import produccion.EstadoJuego;
 import produccion.JuegoGeneral;
 import produccion.JuegoSimple;
-import produccion.EstadoJuego;
 
 public class TestComienzaJuego {
+
   JuegoSimple juego;
 
   @Test

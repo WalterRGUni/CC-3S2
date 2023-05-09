@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import produccion.JuegoGeneral;
-import produccion.EstadoJuego;
-import produccion.Turno;
 import produccion.Celda;
+import produccion.EstadoJuego;
+import produccion.JuegoGeneral;
+import produccion.Turno;
 
 public class TestJuegoGeneral {
 
