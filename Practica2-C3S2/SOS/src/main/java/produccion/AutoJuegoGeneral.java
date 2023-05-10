@@ -13,6 +13,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
     this.jugadorRojo = jugadorRojo;
   }
 
+  @Override
   public TipoJugador getTipoJugador(String jugador) {
     if (jugador.equals("Azul")) {
       return jugadorAzul;
@@ -78,6 +79,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
    * @param celda El valor de la celda (S u O)
    * @return true si realizó una jugada SOS y false si hizo un movimiento aleatorio
    */
+  @Override
   public boolean realizarAutoMovimiento(Celda celda) {
     if (!realizaJugadaSos()) {
       realizarMovimientoAleatorio(celda);
@@ -85,7 +87,6 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
     }
     return true;
   }
-
 
   /**
    * Verifica en todo el tablero si al insertar un valor realizará SOS
@@ -115,6 +116,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
     return false;
   }
 
+  @Override
   public void realizarMovimientoAleatorio(Celda celda) {
     Random random = new Random();
     int numeroCeldas = getNumeroCeldasVacias();
@@ -124,12 +126,12 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
       for (int fil = 0; fil < getTotalFilas(); ++fil) {
         for (int col = 0; col < getTotalColumnas(); ++col) {
           if (getCelda(fil, col) == Celda.VACIA) {
-              if (movimientoObjetivo == index) {
-                  super.realizarMovimiento(fil, col, celda);
-                  return;
-              } else {
-                  index++;
-              }
+            if (movimientoObjetivo == index) {
+              super.realizarMovimiento(fil, col, celda);
+              return;
+            } else {
+              index++;
+            }
           }
         }
       }

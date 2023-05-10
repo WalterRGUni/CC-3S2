@@ -13,6 +13,7 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
     this.jugadorRojo = jugadorRojo;
   }
 
+  @Override
   public TipoJugador getTipoJugador(String jugador) {
     if (jugador.equals("Azul")) {
       return jugadorAzul;
@@ -40,14 +41,14 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
       realizarAutoMovimiento(celda);
     } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.COMPUTADORA) {
       realizarAutoMovimiento(celda);
-    } else if(getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.HUMANO){
+    } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.HUMANO) {
       super.realizarMovimiento(fila, columna, celda);
-      if((getEstadoJuego() == EstadoJuego.JUGANDO) ) {
+      if ((getEstadoJuego() == EstadoJuego.JUGANDO)) {
         realizarAutoMovimiento(getCeldaJugadorAzul());
       }
-    } else if(getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.HUMANO){
+    } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.HUMANO) {
       super.realizarMovimiento(fila, columna, celda);
-      if((getEstadoJuego() == EstadoJuego.JUGANDO) ) {
+      if ((getEstadoJuego() == EstadoJuego.JUGANDO)) {
         realizarAutoMovimiento(getCeldaJugadorAzul());
       }
     }
@@ -70,6 +71,7 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
    * @param celda El valor de la celda (S u O)
    * @return true (solo para cumplir con la interfaz AutoJuego)
    */
+  @Override
   public boolean realizarAutoMovimiento(Celda celda) {
     if (!realizarJugadaGanadora()) {
       realizarMovimientoAleatorio(celda);
@@ -105,6 +107,7 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
     return false;
   }
 
+  @Override
   public void realizarMovimientoAleatorio(Celda celda) {
     Random random = new Random();
     int numeroCeldasVacias = getNumeroCeldasVacias();
@@ -114,12 +117,12 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
       for (int fil = 0; fil < getTotalFilas(); ++fil) {
         for (int col = 0; col < getTotalColumnas(); ++col) {
           if (getCelda(fil, col) == Celda.VACIA) {
-              if (movimientoObjetivo == index) {
-                  super.realizarMovimiento(fil, col, celda);
-                  return;
-              } else {
-                  index++;
-              }
+            if (movimientoObjetivo == index) {
+              super.realizarMovimiento(fil, col, celda);
+              return;
+            } else {
+              index++;
+            }
           }
         }
       }
