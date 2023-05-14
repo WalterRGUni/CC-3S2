@@ -30,5 +30,3 @@ public class StringUtilsExplorationTest {
     ).isEqualTo(new String[]{"bc", "bf"});
   }
 }
-
-}
