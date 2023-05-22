@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LeftPadTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">CountWordsTest Coverage Results</a> &gt; <a href="index.source.html" class="el_package">PruebasEstructurales</a> &gt; <span class="el_source">LeftPadTest.java</span></div><h1>LeftPadTest.java</h1><pre class="source lang-java linenums">package PruebasEstructurales;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static PruebasEstructurales.LeftPadUtils.leftPad;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.params.provider.Arguments.of;
+
+<span class="nc" id="L14">class LeftPadTest {</span>
+    @ParameterizedTest
+    @MethodSource(&quot;generator&quot;)
+    void test(String originalStr, int size, String padString, String expectedStr) {
+<span class="nc" id="L18">        assertThat(leftPad(originalStr, size, padString))</span>
+<span class="nc" id="L19">                .isEqualTo(expectedStr);</span>
+<span class="nc" id="L20">    }</span>
+
+    static Stream&lt;Arguments&gt; generator() {
+<span class="nc" id="L23">        return Stream.of(</span>
+<span class="nc" id="L24">                of(null, 10, &quot;-&quot;, null), // T1</span>
+<span class="nc" id="L25">                of(&quot;&quot;, 5, &quot;-&quot;, &quot;-----&quot;), // T2</span>
+<span class="nc" id="L26">                of(&quot;abc&quot;, -1, &quot;-&quot;, &quot;abc&quot;), // T3</span>
+<span class="nc" id="L27">                of(&quot;abc&quot;, 5, null, &quot;  abc&quot;), // T4</span>
+<span class="nc" id="L28">                of(&quot;abc&quot;, 5, &quot;&quot;, &quot;  abc&quot;), // T5</span>
+<span class="nc" id="L29">                of(&quot;abc&quot;, 5, &quot;-&quot;, &quot;--abc&quot;), // T6</span>
+<span class="nc" id="L30">                of(&quot;abc&quot;, 3, &quot;-&quot;, &quot;abc&quot;), // T7</span>
+<span class="nc" id="L31">                of(&quot;abc&quot;, 0, &quot;-&quot;, &quot;abc&quot;), // T8</span>
+<span class="nc" id="L32">                of(&quot;abc&quot;, 2, &quot;-&quot;, &quot;abc&quot;), // T9</span>
+<span class="nc" id="L33">                of(&quot;abc&quot;, 5, &quot;--&quot;, &quot;--abc&quot;), // T10</span>
+<span class="nc" id="L34">                of(&quot;abc&quot;, 5, &quot;---&quot;, &quot;--abc&quot;), // T11</span>
+<span class="nc" id="L35">                of(&quot;abc&quot;, 5, &quot;-&quot;, &quot;--abc&quot;) // T12</span>
+        );
+    }
+
+    @Test
+    void sameInstance() {
+<span class="nc" id="L41">        String str = &quot;sometext&quot;;</span>
+<span class="nc" id="L42">        assertThat(leftPad(str, 5, &quot;-&quot;))</span>
+<span class="nc" id="L43">                .isSameAs(str);</span>
+<span class="nc" id="L44">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

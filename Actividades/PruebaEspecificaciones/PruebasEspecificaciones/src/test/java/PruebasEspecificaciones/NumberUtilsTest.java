@@ -50,7 +50,6 @@ public class NumberUtilsTest {
          * T16 = muchos aumentos
          * T17 =  muchos aumentos, no seguidos
          * T18 = : aumento propagado a un dígito nuevo (ahora el más significativo)
-
          *
          * ceros en left:
          * T19 = sin aumento
