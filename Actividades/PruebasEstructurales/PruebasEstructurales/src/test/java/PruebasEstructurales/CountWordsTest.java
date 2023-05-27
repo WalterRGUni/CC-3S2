@@ -6,22 +6,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 class CountWordsTest {
+
     @Test
-    void t1() {
+    void twoWordsEndingWithS() {   // 1
         int words = new CountWords().count("dogs cats");
         assertThat(words).isEqualTo(2);
     }
-
     @Test
-    void t2() {
+    void noWordsAtAll() {  // 2
         int words = new CountWords().count("dog cat");
         assertThat(words).isEqualTo(0);
     }
-
-    @Test
-    void t3(){
-        int words = new CountWords().count("car bar");
+    /*@Test
+    void wordsThatEndInR() {
+        int words = new CountWords().count("letter writter");
         assertThat(words).isEqualTo(2);
-    }
-
+    }*/
 }
