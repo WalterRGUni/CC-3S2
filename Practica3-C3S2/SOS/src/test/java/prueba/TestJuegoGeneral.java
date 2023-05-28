@@ -91,4 +91,30 @@ public class TestJuegoGeneral {
     juego.realizarMovimiento(2, 2, Celda.S);
     assertTrue(juego.getEstadoJuego() == EstadoJuego.EMPATE);
   }
+
+  // Criterio de aceptación 14.1
+  @Test
+  public void testGuardarJuegoGeneral() {
+    juego.setJuegoDebeGuardarse(true);
+    juego.realizarMovimiento(0, 0, Celda.S);
+    juego.realizarMovimiento(0, 1, Celda.O);
+    juego.realizarMovimiento(0, 2, Celda.S);
+    juego.realizarMovimiento(1, 0, Celda.S);
+    juego.realizarMovimiento(1, 1, Celda.S);
+    juego.realizarMovimiento(1, 2, Celda.S);
+    juego.realizarMovimiento(2, 0, Celda.S);
+    juego.realizarMovimiento(2, 1, Celda.S);
+    juego.realizarMovimiento(2, 2, Celda.S);
+
+    assertEquals("AZUL: (0, 0) -> S\n"
+            + "ROJO: (0, 1) -> O\n"
+            + "AZUL: (0, 2) -> S\n"
+            + "AZUL: (1, 0) -> S\n"
+            + "ROJO: (1, 1) -> S\n"
+            + "AZUL: (1, 2) -> S\n"
+            + "ROJO: (2, 0) -> S\n"
+            + "AZUL: (2, 1) -> S\n"
+            + "ROJO: (2, 2) -> S\n",
+        juego.getJuegoGuardado().toString());
+  }
 }

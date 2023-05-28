@@ -73,12 +73,12 @@ public class TestJuegoSimple {
 
   // Criterio de aceptación 14.1
   @Test
-  public void testJuegoSimpleGuardado() {
+  public void testGuardarJuegoSimple() {
     juego.setJuegoDebeGuardarse(true);
     juego.realizarMovimiento(0, 0, Celda.S);
     juego.realizarMovimiento(1, 1, Celda.O);
     juego.realizarMovimiento(2, 2, Celda.S);
-
-    System.out.println(juego.getJuegoGuardado());
+    assertEquals("AZUL: (0, 0) -> S\nROJO: (1, 1) -> O\nAZUL: (2, 2) -> S\n",
+        juego.getJuegoGuardado().toString());
   }
 }

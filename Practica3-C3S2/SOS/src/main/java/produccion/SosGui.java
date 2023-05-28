@@ -487,7 +487,7 @@ public class SosGui extends JFrame {
       add(panelLetras);
       add(btnComputadoraAzul);
 
-      btnGrabarJuego = new JCheckBox("Guardar Juego");
+      btnGrabarJuego = new JCheckBox("Guardar");
       btnGrabarJuego.setFont(fuente);
       btnGrabarJuego.setBackground(Color.WHITE);
       btnGrabarJuego.setBorder(new EmptyBorder(20, 0, 0, 0));

@@ -23,10 +23,17 @@ public class JuegoGeneral extends JuegoSimple {
     if (fila >= 0 && fila < getTotalFilas() && columna >= 0 && columna < getTotalColumnas()
         && getCelda(fila, columna) == Celda.VACIA) {
       setCelda(fila, columna, valorCelda);
+      if (juegoDebeGuardarse) {
+        guardarJugada(fila, columna, valorCelda);
+      }
+      actualizarEstadoJuego(fila, columna);
       if (!hizoSos(fila, columna) && getEstadoJuego() == EstadoJuego.JUGANDO) {
         setTurno((getTurno() == Turno.ROJO) ? Turno.AZUL : Turno.ROJO);
       }
-      actualizarEstadoJuego(fila, columna);
+      if(getEstadoJuego() != EstadoJuego.JUGANDO){
+        System.out.println("guardar juego");
+        guardarJuego();
+      }
     }
   }
 

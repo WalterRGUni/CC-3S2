@@ -21,7 +21,7 @@ public class JuegoSimple {
 
   private Celda celdaJugadorAzul;
   private Celda celdaJugadorRojo;
-  private boolean juegoDebeGuardarse = false;
+  protected boolean juegoDebeGuardarse = false;
   private StringBuilder juegoGuardado = new StringBuilder();
 
   public JuegoSimple(int tamanio) {
