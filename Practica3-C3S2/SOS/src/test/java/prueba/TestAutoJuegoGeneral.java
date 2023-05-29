@@ -94,6 +94,6 @@ public class TestAutoJuegoGeneral {
     } catch (IOException e) {
       System.out.println("Falla al leer línea");
     }
-    assertEquals(juego.getJuegoGuardado().append("\n").toString(), juegoleido.toString());
+    assertEquals(juego.getJuegoGuardado().toString(), juegoleido.toString());
   }
 }

@@ -280,6 +280,7 @@ public class SosGui extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
           juego = new JuegoSimple(8);
+          juego.setEstadoJuego(EstadoJuego.INICIO);
           txtTamanioTablero.setText(String.valueOf(juego.getTamanioTablero()));
           panelCentral.repaint();
           btnSAzul.doClick();

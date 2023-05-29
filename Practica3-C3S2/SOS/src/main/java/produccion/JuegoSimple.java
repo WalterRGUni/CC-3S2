@@ -13,27 +13,21 @@ public class JuegoSimple {
 
   private int totalFilas = 8;
   private int totalColumnas = 8;
-  private List<LineaSos> lineasSos = new ArrayList<>();
+  private final List<LineaSos> lineasSos = new ArrayList<>();
   private Celda[][] tablero;
   private Turno turno = Turno.AZUL;
-  private Turno ganador;
+  //private Turno ganador;
   private EstadoJuego estadoJuegoActual = EstadoJuego.JUGANDO;;
-
-  private Celda celdaJugadorAzul;
-  private Celda celdaJugadorRojo;
   protected boolean juegoDebeGuardarse = false;
-  private StringBuilder juegoGuardado = new StringBuilder();
+  private final StringBuilder juegoGuardado = new StringBuilder();
 
   public JuegoSimple(int tamanio) {
     setTablero(tamanio);
-    //tablero = new Celda[totalFilas][totalColumnas];
-    //iniciarJuego(tamanio);
-    //estadoJuegoActual = EstadoJuego.JUGANDO;
   }
 
   public void guardarJuego() {
     try (PrintWriter out = new PrintWriter("juegoGuardado.txt")) {
-      out.println(juegoGuardado);
+      out.print(juegoGuardado);
     } catch (FileNotFoundException e) {
       System.out.println(e.getMessage());
     }
@@ -45,22 +39,6 @@ public class JuegoSimple {
 
   public void setJuegoDebeGuardarse(boolean juegoDebeGuardarse) {
     this.juegoDebeGuardarse = juegoDebeGuardarse;
-  }
-
-  public Celda getCeldaJugadorAzul() {
-    return celdaJugadorAzul;
-  }
-
-  public void setCeldaJugadorAzul(Celda celdaJugadorAzul) {
-    this.celdaJugadorAzul = celdaJugadorAzul;
-  }
-
-  public Celda getCeldaJugadorRojo() {
-    return celdaJugadorRojo;
-  }
-
-  public void setCeldaJugadorRojo(Celda celdaJugadorRojo) {
-    this.celdaJugadorRojo = celdaJugadorRojo;
   }
 
   public int getTotalFilas() {
@@ -75,7 +53,7 @@ public class JuegoSimple {
     return lineasSos;
   }
 
-  public boolean setTablero(int tamanio) {
+  public void setTablero(int tamanio) {
     if (tamanio > 2 && tamanio <= 20) {
       tablero = new Celda[tamanio][tamanio];
       totalFilas = tamanio;
@@ -85,30 +63,12 @@ public class JuegoSimple {
           tablero[fila][col] = Celda.VACIA;
         }
       }
-      return true;
     }
-    return false;
   }
 
   public int getTamanioTablero() {
     return totalFilas;
   }
-
-
-  /*
-  private void iniciarJuego(int tamanio) {
-    setTablero(tamanio);
-    for (int fila = 0; fila < totalFilas; ++fila) {
-      for (int col = 0; col < totalColumnas; ++col) {
-        tablero[fila][col] = Celda.VACIA;
-      }
-    }
-    estadoJuegoActual = EstadoJuego.INICIO;
-    turno = Turno.AZUL;
-    lineasSos.clear();
-    juegoDebeGuardarse = false;
-    juegoGuardado = new StringBuilder();
-  }*/
 
   public void setTurno(Turno turno) {
     this.turno = turno;
@@ -117,16 +77,6 @@ public class JuegoSimple {
   public Turno getTurno() {
     return turno;
   }
-
-  /*
-  public void resetearJuego() {
-    setTablero(8);
-    estadoJuegoActual = EstadoJuego.INICIO;
-    turno = Turno.AZUL;
-    lineasSos.clear();
-    juegoDebeGuardarse = false;
-    juegoGuardado = new StringBuilder();
-  }*/
 
   public int getFilasTotales() {
     return totalFilas;
@@ -185,7 +135,7 @@ public class JuegoSimple {
    */
   public void actualizarEstadoJuego(int fila, int columna) {
     if (hizoSos(fila, columna)) {
-      ganador = getTurno();
+      //ganador = getTurno();
       estadoJuegoActual = (turno == Turno.ROJO) ? EstadoJuego.GANO_ROJO : EstadoJuego.GANO_AZUL;
     } else if (esEmpate()) {
       estadoJuegoActual = EstadoJuego.EMPATE;
@@ -258,7 +208,6 @@ public class JuegoSimple {
       }
     }
     if (getCelda(fila, col) == Celda.O) {
-      boolean bo = false;
       if (col > 0 && col < getColumnasTotales() - 1 && getCelda(fila, col - 1) == Celda.S
           && getCelda(fila, col + 1) == Celda.S) {
         aniadirLineaSos(col - 1, fila, col + 1, fila);
