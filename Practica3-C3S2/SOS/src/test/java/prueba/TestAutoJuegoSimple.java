@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 import org.junit.jupiter.api.Test;
 import produccion.AutoJuegoSimple;
 import produccion.Celda;
@@ -63,15 +64,21 @@ public class TestAutoJuegoSimple {
   // Criterio de aceptación 14.1
   @Test
   public void testGuardarAutoJuegoSimple() {
+    Random random = new Random();
+    Celda celda;
+
     juego = new AutoJuegoSimple(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
     juego.setJuegoDebeGuardarse(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
 
     while (juego.getEstadoJuego() == EstadoJuego.JUGANDO) {
+      celda = random.nextInt(2) == 0 ? Celda.S : Celda.O;
+      outer:
       for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
           if (juego.getCelda(i, j) == Celda.VACIA) {
-            juego.realizarMovimiento(i, j, Celda.S);
+            juego.realizarMovimiento(i, j, celda);
+            break outer;
           }
         }
       }
@@ -80,7 +87,7 @@ public class TestAutoJuegoSimple {
     try {
       BufferedReader bufferedReader = new BufferedReader(new FileReader("juegoGuardado.txt"));
       String linea;
-      while((linea = bufferedReader.readLine()) != null) {
+      while ((linea = bufferedReader.readLine()) != null) {
         juegoleido.append(linea).append("\n");
       }
     } catch (FileNotFoundException e) {

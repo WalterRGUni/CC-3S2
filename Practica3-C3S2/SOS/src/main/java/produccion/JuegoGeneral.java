@@ -31,7 +31,6 @@ public class JuegoGeneral extends JuegoSimple {
         setTurno((getTurno() == Turno.ROJO) ? Turno.AZUL : Turno.ROJO);
       }
       if(getEstadoJuego() != EstadoJuego.JUGANDO){
-        System.out.println("guardar juego");
         guardarJuego();
       }
     }
@@ -110,7 +109,7 @@ public class JuegoGeneral extends JuegoSimple {
       }
       if (fila < getFilasTotales() - 2 && col < getColumnasTotales() - 2 && getCelda(fila + 1,
           col + 1) == Celda.O && getCelda(fila + 2, col + 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col - 2, fila + 2);
+        aniadirLineaSos(col, fila, col + 2, fila + 2);
         actualizarPuntos();
         realizoSos = true;
       }

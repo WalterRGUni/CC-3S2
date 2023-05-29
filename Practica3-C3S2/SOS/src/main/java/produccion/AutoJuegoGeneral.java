@@ -40,32 +40,28 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
     // Si ambos jugadores son la computadora continúa realizando jugadas hasta que ya no haya celdas vacías
     if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
       while (getEstadoJuego() == EstadoJuego.JUGANDO) {
-        if (getTurno() == Turno.AZUL) {
-          realizarAutoMovimiento();
-        } else if (getTurno() == Turno.ROJO) {
-          realizarAutoMovimiento();
-        }
+        realizarAutoMovimiento();
       }
     } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.COMPUTADORA) {
-      realizarAutoMovimiento();
-      while (hizoSos(fila, columna)) { // Si la computadora hace SOS, continúa jugando
+      while (realizarAutoMovimiento()) { // Si la computadora hace SOS, continúa jugando
         realizarAutoMovimiento();
       }
     } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.COMPUTADORA) {
-      realizarAutoMovimiento();
-      while (hizoSos(fila, columna)) { // Si la computadora hace SOS, continúa jugando
+      while (realizarAutoMovimiento()) { // Si la computadora hace SOS, continúa jugando
         realizarAutoMovimiento();
       }
-    } else if (getTurno() == Turno.ROJO && jugadorAzul == TipoJugador.COMPUTADORA) {
-      super.realizarMovimiento(fila, columna, getCeldaJugadorRojo());
-      if (!hizoSos(fila, columna)) {
+    } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.HUMANO) {
+      super.realizarMovimiento(fila, columna, celda);
+      if(!hizoSos(fila, columna)){
         while (realizarAutoMovimiento()) { // Si la computadora hace SOS, continúa jugando
+          realizarAutoMovimiento();
         }
       }
-    } else if (getTurno() == Turno.AZUL && jugadorRojo == TipoJugador.COMPUTADORA) {
-      super.realizarMovimiento(fila, columna, getCeldaJugadorAzul());
-      if (!hizoSos(fila, columna)) {
+    } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.HUMANO) {
+      super.realizarMovimiento(fila, columna, celda);
+      if(!hizoSos(fila, columna)){
         while (realizarAutoMovimiento()) { // Si la computadora hace SOS, continúa jugando
+          realizarAutoMovimiento();
         }
       }
     }

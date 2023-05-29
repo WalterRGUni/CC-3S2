@@ -22,11 +22,7 @@ public class SosGui extends JFrame {
 
   private JuegoSimple juego;
   private PanelCentral panelCentral;
-  //private PanelSuperior panelSuperior;
   private PanelInferior panelInferior;
-  //private PanelIzquierdo panelIzquierdo;
-  //private PanelDerecho panelDerecho;
-  //private Container panelDeContenido;
   private final Font fuente = new Font("SansSerif", Font.PLAIN, 16);
   private static final int TAMANIO_CELDA = 30;
 
@@ -225,38 +221,6 @@ public class SosGui extends JFrame {
       btnJuegoGeneral.setFont(fuente);
       btnJuegoGeneral.setBackground(Color.WHITE);
 
-      /*
-      // Realiza el cambio del tipo de juego a Juego Simple
-      btnJuegoSimple.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          if (getTipoJuego().getClass() == JuegoGeneral.class) {
-            setTipoJuego(new JuegoSimple(juego.getTamanioTablero()));
-          }
-        }
-      });*/
-
-      /*
-      // Realiza el cambio del tipo de juego a Juego General
-      btnJuegoGeneral.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          if (getTipoJuego().getClass() == JuegoSimple.class) {
-            setTipoJuego(new JuegoGeneral(juego.getTamanioTablero()));
-          } else if (getTipoJuego().getClass() == AutoJuegoSimple.class) {
-            TipoJugador jugadorAzul = TipoJugador.HUMANO;
-            TipoJugador jugadorRojo = TipoJugador.HUMANO;
-            if (btnComputadoraAzul.isSelected()) {
-              jugadorAzul = TipoJugador.COMPUTADORA;
-            }
-            if (btnComputadoraRojo.isSelected()) {
-              jugadorRojo = TipoJugador.COMPUTADORA;
-            }
-            setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), jugadorAzul, jugadorRojo));
-          }
-        }
-      });*/
-
       pnlTipoJuego.add(btnJuegoSimple);
       pnlTipoJuego.add(btnJuegoGeneral);
 
@@ -276,36 +240,6 @@ public class SosGui extends JFrame {
       txtTamanioTablero.setFont(fuente);
       txtTamanioTablero.setText(String.valueOf(juego.getTamanioTablero()));
 
-      /*
-      // Cambia el tamaño del tablero
-      txtTamanioTablero.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          int tamanio = Integer.parseInt(txtTamanioTablero.getText());
-          if (juego.setTamanioTablero(tamanio)) {
-            juego.setTamanioTablero(tamanio);
-
-            if (getTipoJuego().getClass() == JuegoSimple.class) {
-              setTipoJuego(new JuegoSimple(juego.getTamanioTablero()));
-            }
-            if (getTipoJuego().getClass() == JuegoGeneral.class) {
-              setTipoJuego(new JuegoGeneral(juego.getTamanioTablero()));
-            }
-
-            panelDeContenido.repaint();
-            panelSuperior.setPreferredSize(
-                new Dimension(juego.getTamanioTablero() * TAMANIO_CELDA + 301, 50));
-            panelIzquierdo.setPreferredSize(
-                new Dimension(150, juego.getTamanioTablero() * TAMANIO_CELDA + 1));
-            SosGui.this.pack();
-          } else {
-            JOptionPane.showMessageDialog(SosGui.this
-                , "El tamaño debe estar entre 3 y 20", "Error de tamaño",
-                JOptionPane.ERROR_MESSAGE);
-            txtTamanioTablero.setText(String.valueOf(juego.getTamanioTablero()));
-          }
-        }
-      });*/
       txtTamanioTablero.setHorizontalAlignment(JTextField.CENTER);
       pnlTamanioTablero.add(txtTamanioTablero);
       add(pnlTamanioTablero, BorderLayout.EAST);
@@ -405,38 +339,6 @@ public class SosGui extends JFrame {
       btnComputadoraAzul.setBackground(Color.WHITE);
       btnComputadoraAzul.setBorder(BorderFactory.createEmptyBorder());
 
-
-      /*
-      btnComputadoraAzul.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          if (btnComputadoraRojo.isSelected() && btnJuegoSimple.isSelected()) {
-            setTipoJuego(new AutoJuegoSimple(juego.getTamanioTablero(), TipoJugador.COMPUTADORA,
-                TipoJugador.COMPUTADORA));
-          } else if (btnComputadoraRojo.isSelected() && btnJuegoGeneral.isSelected()) {
-            setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), TipoJugador.COMPUTADORA,
-                TipoJugador.COMPUTADORA));
-          } else if (btnHumanoRojo.isSelected() && btnJuegoSimple.isSelected()) {
-            setTipoJuego(new AutoJuegoSimple(juego.getTamanioTablero(), TipoJugador.COMPUTADORA,
-                TipoJugador.HUMANO));
-          } else if (btnHumanoRojo.isSelected() && btnJuegoGeneral.isSelected()) {
-            setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), TipoJugador.COMPUTADORA,
-                TipoJugador.HUMANO));
-          }
-
-          Celda celda;
-          if (btnSAzul.isSelected()) {
-            celda = Celda.S;
-          } else {
-            celda = Celda.O;
-          }
-
-          juego.realizarMovimiento(0, 0, celda);
-
-          panelCentral.repaint();
-        }
-      });*/
-
       ButtonGroup btnGrpTipoJugadorAzul = new ButtonGroup();
       btnGrpTipoJugadorAzul.add(btnComputadoraAzul);
       btnGrpTipoJugadorAzul.add(btnHumanoAzul);
@@ -445,25 +347,11 @@ public class SosGui extends JFrame {
       btnSAzul.setFont(fuente);
       btnSAzul.setBackground(Color.WHITE);
       btnSAzul.setBorder(BorderFactory.createEmptyBorder());
-      /*
-      btnSAzul.addChangeListener(new ChangeListener() {
-        @Override
-        public void stateChanged(ChangeEvent e) {
-          juego.setCeldaJugadorAzul(Celda.S);
-        }
-      });*/
 
       btnOAzul = new JRadioButton("O", false);
       btnOAzul.setFont(fuente);
       btnOAzul.setBackground(Color.WHITE);
       btnOAzul.setBorder(BorderFactory.createEmptyBorder());
-      /*
-      btnOAzul.addChangeListener(new ChangeListener() {
-        @Override
-        public void stateChanged(ChangeEvent e) {
-          juego.setCeldaJugadorAzul(Celda.O);
-        }
-      });*/
 
       ButtonGroup btnGrpLetraAzul = new ButtonGroup();
       btnGrpLetraAzul.add(btnSAzul);
@@ -488,16 +376,6 @@ public class SosGui extends JFrame {
       btnGrabarJuego.setFont(fuente);
       btnGrabarJuego.setBackground(Color.WHITE);
       btnGrabarJuego.setBorder(new EmptyBorder(20, 0, 0, 0));
-
-      /*
-      btnGrabarJuego.addItemListener(new ItemListener() {
-        @Override
-        public void itemStateChanged(ItemEvent e) {
-          if(btnGrabarJuego.isSelected()) {
-            juego.setJuegoDebeGuardarse(true);
-          }
-        }
-      });*/
 
       add(btnGrabarJuego);
     }
@@ -526,38 +404,6 @@ public class SosGui extends JFrame {
       btnComputadoraRojo.setBackground(Color.WHITE);
       btnComputadoraRojo.setBorder(BorderFactory.createEmptyBorder());
 
-
-      /*
-      btnComputadoraRojo.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          if (btnComputadoraAzul.isSelected() && btnJuegoSimple.isSelected()) {
-            setTipoJuego(new AutoJuegoSimple(juego.getTamanioTablero(), TipoJugador.COMPUTADORA,
-                TipoJugador.COMPUTADORA));
-          } else if (btnComputadoraAzul.isSelected() && btnJuegoGeneral.isSelected()) {
-            setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), TipoJugador.COMPUTADORA,
-                TipoJugador.COMPUTADORA));
-          } else if (btnHumanoAzul.isSelected() && btnJuegoSimple.isSelected()) {
-            setTipoJuego(new AutoJuegoSimple(juego.getTamanioTablero(), TipoJugador.HUMANO,
-                TipoJugador.COMPUTADORA));
-          } else if (btnHumanoAzul.isSelected() && btnJuegoGeneral.isSelected()) {
-            setTipoJuego(new AutoJuegoGeneral(juego.getTamanioTablero(), TipoJugador.HUMANO,
-                TipoJugador.COMPUTADORA));
-          }
-
-          Celda celda;
-          if (btnSRojo.isSelected()) {
-            celda = Celda.S;
-          } else {
-            celda = Celda.O;
-          }
-
-          juego.realizarMovimiento(0, 0, celda);
-
-          panelCentral.repaint();
-        }
-      });*/
-
       ButtonGroup btnGrpTipoJugadorRojo = new ButtonGroup();
       btnGrpTipoJugadorRojo.add(btnComputadoraRojo);
       btnGrpTipoJugadorRojo.add(btnHumanoRojo);
@@ -566,25 +412,11 @@ public class SosGui extends JFrame {
       btnSRojo.setFont(fuente);
       btnSRojo.setBackground(Color.WHITE);
       btnSRojo.setBorder(BorderFactory.createEmptyBorder());
-      /*
-      btnSRojo.addChangeListener(new ChangeListener() {
-        @Override
-        public void stateChanged(ChangeEvent e) {
-          juego.setCeldaJugadorRojo(Celda.S);
-        }
-      });*/
 
       btnORojo = new JRadioButton("O", false);
       btnORojo.setFont(fuente);
       btnORojo.setBackground(Color.WHITE);
       btnORojo.setBorder(BorderFactory.createEmptyBorder());
-      /*
-      btnORojo.addChangeListener(new ChangeListener() {
-        @Override
-        public void stateChanged(ChangeEvent e) {
-          juego.setCeldaJugadorRojo(Celda.O);
-        }
-      });*/
 
       ButtonGroup btnGrpLetraRojo = new ButtonGroup();
       btnGrpLetraRojo.add(btnSRojo);
@@ -626,7 +458,6 @@ public class SosGui extends JFrame {
             juego.setJuegoDebeGuardarse(true);
           }
           panelCentral.repaint();
-          //juego.setEstadoJuego(EstadoJuego.JUGANDO);
           if (btnComputadoraAzul.isSelected()) {
             Celda celda;
             if (btnSAzul.isSelected()) {
@@ -636,7 +467,6 @@ public class SosGui extends JFrame {
             }
             juego.realizarMovimiento(0, 0, celda);
             panelCentral.repaint();
-            //System.out.println(juego.getClass().getName());
           }
         }
       });
