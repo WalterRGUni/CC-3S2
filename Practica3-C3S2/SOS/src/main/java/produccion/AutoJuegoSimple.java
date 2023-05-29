@@ -38,27 +38,27 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
       return;
     }
     if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.COMPUTADORA) {
-      realizarAutoMovimiento(celda);
+      realizarAutoMovimiento();
     } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.COMPUTADORA) {
-      realizarAutoMovimiento(celda);
+      realizarAutoMovimiento();
     } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.HUMANO) {
       super.realizarMovimiento(fila, columna, celda);
       if ((getEstadoJuego() == EstadoJuego.JUGANDO)) {
-        realizarAutoMovimiento(getCeldaJugadorAzul());
+        realizarAutoMovimiento();
       }
     } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.HUMANO) {
       super.realizarMovimiento(fila, columna, celda);
       if ((getEstadoJuego() == EstadoJuego.JUGANDO)) {
-        realizarAutoMovimiento(getCeldaJugadorAzul());
+        realizarAutoMovimiento();
       }
     }
     // Si ambos jugadores son la computadora continúa realizando jugadas hasta que ya no haya celdas vacías
     if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
       while (getEstadoJuego() == EstadoJuego.JUGANDO) {
         if (getTurno() == Turno.AZUL) {
-          realizarAutoMovimiento(getCeldaJugadorAzul());
+          realizarAutoMovimiento();
         } else if (getTurno() == Turno.ROJO) {
-          realizarAutoMovimiento(getCeldaJugadorRojo());
+          realizarAutoMovimiento();
         }
       }
     }
@@ -68,13 +68,12 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
   /**
    * Intenta realizar una jugada ganadora y si no puede realiza un movimiento aleatorio
    *
-   * @param celda El valor de la celda (S u O)
    * @return true (solo para cumplir con la interfaz AutoJuego)
    */
   @Override
-  public boolean realizarAutoMovimiento(Celda celda) {
+  public boolean realizarAutoMovimiento() {
     if (!realizarJugadaGanadora()) {
-      realizarMovimientoAleatorio(celda);
+      realizarMovimientoAleatorio();
     }
     return true;
   }
@@ -92,6 +91,7 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
           if (hizoSos(i, j)) {
             setCelda(i, j, Celda.VACIA);
             super.realizarMovimiento(i, j, Celda.S);
+            realizarMovimiento(i, j, Celda.S);
             return true;
           }
           setCelda(i, j, Celda.O);
@@ -108,8 +108,9 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
   }
 
   @Override
-  public void realizarMovimientoAleatorio(Celda celda) {
+  public void realizarMovimientoAleatorio() {
     Random random = new Random();
+    Celda celda = random.nextInt(2) == 0 ? Celda.O : Celda.S;
     int numeroCeldasVacias = getNumeroCeldasVacias();
     if (numeroCeldasVacias > 0) {
       int movimientoObjetivo = random.nextInt(numeroCeldasVacias);

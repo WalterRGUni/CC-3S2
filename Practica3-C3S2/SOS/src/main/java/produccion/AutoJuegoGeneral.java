@@ -41,33 +41,31 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
     if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
       while (getEstadoJuego() == EstadoJuego.JUGANDO) {
         if (getTurno() == Turno.AZUL) {
-          realizarAutoMovimiento(getCeldaJugadorAzul());
+          realizarAutoMovimiento();
         } else if (getTurno() == Turno.ROJO) {
-          realizarAutoMovimiento(getCeldaJugadorRojo());
+          realizarAutoMovimiento();
         }
       }
     } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.COMPUTADORA) {
-      realizarAutoMovimiento(celda);
+      realizarAutoMovimiento();
       while (hizoSos(fila, columna)) { // Si la computadora hace SOS, continúa jugando
-        realizarAutoMovimiento(celda);
+        realizarAutoMovimiento();
       }
     } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.COMPUTADORA) {
-      realizarAutoMovimiento(celda);
+      realizarAutoMovimiento();
       while (hizoSos(fila, columna)) { // Si la computadora hace SOS, continúa jugando
-        realizarAutoMovimiento(celda);
+        realizarAutoMovimiento();
       }
     } else if (getTurno() == Turno.ROJO && jugadorAzul == TipoJugador.COMPUTADORA) {
       super.realizarMovimiento(fila, columna, getCeldaJugadorRojo());
       if (!hizoSos(fila, columna)) {
-        while (realizarAutoMovimiento(
-            getCeldaJugadorAzul())) { // Si la computadora hace SOS, continúa jugando
+        while (realizarAutoMovimiento()) { // Si la computadora hace SOS, continúa jugando
         }
       }
     } else if (getTurno() == Turno.AZUL && jugadorRojo == TipoJugador.COMPUTADORA) {
       super.realizarMovimiento(fila, columna, getCeldaJugadorAzul());
       if (!hizoSos(fila, columna)) {
-        while (realizarAutoMovimiento(
-            getCeldaJugadorRojo())) { // Si la computadora hace SOS, continúa jugando
+        while (realizarAutoMovimiento()) { // Si la computadora hace SOS, continúa jugando
         }
       }
     }
@@ -76,13 +74,12 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
   /**
    * Intenta realizar una jugada SOS y si no puede realiza un movimiento aleatorio
    *
-   * @param celda El valor de la celda (S u O)
    * @return true si realizó una jugada SOS y false si hizo un movimiento aleatorio
    */
   @Override
-  public boolean realizarAutoMovimiento(Celda celda) {
+  public boolean realizarAutoMovimiento() {
     if (!realizaJugadaSos()) {
-      realizarMovimientoAleatorio(celda);
+      realizarMovimientoAleatorio();
       return false;
     }
     return true;
@@ -117,8 +114,9 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
   }
 
   @Override
-  public void realizarMovimientoAleatorio(Celda celda) {
+  public void realizarMovimientoAleatorio() {
     Random random = new Random();
+    Celda celda = random.nextInt(2) == 0 ? Celda.S : Celda.O;
     int numeroCeldas = getNumeroCeldasVacias();
     if (numeroCeldas > 0) {
       int movimientoObjetivo = random.nextInt(numeroCeldas);

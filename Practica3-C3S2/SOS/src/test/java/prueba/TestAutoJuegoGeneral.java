@@ -2,9 +2,14 @@ package prueba;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import produccion.AutoJuegoGeneral;
+import produccion.AutoJuegoSimple;
 import produccion.Celda;
 import produccion.EstadoJuego;
 import produccion.TipoJugador;
@@ -54,5 +59,36 @@ public class TestAutoJuegoGeneral {
     juego.realizarMovimiento(0, 0, Celda.S); // Sirve para iniciar el juego, la computadora
     // ignora la fila y columna y realiza un movimiento aleatorio
     assertEquals(0, juego.getNumeroCeldasVacias()); // Si hay 0 celdas vacías el juego terminó
+  }
+
+  // Criterio de aceptación 14.1
+  @Test
+  public void testGuardarAutoJuegoGeneral() {
+    juego = new AutoJuegoGeneral(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
+    juego.setJuegoDebeGuardarse(true);
+    juego.setEstadoJuego(EstadoJuego.JUGANDO);
+
+    while (juego.getEstadoJuego() == EstadoJuego.JUGANDO) {
+      for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+          if (juego.getCelda(i, j) == Celda.VACIA) {
+            juego.realizarMovimiento(i, j, Celda.S);
+          }
+        }
+      }
+    }
+    StringBuilder juegoleido = new StringBuilder();
+    try {
+      BufferedReader bufferedReader = new BufferedReader(new FileReader("juegoGuardado.txt"));
+      String linea;
+      while((linea = bufferedReader.readLine()) != null) {
+        juegoleido.append(linea).append("\n");
+      }
+    } catch (FileNotFoundException e) {
+      System.out.println("Archivo no encontrado");
+    } catch (IOException e) {
+      System.out.println("Falla al leer línea");
+    }
+    assertEquals(juego.getJuegoGuardado().append("\n").toString(), juegoleido.toString());
   }
 }

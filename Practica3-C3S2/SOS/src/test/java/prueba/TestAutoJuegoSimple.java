@@ -3,6 +3,10 @@ package prueba;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import produccion.AutoJuegoSimple;
 import produccion.Celda;
@@ -54,5 +58,36 @@ public class TestAutoJuegoSimple {
     assertTrue(juego.getEstadoJuego() == EstadoJuego.GANO_AZUL ||
         juego.getEstadoJuego() == EstadoJuego.GANO_ROJO ||
         juego.getEstadoJuego() == EstadoJuego.EMPATE);
+  }
+
+  // Criterio de aceptación 14.1
+  @Test
+  public void testGuardarAutoJuegoSimple() {
+    juego = new AutoJuegoSimple(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
+    juego.setJuegoDebeGuardarse(true);
+    juego.setEstadoJuego(EstadoJuego.JUGANDO);
+
+    while (juego.getEstadoJuego() == EstadoJuego.JUGANDO) {
+      for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+          if (juego.getCelda(i, j) == Celda.VACIA) {
+            juego.realizarMovimiento(i, j, Celda.S);
+          }
+        }
+      }
+    }
+    StringBuilder juegoleido = new StringBuilder();
+    try {
+      BufferedReader bufferedReader = new BufferedReader(new FileReader("juegoGuardado.txt"));
+      String linea;
+      while((linea = bufferedReader.readLine()) != null) {
+        juegoleido.append(linea).append("\n");
+      }
+    } catch (FileNotFoundException e) {
+      System.out.println("Archivo no encontrado");
+    } catch (IOException e) {
+      System.out.println("Falla al leer línea");
+    }
+    assertEquals(juego.getJuegoGuardado().append("\n").toString(), juegoleido.toString());
   }
 }

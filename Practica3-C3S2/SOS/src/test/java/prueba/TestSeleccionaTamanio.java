@@ -18,14 +18,14 @@ public class TestSeleccionaTamanio {
   // Criterio de aceptación 1.1
   @Test
   public void testSeleccionTamanioValido() {
-    juego.setTamanioTablero(10);
+    juego.setTablero(10);
     assertEquals(10, juego.getTamanioTablero());
   }
 
   // Criterio de aceptación 1.2
   @Test
   public void testSeleccionTamanioInvalido() {
-    juego.setTamanioTablero(25);
+    juego.setTablero(25);
     assertEquals(8, juego.getTamanioTablero());
   }
 }

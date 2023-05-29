@@ -14,15 +14,14 @@ public interface AutoJuego {
   /**
    * La computadora realiza un movimiento
    *
-   * @param celda El valor de la celda (S u O)
    * @return true si hizo SOS o false si hizo un movimiento aleatorio
    */
-  boolean realizarAutoMovimiento(Celda celda);
+  boolean realizarAutoMovimiento();
 
   /**
    * Realiza un movimiento aleatorio en cualquier celda vacía
    *
    * @param celda El valor de la celda (S u O)
    */
-  void realizarMovimientoAleatorio(Celda celda);
+  void realizarMovimientoAleatorio();
 }

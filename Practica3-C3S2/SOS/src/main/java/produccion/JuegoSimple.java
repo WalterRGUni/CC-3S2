@@ -11,13 +11,13 @@ import java.util.List;
  */
 public class JuegoSimple {
 
-  private static int totalFilas = 8;
-  private static int totalColumnas = 8;
-  private List<LineaSos> lineasSos;
+  private int totalFilas = 8;
+  private int totalColumnas = 8;
+  private List<LineaSos> lineasSos = new ArrayList<>();
   private Celda[][] tablero;
-  private Turno turno;
+  private Turno turno = Turno.AZUL;
   private Turno ganador;
-  private EstadoJuego estadoJuegoActual;
+  private EstadoJuego estadoJuegoActual = EstadoJuego.JUGANDO;;
 
   private Celda celdaJugadorAzul;
   private Celda celdaJugadorRojo;
@@ -25,12 +25,10 @@ public class JuegoSimple {
   private StringBuilder juegoGuardado = new StringBuilder();
 
   public JuegoSimple(int tamanio) {
-    this.lineasSos = new ArrayList<>();
-    setTamanioTablero(tamanio);
-    tablero = new Celda[totalFilas][totalColumnas];
-    iniciarJuego(tamanio);
-    celdaJugadorAzul = Celda.S;
-    celdaJugadorRojo = Celda.S;
+    setTablero(tamanio);
+    //tablero = new Celda[totalFilas][totalColumnas];
+    //iniciarJuego(tamanio);
+    //estadoJuegoActual = EstadoJuego.JUGANDO;
   }
 
   public void guardarJuego() {
@@ -65,11 +63,11 @@ public class JuegoSimple {
     this.celdaJugadorRojo = celdaJugadorRojo;
   }
 
-  public static int getTotalFilas() {
+  public int getTotalFilas() {
     return totalFilas;
   }
 
-  public static int getTotalColumnas() {
+  public int getTotalColumnas() {
     return totalColumnas;
   }
 
@@ -77,11 +75,16 @@ public class JuegoSimple {
     return lineasSos;
   }
 
-  public boolean setTamanioTablero(int tamanio) {
+  public boolean setTablero(int tamanio) {
     if (tamanio > 2 && tamanio <= 20) {
       tablero = new Celda[tamanio][tamanio];
       totalFilas = tamanio;
       totalColumnas = tamanio;
+      for (int fila = 0; fila < totalFilas; ++fila) {
+        for (int col = 0; col < totalColumnas; ++col) {
+          tablero[fila][col] = Celda.VACIA;
+        }
+      }
       return true;
     }
     return false;
@@ -91,13 +94,10 @@ public class JuegoSimple {
     return totalFilas;
   }
 
-  /**
-   * Inicializa un tablero del tamaño dado
-   *
-   * @param tamanio Número de celdas por lado en el tablero
-   */
+
+  /*
   private void iniciarJuego(int tamanio) {
-    setTamanioTablero(tamanio);
+    setTablero(tamanio);
     for (int fila = 0; fila < totalFilas; ++fila) {
       for (int col = 0; col < totalColumnas; ++col) {
         tablero[fila][col] = Celda.VACIA;
@@ -108,7 +108,7 @@ public class JuegoSimple {
     lineasSos.clear();
     juegoDebeGuardarse = false;
     juegoGuardado = new StringBuilder();
-  }
+  }*/
 
   public void setTurno(Turno turno) {
     this.turno = turno;
@@ -118,9 +118,15 @@ public class JuegoSimple {
     return turno;
   }
 
-  public void resetearJuego(int tamanio) {
-    iniciarJuego(tamanio);
-  }
+  /*
+  public void resetearJuego() {
+    setTablero(8);
+    estadoJuegoActual = EstadoJuego.INICIO;
+    turno = Turno.AZUL;
+    lineasSos.clear();
+    juegoDebeGuardarse = false;
+    juegoGuardado = new StringBuilder();
+  }*/
 
   public int getFilasTotales() {
     return totalFilas;
