@@ -10,6 +10,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -41,6 +44,7 @@ public class SosGui extends JFrame {
   private JRadioButton btnJuegoGeneral;
   private JTextField txtTamanioTablero;
   private JCheckBox btnGrabarJuego;
+  private JButton btnReproducir;
 
   /**
    * Crea la interfaz de acuerdo al tipo de juego
@@ -376,9 +380,32 @@ public class SosGui extends JFrame {
       btnGrabarJuego = new JCheckBox("Guardar");
       btnGrabarJuego.setFont(fuente);
       btnGrabarJuego.setBackground(Color.WHITE);
-      btnGrabarJuego.setBorder(new EmptyBorder(20, 0, 0, 0));
+      btnGrabarJuego.setBorder(new EmptyBorder(20, 0, 10, 0));
 
       add(btnGrabarJuego);
+
+      btnReproducir = new JButton("Reproducir");
+      btnReproducir.setFont(fuente);
+      btnReproducir.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("juegoGuardado.txt"));
+            String linea;
+            while((linea = bufferedReader.readLine()) != null){
+              if(linea.equals("")){
+                break;
+              }
+              System.out.println(linea);
+            }
+
+          } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+          }
+        }
+      });
+
+      add(btnReproducir);
     }
   }
 
@@ -434,7 +461,6 @@ public class SosGui extends JFrame {
 
       JButton btnIniciarJuego = new JButton("Iniciar Juego");
       btnIniciarJuego.setFont(fuente);
-
 
       btnIniciarJuego.addActionListener(new ActionListener() {
 
