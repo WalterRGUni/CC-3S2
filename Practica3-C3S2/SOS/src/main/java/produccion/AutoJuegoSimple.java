@@ -91,7 +91,6 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
           if (hizoSos(i, j)) {
             setCelda(i, j, Celda.VACIA);
             super.realizarMovimiento(i, j, Celda.S);
-            realizarMovimiento(i, j, Celda.S);
             return true;
           }
           setCelda(i, j, Celda.O);
@@ -129,5 +128,4 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
       }
     }
   }
-
 }

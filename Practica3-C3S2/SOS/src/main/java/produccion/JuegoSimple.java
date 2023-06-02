@@ -16,7 +16,6 @@ public class JuegoSimple {
   private final List<LineaSos> lineasSos = new ArrayList<>();
   private Celda[][] tablero;
   private Turno turno = Turno.AZUL;
-  //private Turno ganador;
   private EstadoJuego estadoJuegoActual = EstadoJuego.JUGANDO;;
   protected boolean juegoDebeGuardarse = false;
   private final StringBuilder juegoGuardado = new StringBuilder();

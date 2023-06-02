@@ -30,7 +30,7 @@ public class JuegoGeneral extends JuegoSimple {
       if (!hizoSos(fila, columna) && getEstadoJuego() == EstadoJuego.JUGANDO) {
         setTurno((getTurno() == Turno.ROJO) ? Turno.AZUL : Turno.ROJO);
       }
-      if(getEstadoJuego() != EstadoJuego.JUGANDO){
+      if(getEstadoJuego() != EstadoJuego.JUGANDO && juegoDebeGuardarse){
         guardarJuego();
       }
     }

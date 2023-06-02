@@ -42,10 +42,8 @@ public class SosGui extends JFrame {
   private PanelInferior panelInferior;
   private final Font fuente = new Font("SansSerif", Font.PLAIN, 16);
   private static final int TAMANIO_CELDA = 30;
-
   private int filaSeleccionada;
   private int colSeleccionada;
-
   private JRadioButton btnOAzul;
   private JRadioButton btnSAzul;
   private JRadioButton btnHumanoRojo;
@@ -400,34 +398,15 @@ public class SosGui extends JFrame {
       btnReproducir = new JButton("Reproducir");
       btnReproducir.setFont(fuente);
       btnReproducir.addActionListener(new ActionListener() {
-
         @Override
         public void actionPerformed(ActionEvent e) {
           try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("juegoGuardado.txt"));
             String primeraLinea = bufferedReader.readLine();
-            if (primeraLinea.startsWith("JS")) {
-              int tamanioTablero = Integer.parseInt(primeraLinea.substring(4));
-              juego = new JuegoSimple(tamanioTablero);
-            }
-            if (primeraLinea.startsWith("JG")) {
-              int tamanioTablero = Integer.parseInt(primeraLinea.substring(4));
-              juego = new JuegoGeneral(tamanioTablero);
-            }
-            if (primeraLinea.startsWith("AS")) {
-              int tamanioTablero = Integer.parseInt(primeraLinea.substring(4));
-              TipoJugador tipoJugadorAzul = primeraLinea.charAt(2) == 'H' ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
-              TipoJugador tipoJugadorRojo = primeraLinea.charAt(3) == 'H' ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
-              juego = new AutoJuegoSimple(tamanioTablero, tipoJugadorAzul, tipoJugadorRojo);
-            }
-            if (primeraLinea.startsWith("AG")) {
-              int tamanioTablero = Integer.parseInt(primeraLinea.substring(4));
-              TipoJugador tipoJugadorAzul = primeraLinea.charAt(2) == 'H' ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
-              TipoJugador tipoJugadorRojo = primeraLinea.charAt(3) == 'H' ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
-              juego = new AutoJuegoGeneral(tamanioTablero, tipoJugadorAzul, tipoJugadorRojo);
-            }
+            int tamanio = Integer.parseInt(primeraLinea.substring(2));
+            juego = primeraLinea.startsWith("JS") ? new JuegoSimple(tamanio)
+                : new JuegoGeneral(tamanio);
             Timer timer = new Timer(1000, new ActionListener() {
-
               @Override
               public void actionPerformed(ActionEvent e) {
                 try {
@@ -579,38 +558,27 @@ public class SosGui extends JFrame {
           if (btnJuegoSimple.isSelected() && btnHumanoAzul.isSelected()
               && btnHumanoRojo.isSelected()) {
             juego = new JuegoSimple(tamanioTab);
-            if (btnGrabarJuego.isSelected()) {
-              juego.appendJuegoGuardado(String.format("JS  %d%n", tamanioTab));
-            }
+            juego.appendJuegoGuardado("JS");
           }
           if (btnJuegoSimple.isSelected() && (btnComputadoraAzul.isSelected()
               || btnComputadoraRojo.isSelected())) {
             juego = new AutoJuegoSimple(tamanioTab, jugadorAzul, jugadorRojo);
-            if (btnGrabarJuego.isSelected()) {
-              String azul = jugadorAzul == TipoJugador.HUMANO ? "H" : "C";
-              String rojo = jugadorRojo == TipoJugador.HUMANO ? "H" : "C";
-              juego.appendJuegoGuardado(String.format("AS%S%S%d%n", azul, rojo, tamanioTab));
-            }
+            juego.appendJuegoGuardado("JS");
           }
           if (btnJuegoGeneral.isSelected() && btnHumanoAzul.isSelected()
               && btnHumanoRojo.isSelected()) {
             juego = new JuegoGeneral(tamanioTab);
-            if (btnGrabarJuego.isSelected()) {
-              juego.appendJuegoGuardado(String.format("JG  %d%n", tamanioTab));
-            }
+            juego.appendJuegoGuardado("JG");
           }
           if (btnJuegoGeneral.isSelected() && (btnComputadoraAzul.isSelected()
               || btnComputadoraRojo.isSelected())) {
             juego = new AutoJuegoGeneral(tamanioTab, jugadorAzul, jugadorRojo);
-            if (btnGrabarJuego.isSelected()) {
-              String azul = jugadorAzul == TipoJugador.HUMANO ? "H" : "C";
-              String rojo = jugadorRojo == TipoJugador.HUMANO ? "H" : "C";
-              juego.appendJuegoGuardado(String.format("AG%S%S%d%n", azul, rojo, tamanioTab));
-            }
+            juego.appendJuegoGuardado("JG");
           }
           if (btnGrabarJuego.isSelected()) {
             juego.setJuegoDebeGuardarse(true);
           }
+          juego.appendJuegoGuardado(String.valueOf(tamanioTab) + "\n");
           panelCentral.repaint();
           if (btnComputadoraAzul.isSelected()) {
             Celda celda;
