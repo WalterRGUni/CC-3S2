@@ -9,12 +9,27 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 
@@ -387,25 +402,97 @@ public class SosGui extends JFrame {
       btnReproducir = new JButton("Reproducir");
       btnReproducir.setFont(fuente);
       btnReproducir.addActionListener(new ActionListener() {
+
         @Override
         public void actionPerformed(ActionEvent e) {
           try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("juegoGuardado.txt"));
-            String linea;
-            while((linea = bufferedReader.readLine()) != null){
-              if(linea.equals("")){
-                break;
-              }
-              System.out.println(linea);
-            }
+            Timer timer = new Timer(1000, new ActionListener() {
 
-          } catch (IOException ex) {
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                try {
+                  String linea = bufferedReader.readLine();
+                  if (linea == null || linea.equals("")) {
+                    ((Timer) e.getSource()).stop();
+                    return;
+                  }
+                  int fila = leerFila(linea);
+                  int columna = leerColumna(linea);
+                  Celda celda = leerCelda(linea);
+
+                  juego.realizarMovimiento(fila, columna, celda);
+                  panelCentral.repaint();
+                } catch (IOException ex) {
+                  System.out.println(ex.getMessage());
+                }
+              }
+            });
+            timer.start();
+          } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
           }
+          juego = new JuegoSimple(8);
         }
       });
 
       add(btnReproducir);
+    }
+  }
+
+  private Celda leerCelda(String linea) {
+    if (Character.isDigit(linea.charAt(8))) {
+      if (Character.isDigit(linea.charAt(12))) {
+        if(linea.charAt(18) == 'S'){
+          return Celda.S;
+        } else {
+          return Celda.O;
+        }
+      } else {
+        if(linea.charAt(17) == 'S'){
+          return Celda.S;
+        } else {
+          return Celda.O;
+        }
+      }
+    } else {
+      if (Character.isDigit(linea.charAt(11))) {
+        if(linea.charAt(17) == 'S'){
+          return Celda.S;
+        } else {
+          return Celda.O;
+        }
+      } else {
+        if(linea.charAt(16) == 'S'){
+          return Celda.S;
+        } else {
+          return Celda.O;
+        }
+      }
+    }
+  }
+
+  private int leerFila(String linea) {
+    if (Character.isDigit(linea.charAt(8))) {
+      return Integer.parseInt(linea.substring(7, 9));
+    } else {
+      return Integer.parseInt(linea.substring(7, 8));
+    }
+  }
+
+  private int leerColumna(String linea) {
+    if (Character.isDigit(linea.charAt(8))) {
+      if (Character.isDigit(linea.charAt(12))) {
+        return Integer.parseInt(linea.substring(11, 13));
+      } else {
+        return Integer.parseInt(linea.substring(11, 12));
+      }
+    } else {
+      if (Character.isDigit(linea.charAt(11))) {
+        return Integer.parseInt(linea.substring(10, 12));
+      } else {
+        return Integer.parseInt(linea.substring(10, 11));
+      }
     }
   }
 
@@ -467,21 +554,27 @@ public class SosGui extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
           int tamanioTab = Integer.parseInt(txtTamanioTablero.getText());
-          TipoJugador jugadorAzul = btnHumanoAzul.isSelected() ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
-          TipoJugador jugadorRojo = btnHumanoRojo.isSelected() ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
-          if(btnJuegoSimple.isSelected() && btnHumanoAzul.isSelected() && btnHumanoRojo.isSelected()) {
+          TipoJugador jugadorAzul =
+              btnHumanoAzul.isSelected() ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
+          TipoJugador jugadorRojo =
+              btnHumanoRojo.isSelected() ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
+          if (btnJuegoSimple.isSelected() && btnHumanoAzul.isSelected()
+              && btnHumanoRojo.isSelected()) {
             juego = new JuegoSimple(tamanioTab);
           }
-          if(btnJuegoSimple.isSelected() && (btnComputadoraAzul.isSelected() || btnComputadoraRojo.isSelected())) {
+          if (btnJuegoSimple.isSelected() && (btnComputadoraAzul.isSelected()
+              || btnComputadoraRojo.isSelected())) {
             juego = new AutoJuegoSimple(tamanioTab, jugadorAzul, jugadorRojo);
           }
-          if(btnJuegoGeneral.isSelected() && btnHumanoAzul.isSelected() && btnHumanoRojo.isSelected()) {
+          if (btnJuegoGeneral.isSelected() && btnHumanoAzul.isSelected()
+              && btnHumanoRojo.isSelected()) {
             juego = new JuegoGeneral(tamanioTab);
           }
-          if(btnJuegoGeneral.isSelected() && (btnComputadoraAzul.isSelected() || btnComputadoraRojo.isSelected())) {
+          if (btnJuegoGeneral.isSelected() && (btnComputadoraAzul.isSelected()
+              || btnComputadoraRojo.isSelected())) {
             juego = new AutoJuegoGeneral(tamanioTab, jugadorAzul, jugadorRojo);
           }
-          if(btnGrabarJuego.isSelected()){
+          if (btnGrabarJuego.isSelected()) {
             juego.setJuegoDebeGuardarse(true);
           }
           panelCentral.repaint();
