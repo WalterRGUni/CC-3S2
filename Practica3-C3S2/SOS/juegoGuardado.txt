@@ -1,17 +1,8 @@
+JS  3
 AZUL: (0, 0) -> S
-ROJO: (0, 7) -> O
-AZUL: (7, 7) -> S
-ROJO: (7, 0) -> O
-AZUL: (1, 1) -> S
-ROJO: (1, 6) -> O
-AZUL: (6, 6) -> S
-ROJO: (6, 1) -> O
+ROJO: (0, 1) -> O
+AZUL: (2, 0) -> S
+ROJO: (1, 1) -> O
+AZUL: (1, 2) -> S
+ROJO: (2, 1) -> O
 AZUL: (2, 2) -> S
-ROJO: (2, 5) -> O
-AZUL: (5, 5) -> S
-ROJO: (5, 2) -> O
-AZUL: (3, 3) -> S
-ROJO: (3, 4) -> O
-AZUL: (4, 4) -> S
-ROJO: (4, 3) -> O
-AZUL: (5, 3) -> S

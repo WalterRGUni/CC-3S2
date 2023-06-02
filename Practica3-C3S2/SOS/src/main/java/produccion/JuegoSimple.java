@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class JuegoSimple {
 
-  private int totalFilas = 8;
-  private int totalColumnas = 8;
+  private int totalFilas;
+  private int totalColumnas;
   private final List<LineaSos> lineasSos = new ArrayList<>();
   private Celda[][] tablero;
   private Turno turno = Turno.AZUL;
@@ -35,6 +35,10 @@ public class JuegoSimple {
 
   public StringBuilder getJuegoGuardado() {
     return juegoGuardado;
+  }
+
+  public void appendJuegoGuardado(String texto) {
+    juegoGuardado.append(texto);
   }
 
   public void setJuegoDebeGuardarse(boolean juegoDebeGuardarse) {

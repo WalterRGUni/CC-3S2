@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -179,7 +178,6 @@ public class SosGui extends JFrame {
      */
     private void dibujarLineas(Graphics g) {
       g.setColor(Color.LIGHT_GRAY);
-
       for (int fila = 0; fila <= juego.getTamanioTablero(); fila++) {
         g.drawLine(0, fila * TAMANIO_CELDA, juego.getTamanioTablero() * TAMANIO_CELDA,
             fila * TAMANIO_CELDA);
@@ -407,6 +405,27 @@ public class SosGui extends JFrame {
         public void actionPerformed(ActionEvent e) {
           try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("juegoGuardado.txt"));
+            String primeraLinea = bufferedReader.readLine();
+            if (primeraLinea.startsWith("JS")) {
+              int tamanioTablero = Integer.parseInt(primeraLinea.substring(4));
+              juego = new JuegoSimple(tamanioTablero);
+            }
+            if (primeraLinea.startsWith("JG")) {
+              int tamanioTablero = Integer.parseInt(primeraLinea.substring(4));
+              juego = new JuegoGeneral(tamanioTablero);
+            }
+            if (primeraLinea.startsWith("AS")) {
+              int tamanioTablero = Integer.parseInt(primeraLinea.substring(4));
+              TipoJugador tipoJugadorAzul = primeraLinea.charAt(2) == 'H' ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
+              TipoJugador tipoJugadorRojo = primeraLinea.charAt(3) == 'H' ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
+              juego = new AutoJuegoSimple(tamanioTablero, tipoJugadorAzul, tipoJugadorRojo);
+            }
+            if (primeraLinea.startsWith("AG")) {
+              int tamanioTablero = Integer.parseInt(primeraLinea.substring(4));
+              TipoJugador tipoJugadorAzul = primeraLinea.charAt(2) == 'H' ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
+              TipoJugador tipoJugadorRojo = primeraLinea.charAt(3) == 'H' ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
+              juego = new AutoJuegoGeneral(tamanioTablero, tipoJugadorAzul, tipoJugadorRojo);
+            }
             Timer timer = new Timer(1000, new ActionListener() {
 
               @Override
@@ -429,10 +448,9 @@ public class SosGui extends JFrame {
               }
             });
             timer.start();
-          } catch (FileNotFoundException ex) {
+          } catch (IOException ex) {
             System.out.println(ex.getMessage());
           }
-          juego = new JuegoSimple(8);
         }
       });
 
@@ -443,13 +461,13 @@ public class SosGui extends JFrame {
   private Celda leerCelda(String linea) {
     if (Character.isDigit(linea.charAt(8))) {
       if (Character.isDigit(linea.charAt(12))) {
-        if(linea.charAt(18) == 'S'){
+        if (linea.charAt(18) == 'S') {
           return Celda.S;
         } else {
           return Celda.O;
         }
       } else {
-        if(linea.charAt(17) == 'S'){
+        if (linea.charAt(17) == 'S') {
           return Celda.S;
         } else {
           return Celda.O;
@@ -457,13 +475,13 @@ public class SosGui extends JFrame {
       }
     } else {
       if (Character.isDigit(linea.charAt(11))) {
-        if(linea.charAt(17) == 'S'){
+        if (linea.charAt(17) == 'S') {
           return Celda.S;
         } else {
           return Celda.O;
         }
       } else {
-        if(linea.charAt(16) == 'S'){
+        if (linea.charAt(16) == 'S') {
           return Celda.S;
         } else {
           return Celda.O;
@@ -561,18 +579,34 @@ public class SosGui extends JFrame {
           if (btnJuegoSimple.isSelected() && btnHumanoAzul.isSelected()
               && btnHumanoRojo.isSelected()) {
             juego = new JuegoSimple(tamanioTab);
+            if (btnGrabarJuego.isSelected()) {
+              juego.appendJuegoGuardado(String.format("JS  %d%n", tamanioTab));
+            }
           }
           if (btnJuegoSimple.isSelected() && (btnComputadoraAzul.isSelected()
               || btnComputadoraRojo.isSelected())) {
             juego = new AutoJuegoSimple(tamanioTab, jugadorAzul, jugadorRojo);
+            if (btnGrabarJuego.isSelected()) {
+              String azul = jugadorAzul == TipoJugador.HUMANO ? "H" : "C";
+              String rojo = jugadorRojo == TipoJugador.HUMANO ? "H" : "C";
+              juego.appendJuegoGuardado(String.format("AS%S%S%d%n", azul, rojo, tamanioTab));
+            }
           }
           if (btnJuegoGeneral.isSelected() && btnHumanoAzul.isSelected()
               && btnHumanoRojo.isSelected()) {
             juego = new JuegoGeneral(tamanioTab);
+            if (btnGrabarJuego.isSelected()) {
+              juego.appendJuegoGuardado(String.format("JG  %d%n", tamanioTab));
+            }
           }
           if (btnJuegoGeneral.isSelected() && (btnComputadoraAzul.isSelected()
               || btnComputadoraRojo.isSelected())) {
             juego = new AutoJuegoGeneral(tamanioTab, jugadorAzul, jugadorRojo);
+            if (btnGrabarJuego.isSelected()) {
+              String azul = jugadorAzul == TipoJugador.HUMANO ? "H" : "C";
+              String rojo = jugadorRojo == TipoJugador.HUMANO ? "H" : "C";
+              juego.appendJuegoGuardado(String.format("AG%S%S%d%n", azul, rojo, tamanioTab));
+            }
           }
           if (btnGrabarJuego.isSelected()) {
             juego.setJuegoDebeGuardarse(true);
