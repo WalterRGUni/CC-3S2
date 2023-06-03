@@ -5,29 +5,31 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JPanel;
 
 /**
  * Representa un juego simple SOS.
  */
 public class JuegoSimple {
 
-  private int totalFilas;
-  private int totalColumnas;
+  private int totalFilas; // número de filas del tablero
+  private int totalColumnas; // número de columnas del tablero
   private final List<LineaSos> lineasSos = new ArrayList<>();
   private Celda[][] tablero;
   private Turno turno = Turno.AZUL;
   private EstadoJuego estadoJuegoActual = EstadoJuego.JUGANDO;
   ;
-  protected boolean juegoDebeGuardarse = false;
-  private final StringBuilder juegoGuardado = new StringBuilder();
-  private SosGui gui;
-  private boolean pruebas =false;
+  private boolean juegoDebeGuardarse = false;
+  private final StringBuilder juegoGuardado = new StringBuilder(); // Guarda las jugadas
+  private SosGui gui; // GUI asociado a este juego
+  private boolean pruebas = false; // indica si se está ejecutando pruebas
 
   public JuegoSimple(int tamanio) {
     setTablero(tamanio);
   }
 
+  /**
+   * Guarda la cadena de texto juegoGuardado en el archivo juegoGuardado.txt
+   */
   public void guardarJuego() {
     try (PrintWriter out = new PrintWriter("juegoGuardado.txt")) {
       out.print(juegoGuardado);
@@ -36,6 +38,10 @@ public class JuegoSimple {
     }
   }
 
+  /**
+   * indica si se está ejecutando pruebas
+   * @return true si se está ejecutando pruebas o false en caso contrario
+   */
   public boolean isPruebas() {
     return pruebas;
   }
@@ -64,6 +70,10 @@ public class JuegoSimple {
     this.juegoDebeGuardarse = juegoDebeGuardarse;
   }
 
+  public boolean isJuegoDebeGuardarse() {
+    return juegoDebeGuardarse;
+  }
+
   public int getTotalFilas() {
     return totalFilas;
   }
@@ -76,6 +86,10 @@ public class JuegoSimple {
     return lineasSos;
   }
 
+  /**
+   * Inicializa el tablero con celdas vacías
+   * @param tamanio número de filas o columnas del tablero
+   */
   public void setTablero(int tamanio) {
     if (tamanio > 2 && tamanio <= 20) {
       tablero = new Celda[tamanio][tamanio];
@@ -91,10 +105,6 @@ public class JuegoSimple {
 
   public int getTamanioTablero() {
     return totalFilas;
-  }
-
-  public void setTurno(Turno turno) {
-    this.turno = turno;
   }
 
   public Turno getTurno() {
@@ -124,7 +134,7 @@ public class JuegoSimple {
   }
 
   /**
-   * Llena la celda en la fila y columna seleccionada con el valor dado por valor Celda
+   * Realiza un movimiento del juego
    *
    * @param fila       fila de celda en la que se realiza el movimiento
    * @param columna    columna de celda en la que se realiza el movimiento
@@ -139,13 +149,27 @@ public class JuegoSimple {
       }
       actualizarEstadoJuego(fila, columna);
       if (getEstadoJuego() == EstadoJuego.JUGANDO) {
-        setTurno((getTurno() == Turno.ROJO) ? Turno.AZUL : Turno.ROJO);
+        cambiarTurno();
       } else if (juegoDebeGuardarse) {
         guardarJuego();
       }
     }
   }
 
+  /**
+   * Cambia de turno de rojo a azul y viceversa
+   */
+  public void cambiarTurno() {
+    turno = (getTurno() == Turno.ROJO) ? Turno.AZUL : Turno.ROJO;
+  }
+
+  /**
+   * Añade la jugada actual a la cadena de texto juegoGuardado
+   *
+   * @param fila       fila de la jugada
+   * @param columna    columna de la jugada
+   * @param valorCelda valor de la celda de la jugada
+   */
   public void guardarJugada(int fila, int columna, Celda valorCelda) {
     juegoGuardado.append(String.format("%s: (%d, %d) -> %s%n", turno, fila, columna, valorCelda));
   }

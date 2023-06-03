@@ -23,14 +23,14 @@ public class JuegoGeneral extends JuegoSimple {
     if (fila >= 0 && fila < getTotalFilas() && columna >= 0 && columna < getTotalColumnas()
         && getCelda(fila, columna) == Celda.VACIA) {
       setCelda(fila, columna, valorCelda);
-      if (juegoDebeGuardarse) {
+      if (isJuegoDebeGuardarse()) {
         guardarJugada(fila, columna, valorCelda);
       }
       actualizarEstadoJuego(fila, columna);
       if (!hizoSos(fila, columna) && getEstadoJuego() == EstadoJuego.JUGANDO) {
-        setTurno((getTurno() == Turno.ROJO) ? Turno.AZUL : Turno.ROJO);
+        cambiarTurno();
       }
-      if(getEstadoJuego() != EstadoJuego.JUGANDO && juegoDebeGuardarse){
+      if(getEstadoJuego() != EstadoJuego.JUGANDO && isJuegoDebeGuardarse()){
         guardarJuego();
       }
     }
