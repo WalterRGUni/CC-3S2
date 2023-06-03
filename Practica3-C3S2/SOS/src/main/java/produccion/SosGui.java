@@ -578,6 +578,7 @@ public class SosGui extends JFrame {
           if (btnGrabarJuego.isSelected()) {
             juego.setJuegoDebeGuardarse(true);
           }
+          juego.setPanelCentral(panelCentral);
           juego.appendJuegoGuardado(String.valueOf(tamanioTab) + "\n");
           panelCentral.repaint();
           if (btnComputadoraAzul.isSelected()) {

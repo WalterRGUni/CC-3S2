@@ -6,6 +6,7 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
 
   private TipoJugador jugadorAzul; // Tipo de jugador(Computadora o Humano)
   private TipoJugador jugadorRojo; // Tipo de jugador(Computadora o Humano)
+  private final int AUTO_TIEMPO = 700; // Tiempo de respuesta de las jugadas de la computadora
 
   public AutoJuegoSimple(int tamanio, TipoJugador jugadorAzul, TipoJugador jugadorRojo) {
     super(tamanio);
@@ -43,14 +44,18 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
       realizarAutoMovimiento();
     } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.HUMANO) {
       super.realizarMovimiento(fila, columna, celda);
-      if ((getEstadoJuego() == EstadoJuego.JUGANDO)) {
+      if (isPruebas()) {
         realizarAutoMovimiento();
+        return;
       }
+      movimientoConRetardo();
     } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.HUMANO) {
       super.realizarMovimiento(fila, columna, celda);
-      if ((getEstadoJuego() == EstadoJuego.JUGANDO)) {
+      if (isPruebas()) {
         realizarAutoMovimiento();
+        return;
       }
+      movimientoConRetardo();
     }
     // Si ambos jugadores son la computadora continúa realizando jugadas hasta que ya no haya celdas vacías
     if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
@@ -62,6 +67,24 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
         }
       }
     }
+  }
+
+  private void movimientoConRetardo() {
+    Thread t = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        if ((getEstadoJuego() == EstadoJuego.JUGANDO)) {
+          try {
+            Thread.sleep(AUTO_TIEMPO);
+          } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+          realizarAutoMovimiento();
+          getPanelCentral().repaint();
+        }
+      }
+    });
+    t.start();
   }
 
 

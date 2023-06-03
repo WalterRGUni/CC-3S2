@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 /**
  * Representa un juego simple SOS.
@@ -16,9 +17,12 @@ public class JuegoSimple {
   private final List<LineaSos> lineasSos = new ArrayList<>();
   private Celda[][] tablero;
   private Turno turno = Turno.AZUL;
-  private EstadoJuego estadoJuegoActual = EstadoJuego.JUGANDO;;
+  private EstadoJuego estadoJuegoActual = EstadoJuego.JUGANDO;
+  ;
   protected boolean juegoDebeGuardarse = false;
   private final StringBuilder juegoGuardado = new StringBuilder();
+  private JPanel panelCentral;
+  private boolean pruebas =false;
 
   public JuegoSimple(int tamanio) {
     setTablero(tamanio);
@@ -30,6 +34,22 @@ public class JuegoSimple {
     } catch (FileNotFoundException e) {
       System.out.println(e.getMessage());
     }
+  }
+
+  public boolean isPruebas() {
+    return pruebas;
+  }
+
+  public void setPruebas(boolean pruebas) {
+    this.pruebas = pruebas;
+  }
+
+  public JPanel getPanelCentral() {
+    return panelCentral;
+  }
+
+  public void setPanelCentral(JPanel panelCentral) {
+    this.panelCentral = panelCentral;
   }
 
   public StringBuilder getJuegoGuardado() {

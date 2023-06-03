@@ -22,6 +22,7 @@ public class TestAutoJuegoSimple {
   @Test
   public void testMovimientoComputadoraAutoJuegoSimple() {
     juego = new AutoJuegoSimple(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
+    juego.setPruebas(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
     juego.realizarMovimiento(1, 1, Celda.S); // movimiento Humano
 
@@ -33,8 +34,8 @@ public class TestAutoJuegoSimple {
   @Test
   public void testAutoJuegoSimpleCompletoHumanoAzulComputadoraRojo() {
     juego = new AutoJuegoSimple(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
+    juego.setPruebas(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
-
     while (juego.getEstadoJuego() == EstadoJuego.JUGANDO) {
       for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
@@ -53,6 +54,7 @@ public class TestAutoJuegoSimple {
   @Test
   public void testAutoJuegoSimpleCompletoComputadoraAzulComputadoraRoja() {
     juego = new AutoJuegoSimple(3, TipoJugador.COMPUTADORA, TipoJugador.COMPUTADORA);
+    juego.setPruebas(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
     juego.realizarMovimiento(0, 0, Celda.S); // Sirve para iniciar el juego, la computadora
     // ignora la fila y columna y realiza un movimiento aleatorio
@@ -66,8 +68,8 @@ public class TestAutoJuegoSimple {
   public void testGuardarAutoJuegoSimple() {
     Random random = new Random();
     Celda celda;
-
     juego = new AutoJuegoSimple(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
+    juego.setPruebas(true);
     juego.setJuegoDebeGuardarse(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
 

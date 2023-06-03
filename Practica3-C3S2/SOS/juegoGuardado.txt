@@ -1,9 +1,7 @@
+JS8
 AZUL: (0, 0) -> S
-ROJO: (0, 1) -> O
-AZUL: (0, 2) -> S
-AZUL: (1, 0) -> S
-ROJO: (1, 1) -> S
-AZUL: (1, 2) -> S
-ROJO: (2, 0) -> S
-AZUL: (2, 1) -> S
-ROJO: (2, 2) -> S
+ROJO: (5, 2) -> S
+AZUL: (0, 7) -> S
+ROJO: (4, 5) -> O
+AZUL: (7, 0) -> S
+ROJO: (6, 1) -> O
