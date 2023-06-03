@@ -57,6 +57,7 @@ public class SosGui extends JFrame {
   private JTextField txtTamanioTablero;
   private JCheckBox btnGrabarJuego;
   private JButton btnReproducir;
+  private int ladoTablero;
 
   /**
    * Crea la interfaz de acuerdo al tipo de juego
@@ -74,6 +75,14 @@ public class SosGui extends JFrame {
 
   public void setTipoJuego(JuegoSimple juego) {
     this.juego = juego;
+  }
+
+  public int getLadoTablero() {
+    return ladoTablero;
+  }
+
+  public PanelCentral getPanelCentral() {
+    return panelCentral;
   }
 
   public JuegoSimple getTipoJuego() {
@@ -551,6 +560,7 @@ public class SosGui extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
           int tamanioTab = Integer.parseInt(txtTamanioTablero.getText());
+          ladoTablero = TAMANIO_CELDA * tamanioTab;
           TipoJugador jugadorAzul =
               btnHumanoAzul.isSelected() ? TipoJugador.HUMANO : TipoJugador.COMPUTADORA;
           TipoJugador jugadorRojo =
@@ -578,9 +588,10 @@ public class SosGui extends JFrame {
           if (btnGrabarJuego.isSelected()) {
             juego.setJuegoDebeGuardarse(true);
           }
-          juego.setPanelCentral(panelCentral);
-          juego.appendJuegoGuardado(String.valueOf(tamanioTab) + "\n");
-          panelCentral.repaint();
+          juego.setGui(SosGui.this);
+          juego.appendJuegoGuardado(tamanioTab + "\n");
+          panelCentral.paintImmediately(0, 0, 241, 241);
+//          panelCentral.repaint();
           if (btnComputadoraAzul.isSelected()) {
             Celda celda;
             if (btnSAzul.isSelected()) {
@@ -589,7 +600,6 @@ public class SosGui extends JFrame {
               celda = Celda.O;
             }
             juego.realizarMovimiento(0, 0, celda);
-            panelCentral.repaint();
           }
         }
       });

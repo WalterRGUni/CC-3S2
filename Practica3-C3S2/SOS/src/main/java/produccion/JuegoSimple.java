@@ -21,7 +21,7 @@ public class JuegoSimple {
   ;
   protected boolean juegoDebeGuardarse = false;
   private final StringBuilder juegoGuardado = new StringBuilder();
-  private JPanel panelCentral;
+  private SosGui gui;
   private boolean pruebas =false;
 
   public JuegoSimple(int tamanio) {
@@ -44,12 +44,12 @@ public class JuegoSimple {
     this.pruebas = pruebas;
   }
 
-  public JPanel getPanelCentral() {
-    return panelCentral;
+  public SosGui getGui() {
+    return gui;
   }
 
-  public void setPanelCentral(JPanel panelCentral) {
-    this.panelCentral = panelCentral;
+  public void setGui(SosGui gui) {
+    this.gui = gui;
   }
 
   public StringBuilder getJuegoGuardado() {

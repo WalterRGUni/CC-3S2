@@ -38,55 +38,56 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
     if (getEstadoJuego() != EstadoJuego.JUGANDO) {
       return;
     }
-    if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.COMPUTADORA) {
+    // Si ambos jugadores son la computadora continúa realizando jugadas hasta que ya no haya celdas vacías
+    if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
+      int ladoTablero = getGui().getLadoTablero();
+      System.out.println("ladoTablero: " + ladoTablero);
+      while (getEstadoJuego() == EstadoJuego.JUGANDO) {
+        realizarAutoMovimiento();
+        if (isPruebas()) {
+          continue;
+        }
+        getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
+        try {
+          Thread.sleep(AUTO_TIEMPO);
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.COMPUTADORA) {
       realizarAutoMovimiento();
     } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.COMPUTADORA) {
       realizarAutoMovimiento();
     } else if (getTurno() == Turno.ROJO && jugadorRojo == TipoJugador.HUMANO) {
       super.realizarMovimiento(fila, columna, celda);
-      if (isPruebas()) {
+      if(isPruebas()){
         realizarAutoMovimiento();
-        return;
+      } else {
+        int ladoTablero = getGui().getLadoTablero();
+        getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
+        try {
+          Thread.sleep(AUTO_TIEMPO);
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+        }
+        realizarAutoMovimiento();
       }
-      movimientoConRetardo();
     } else if (getTurno() == Turno.AZUL && jugadorAzul == TipoJugador.HUMANO) {
       super.realizarMovimiento(fila, columna, celda);
-      if (isPruebas()) {
+      if(isPruebas()){
         realizarAutoMovimiento();
-        return;
-      }
-      movimientoConRetardo();
-    }
-    // Si ambos jugadores son la computadora continúa realizando jugadas hasta que ya no haya celdas vacías
-    if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
-      while (getEstadoJuego() == EstadoJuego.JUGANDO) {
-        if (getTurno() == Turno.AZUL) {
-          realizarAutoMovimiento();
-        } else if (getTurno() == Turno.ROJO) {
-          realizarAutoMovimiento();
+      } else {
+        int ladoTablero = getGui().getLadoTablero();
+        getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
+        try {
+          Thread.sleep(AUTO_TIEMPO);
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
         }
+        realizarAutoMovimiento();
       }
     }
   }
-
-  private void movimientoConRetardo() {
-    Thread t = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        if ((getEstadoJuego() == EstadoJuego.JUGANDO)) {
-          try {
-            Thread.sleep(AUTO_TIEMPO);
-          } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-          }
-          realizarAutoMovimiento();
-          getPanelCentral().repaint();
-        }
-      }
-    });
-    t.start();
-  }
-
 
   /**
    * Intenta realizar una jugada ganadora y si no puede realiza un movimiento aleatorio

@@ -18,14 +18,11 @@ public class TestAutoJuegoGeneral {
 
   private AutoJuegoGeneral juego;
 
-  @BeforeEach
-  public void setUp() {
-    juego = new AutoJuegoGeneral(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
-  }
-
   // Criterio de aceptación 9.2
   @Test
   public void testMovimientoComputadoraAutoJuegoGeneral() {
+    juego = new AutoJuegoGeneral(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
+    juego.setPruebas(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
     juego.realizarMovimiento(1, 1, Celda.S); // movimiento Humano
 
@@ -37,6 +34,7 @@ public class TestAutoJuegoGeneral {
   @Test
   public void testAutoJuegoGeneralCompletoHumanoAzulComputadoraRojo() {
     juego = new AutoJuegoGeneral(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
+    juego.setPruebas(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
 
     while (juego.getEstadoJuego() == EstadoJuego.JUGANDO) {
@@ -55,6 +53,7 @@ public class TestAutoJuegoGeneral {
   @Test
   public void testAutoJuegoGeneralCompletoComputadoraAzulComputadoraRoja() {
     juego = new AutoJuegoGeneral(3, TipoJugador.COMPUTADORA, TipoJugador.COMPUTADORA);
+    juego.setPruebas(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
     juego.realizarMovimiento(0, 0, Celda.S); // Sirve para iniciar el juego, la computadora
     // ignora la fila y columna y realiza un movimiento aleatorio
@@ -66,7 +65,8 @@ public class TestAutoJuegoGeneral {
   public void testGuardarAutoJuegoGeneral() {
     Random random = new Random();
     Celda celda;
-
+    juego = new AutoJuegoGeneral(3, TipoJugador.HUMANO, TipoJugador.COMPUTADORA);
+    juego.setPruebas(true);
     juego.setJuegoDebeGuardarse(true);
     juego.setEstadoJuego(EstadoJuego.JUGANDO);
 
