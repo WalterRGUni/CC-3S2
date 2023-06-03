@@ -40,13 +40,12 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
     }
     // Si ambos jugadores son la computadora continúa realizando jugadas hasta que ya no haya celdas vacías
     if (jugadorAzul == TipoJugador.COMPUTADORA && jugadorRojo == TipoJugador.COMPUTADORA) {
-      int ladoTablero = getGui().getLadoTablero();
-      System.out.println("ladoTablero: " + ladoTablero);
       while (getEstadoJuego() == EstadoJuego.JUGANDO) {
         realizarAutoMovimiento();
         if (isPruebas()) {
           continue;
         }
+        int ladoTablero = getGui().getLadoTablero();
         getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
         try {
           Thread.sleep(AUTO_TIEMPO);
@@ -94,12 +93,10 @@ public class AutoJuegoSimple extends JuegoSimple implements AutoJuego {
    *
    * @return true (solo para cumplir con la interfaz AutoJuego)
    */
-  @Override
-  public boolean realizarAutoMovimiento() {
+  public void realizarAutoMovimiento() {
     if (!realizarJugadaGanadora()) {
       realizarMovimientoAleatorio();
     }
-    return true;
   }
 
   /**

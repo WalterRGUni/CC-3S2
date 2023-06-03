@@ -12,16 +12,7 @@ public interface AutoJuego {
   TipoJugador getTipoJugador(String jugador);
 
   /**
-   * La computadora realiza un movimiento
-   *
-   * @return true si hizo SOS o false si hizo un movimiento aleatorio
-   */
-  boolean realizarAutoMovimiento();
-
-  /**
    * Realiza un movimiento aleatorio en cualquier celda vacía
-   *
-   * @param celda El valor de la celda (S u O)
    */
   void realizarMovimientoAleatorio();
 }

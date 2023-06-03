@@ -137,20 +137,6 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
     }
 
     /**
-     * Intenta realizar una jugada SOS y si no puede realiza un movimiento aleatorio
-     *
-     * @return true si realizó una jugada SOS y false si hizo un movimiento aleatorio
-     */
-    @Override
-    public boolean realizarAutoMovimiento() {
-        if (!realizaJugadaSos()) {
-            realizarMovimientoAleatorio();
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Verifica en todo el tablero si al insertar un valor realizará SOS
      *
      * @return true si realiza SOS o false en caso contrario
