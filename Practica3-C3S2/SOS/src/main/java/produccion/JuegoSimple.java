@@ -1,8 +1,9 @@
 package produccion;
 
+import static produccion.Guardado.guardarJuego;
+import static produccion.Guardado.guardarJugada;
+
 import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,23 +20,14 @@ public class JuegoSimple {
   private EstadoJuego estadoJuegoActual = EstadoJuego.JUGANDO;
   ;
   private boolean juegoDebeGuardarse = false;
-  private final StringBuilder juegoGuardado = new StringBuilder(); // Guarda las jugadas
+  private StringBuilder juegoGuardado = new StringBuilder(); // Guarda las jugadas
   private SosGui gui; // GUI asociado a este juego
   private boolean pruebas = false; // indica si se está ejecutando pruebas
+  private final int TAMANIO_MINIMO_TABLERO = 2; // número mínimo de filas o columnas de un tablero
+  private final int TAMANIO_MAXIMO_TABLERO = 20; // número máximo de filas o columnas de un tablero
 
   public JuegoSimple(int tamanio) {
     setTablero(tamanio);
-  }
-
-  /**
-   * Guarda la cadena de texto juegoGuardado en el archivo juegoGuardado.txt
-   */
-  public void guardarJuego() {
-    try (PrintWriter out = new PrintWriter("juegoGuardado.txt")) {
-      out.print(juegoGuardado);
-    } catch (FileNotFoundException e) {
-      System.out.println(e.getMessage());
-    }
   }
 
   /**
@@ -91,7 +83,7 @@ public class JuegoSimple {
    * @param tamanio número de filas o columnas del tablero
    */
   public void setTablero(int tamanio) {
-    if (tamanio > 2 && tamanio <= 20) {
+    if (tamanio > TAMANIO_MINIMO_TABLERO && tamanio <= TAMANIO_MAXIMO_TABLERO) {
       tablero = new Celda[tamanio][tamanio];
       totalFilas = tamanio;
       totalColumnas = tamanio;
@@ -145,13 +137,13 @@ public class JuegoSimple {
         && getCelda(fila, columna) == Celda.VACIA) {
       setCelda(fila, columna, valorCelda);
       if (juegoDebeGuardarse) {
-        guardarJugada(fila, columna, valorCelda);
+        guardarJugada(fila, columna, valorCelda, turno, juegoGuardado);
       }
       actualizarEstadoJuego(fila, columna);
       if (getEstadoJuego() == EstadoJuego.JUGANDO) {
         cambiarTurno();
       } else if (juegoDebeGuardarse) {
-        guardarJuego();
+        guardarJuego(juegoGuardado);
       }
     }
   }
@@ -164,17 +156,6 @@ public class JuegoSimple {
   }
 
   /**
-   * Añade la jugada actual a la cadena de texto juegoGuardado
-   *
-   * @param fila       fila de la jugada
-   * @param columna    columna de la jugada
-   * @param valorCelda valor de la celda de la jugada
-   */
-  public void guardarJugada(int fila, int columna, Celda valorCelda) {
-    juegoGuardado.append(String.format("%s: (%d, %d) -> %s%n", turno, fila, columna, valorCelda));
-  }
-
-  /**
    * Actualiza el estado de juego según haya ganado el azul, rojo o haya un empate
    *
    * @param fila    fila del movimiento actual
@@ -184,36 +165,29 @@ public class JuegoSimple {
     if (hizoSos(fila, columna)) {
       //ganador = getTurno();
       estadoJuegoActual = (turno == Turno.ROJO) ? EstadoJuego.GANO_ROJO : EstadoJuego.GANO_AZUL;
-    } else if (esEmpate()) {
+    } else if (getNumeroCeldasVacias() == 0) {
       estadoJuegoActual = EstadoJuego.EMPATE;
     }
   }
 
   /**
-   * Este método se llama después de verificar que no hubo SOS Verifica que no hay más celdas vacías
-   * y por lo tanto es empate
-   *
-   * @return true cuando hay empate
-   */
-  public boolean esEmpate() {
-    for (int fila = 0; fila < totalFilas; ++fila) {
-      for (int col = 0; col < totalColumnas; ++col) {
-        if (tablero[fila][col] == Celda.VACIA) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Verifica si el movimiento actual forma uno o más SOS, los añade a la lista "lineasSos"
+   * Verifica si el movimiento actual forma SOS en el tablero
    *
    * @param fila fila del movimiento actual
    * @param col  columna del movimiento actual
-   * @return true si se ha formado uno o mas SOS, caso contrario retorna false
+   * @return true si el movimiento actual forma SOS en el tablero o false en caso contrario
    */
   public boolean hizoSos(int fila, int col) {
+    return hizoSosConS(fila, col) || hizoSosConO(fila, col);
+  }
+
+  /**
+   * Verifica si el movimiento actual colocó una S en el tablero y se formó SOS
+   * @param fila fila del movimiento actual
+   * @param col columna del movimiento actual
+   * @return true si el movimiento actual forma SOS en el tablero o false en caso contrario
+   */
+  public boolean hizoSosConS (int fila, int col){
     if (getCelda(fila, col) == Celda.S) {
       if (col > 1 && getCelda(fila, col - 1) == Celda.O && getCelda(fila, col - 2) == Celda.S) {
         aniadirLineaSos(col, fila, col - 2, fila);
@@ -254,6 +228,16 @@ public class JuegoSimple {
         return true;
       }
     }
+    return false;
+  }
+
+  /**
+   * Verifica si el movimiento actual colocó una O en el tablero y se formó SOS
+   * @param fila fila del movimiento actual
+   * @param col columna del movimiento actual
+   * @return true si el movimiento actual forma SOS en el tablero o false en caso contrario
+   */
+  public boolean hizoSosConO (int fila, int col){
     if (getCelda(fila, col) == Celda.O) {
       if (col > 0 && col < getColumnasTotales() - 1 && getCelda(fila, col - 1) == Celda.S
           && getCelda(fila, col + 1) == Celda.S) {

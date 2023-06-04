@@ -1,5 +1,8 @@
 package produccion;
 
+import static produccion.Guardado.guardarJuego;
+import static produccion.Guardado.guardarJugada;
+
 public class JuegoGeneral extends JuegoSimple {
 
   private int numeroSosAzul; // puntos del jugador azul
@@ -24,14 +27,14 @@ public class JuegoGeneral extends JuegoSimple {
         && getCelda(fila, columna) == Celda.VACIA) {
       setCelda(fila, columna, valorCelda);
       if (isJuegoDebeGuardarse()) {
-        guardarJugada(fila, columna, valorCelda);
+        guardarJugada(fila, columna, valorCelda, getTurno(), getJuegoGuardado());
       }
       actualizarEstadoJuego(fila, columna);
       if (!hizoSos(fila, columna) && getEstadoJuego() == EstadoJuego.JUGANDO) {
         cambiarTurno();
       }
       if(getEstadoJuego() != EstadoJuego.JUGANDO && isJuegoDebeGuardarse()){
-        guardarJuego();
+        guardarJuego(getJuegoGuardado());
       }
     }
   }
