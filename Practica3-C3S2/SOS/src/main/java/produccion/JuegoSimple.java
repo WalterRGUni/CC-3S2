@@ -3,13 +3,11 @@ package produccion;
 import static produccion.Guardado.guardarJuego;
 import static produccion.Guardado.guardarJugada;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Representa un juego simple SOS.
- */
+/** Representa un juego simple SOS. */
 public class JuegoSimple {
 
   private int totalFilas; // número de filas del tablero
@@ -18,7 +16,6 @@ public class JuegoSimple {
   private Celda[][] tablero;
   private Turno turno = Turno.AZUL;
   private EstadoJuego estadoJuegoActual = EstadoJuego.JUGANDO;
-  ;
   private boolean juegoDebeGuardarse = false;
   private StringBuilder juegoGuardado = new StringBuilder(); // Guarda las jugadas
   private SosGui gui; // GUI asociado a este juego
@@ -26,12 +23,13 @@ public class JuegoSimple {
   private final int TAMANIO_MINIMO_TABLERO = 2; // número mínimo de filas o columnas de un tablero
   private final int TAMANIO_MAXIMO_TABLERO = 20; // número máximo de filas o columnas de un tablero
 
-  public JuegoSimple(int tamanio) {
-    setTablero(tamanio);
+  public JuegoSimple(int tamanioTablero) {
+    setTablero(tamanioTablero);
   }
 
   /**
    * indica si se está ejecutando pruebas
+   *
    * @return true si se está ejecutando pruebas o false en caso contrario
    */
   public boolean isPruebas() {
@@ -62,7 +60,7 @@ public class JuegoSimple {
     this.juegoDebeGuardarse = juegoDebeGuardarse;
   }
 
-  public boolean isJuegoDebeGuardarse() {
+  public boolean juegoDebeGuardarse() {
     return juegoDebeGuardarse;
   }
 
@@ -80,6 +78,7 @@ public class JuegoSimple {
 
   /**
    * Inicializa el tablero con celdas vacías
+   *
    * @param tamanio número de filas o columnas del tablero
    */
   public void setTablero(int tamanio) {
@@ -128,13 +127,12 @@ public class JuegoSimple {
   /**
    * Realiza un movimiento del juego
    *
-   * @param fila       fila de celda en la que se realiza el movimiento
-   * @param columna    columna de celda en la que se realiza el movimiento
+   * @param fila fila de celda en la que se realiza el movimiento
+   * @param columna columna de celda en la que se realiza el movimiento
    * @param valorCelda valor 'S' u 'O' que se pondrá en la celda
    */
   public void realizarMovimiento(int fila, int columna, Celda valorCelda) {
-    if (fila >= 0 && fila < totalFilas && columna >= 0 && columna < totalColumnas
-        && getCelda(fila, columna) == Celda.VACIA) {
+    if (isCeldaValida(fila, columna)) {
       setCelda(fila, columna, valorCelda);
       if (juegoDebeGuardarse) {
         guardarJugada(fila, columna, valorCelda, turno, juegoGuardado);
@@ -148,9 +146,15 @@ public class JuegoSimple {
     }
   }
 
-  /**
-   * Cambia de turno de rojo a azul y viceversa
-   */
+  public boolean isCeldaValida(int fila, int columna) {
+    return fila >= 0
+        && fila < totalFilas
+        && columna >= 0
+        && columna < totalColumnas
+        && getCelda(fila, columna) == Celda.VACIA;
+  }
+
+  /** Cambia de turno de rojo a azul y viceversa */
   public void cambiarTurno() {
     turno = (getTurno() == Turno.ROJO) ? Turno.AZUL : Turno.ROJO;
   }
@@ -158,12 +162,11 @@ public class JuegoSimple {
   /**
    * Actualiza el estado de juego según haya ganado el azul, rojo o haya un empate
    *
-   * @param fila    fila del movimiento actual
+   * @param fila fila del movimiento actual
    * @param columna columna del movimiento actual
    */
   public void actualizarEstadoJuego(int fila, int columna) {
     if (hizoSos(fila, columna)) {
-      //ganador = getTurno();
       estadoJuegoActual = (turno == Turno.ROJO) ? EstadoJuego.GANO_ROJO : EstadoJuego.GANO_AZUL;
     } else if (getNumeroCeldasVacias() == 0) {
       estadoJuegoActual = EstadoJuego.EMPATE;
@@ -174,7 +177,7 @@ public class JuegoSimple {
    * Verifica si el movimiento actual forma SOS en el tablero
    *
    * @param fila fila del movimiento actual
-   * @param col  columna del movimiento actual
+   * @param col columna del movimiento actual
    * @return true si el movimiento actual forma SOS en el tablero o false en caso contrario
    */
   public boolean hizoSos(int fila, int col) {
@@ -183,48 +186,105 @@ public class JuegoSimple {
 
   /**
    * Verifica si el movimiento actual colocó una S en el tablero y se formó SOS
+   *
    * @param fila fila del movimiento actual
    * @param col columna del movimiento actual
    * @return true si el movimiento actual forma SOS en el tablero o false en caso contrario
    */
-  public boolean hizoSosConS (int fila, int col){
+  public boolean hizoSosConS(int fila, int col) {
+    boolean realizoSos = false;
     if (getCelda(fila, col) == Celda.S) {
       if (col > 1 && getCelda(fila, col - 1) == Celda.O && getCelda(fila, col - 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col - 2, fila);
-        return true;
+        aniadirLineaSos(new int[] {col, fila, col - 2, fila});
+        realizoSos = true;
       }
-      if (col < getColumnasTotales() - 2 && getCelda(fila, col + 1) == Celda.O
+      if (col < getColumnasTotales() - 2
+          && getCelda(fila, col + 1) == Celda.O
           && getCelda(fila, col + 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col + 2, fila);
-        return true;
+        aniadirLineaSos(new int[] {col, fila, col + 2, fila});
+        realizoSos = true;
       }
       if (fila > 1 && getCelda(fila - 1, col) == Celda.O && getCelda(fila - 2, col) == Celda.S) {
-        aniadirLineaSos(col, fila, col, fila - 2);
-        return true;
+        aniadirLineaSos(new int[] {col, fila, col, fila - 2});
+        realizoSos = true;
       }
-      if (fila < getFilasTotales() - 2 && getCelda(fila + 1, col) == Celda.O
+      if (fila < getFilasTotales() - 2
+          && getCelda(fila + 1, col) == Celda.O
           && getCelda(fila + 2, col) == Celda.S) {
-        aniadirLineaSos(col, fila, col, fila + 2);
-        return true;
+        aniadirLineaSos(new int[] {col, fila, col, fila + 2});
+        realizoSos = true;
       }
-      if (fila > 1 && col > 1 && getCelda(fila - 1, col - 1) == Celda.O
+      if (fila > 1
+          && col > 1
+          && getCelda(fila - 1, col - 1) == Celda.O
           && getCelda(fila - 2, col - 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col - 2, fila - 2);
-        return true;
+        aniadirLineaSos(new int[] {col, fila, col - 2, fila - 2});
+        realizoSos = true;
       }
-      if (fila > 1 && col < getColumnasTotales() - 2 && getCelda(fila - 1, col + 1) == Celda.O
+      if (fila > 1
+          && col < getColumnasTotales() - 2
+          && getCelda(fila - 1, col + 1) == Celda.O
           && getCelda(fila - 2, col + 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col + 2, fila - 2);
-        return true;
+        aniadirLineaSos(new int[] {col, fila, col + 2, fila - 2});
+        realizoSos = true;
       }
-      if (fila < getFilasTotales() - 2 && col > 1 && getCelda(fila + 1, col - 1) == Celda.O
+      if (fila < getFilasTotales() - 2
+          && col > 1
+          && getCelda(fila + 1, col - 1) == Celda.O
           && getCelda(fila + 2, col - 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col - 2, fila + 2);
+        aniadirLineaSos(new int[] {col, fila, col - 2, fila + 2});
+        realizoSos = true;
+      }
+      if (fila < getFilasTotales() - 2
+          && col < getColumnasTotales() - 2
+          && getCelda(fila + 1, col + 1) == Celda.O
+          && getCelda(fila + 2, col + 2) == Celda.S) {
+        aniadirLineaSos(new int[] {col, fila, col + 2, fila + 2});
+        realizoSos = true;
+      }
+    }
+    return realizoSos;
+  }
+
+  /**
+   * Verifica si el movimiento actual colocó una O en el tablero y se formó SOS
+   *
+   * @param fila fila del movimiento actual
+   * @param col columna del movimiento actual
+   * @return true si el movimiento actual forma SOS en el tablero o false en caso contrario
+   */
+  public boolean hizoSosConO(int fila, int col) {
+    if (getCelda(fila, col) == Celda.O) {
+      if (col > 0
+          && col < getColumnasTotales() - 1
+          && getCelda(fila, col - 1) == Celda.S
+          && getCelda(fila, col + 1) == Celda.S) {
+        aniadirLineaSos(new int[] {col - 1, fila, col + 1, fila});
         return true;
       }
-      if (fila < getFilasTotales() - 2 && col < getColumnasTotales() - 2
-          && getCelda(fila + 1, col + 1) == Celda.O && getCelda(fila + 2, col + 2) == Celda.S) {
-        aniadirLineaSos(col, fila, col + 2, fila + 2);
+      if (fila > 0
+          && fila < getFilasTotales() - 1
+          && getCelda(fila - 1, col) == Celda.S
+          && getCelda(fila + 1, col) == Celda.S) {
+        aniadirLineaSos(new int[] {col, fila - 1, col, fila + 1});
+        return true;
+      }
+      if (fila > 0
+          && fila < getFilasTotales() - 1
+          && col > 0
+          && col < getColumnasTotales() - 1
+          && getCelda(fila - 1, col - 1) == Celda.S
+          && getCelda(fila + 1, col + 1) == Celda.S) {
+        aniadirLineaSos(new int[] {col - 1, fila - 1, col + 1, fila + 1});
+        return true;
+      }
+      if (fila > 0
+          && fila < getFilasTotales() - 1
+          && col > 0
+          && col < getColumnasTotales() - 1
+          && getCelda(fila - 1, col + 1) == Celda.S
+          && getCelda(fila + 1, col - 1) == Celda.S) {
+        aniadirLineaSos(new int[] {col + 1, fila - 1, col - 1, fila + 1});
         return true;
       }
     }
@@ -232,40 +292,15 @@ public class JuegoSimple {
   }
 
   /**
-   * Verifica si el movimiento actual colocó una O en el tablero y se formó SOS
-   * @param fila fila del movimiento actual
-   * @param col columna del movimiento actual
-   * @return true si el movimiento actual forma SOS en el tablero o false en caso contrario
+   * Añade una linea SOS a la lista lineasSos
+   *
+   * @param coord arreglo que contiene las filas y columnas de las celdas en la que están los puntos
+   *     extremos de la línea SOS en el orden: fila celda1, columna celda1, fila celda2, columna
+   *     celda2.
    */
-  public boolean hizoSosConO (int fila, int col){
-    if (getCelda(fila, col) == Celda.O) {
-      if (col > 0 && col < getColumnasTotales() - 1 && getCelda(fila, col - 1) == Celda.S
-          && getCelda(fila, col + 1) == Celda.S) {
-        aniadirLineaSos(col - 1, fila, col + 1, fila);
-        return true;
-      }
-      if (fila > 0 && fila < getFilasTotales() - 1 && getCelda(fila - 1, col) == Celda.S
-          && getCelda(fila + 1, col) == Celda.S) {
-        aniadirLineaSos(col, fila - 1, col, fila + 1);
-        return true;
-      }
-      if (fila > 0 && fila < getFilasTotales() - 1 && col > 0 && col < getColumnasTotales() - 1
-          && getCelda(fila - 1, col - 1) == Celda.S && getCelda(fila + 1, col + 1) == Celda.S) {
-        aniadirLineaSos(col - 1, fila - 1, col + 1, fila + 1);
-        return true;
-      }
-      if (fila > 0 && fila < getFilasTotales() - 1 && col > 0 && col < getColumnasTotales() - 1
-          && getCelda(fila - 1, col + 1) == Celda.S && getCelda(fila + 1, col - 1) == Celda.S) {
-        aniadirLineaSos(col + 1, fila - 1, col - 1, fila + 1);
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public void aniadirLineaSos(int col1, int fil1, int col2, int fil2) {
-    lineasSos.add(
-        new LineaSos(col1, fil1, col2, fil2, getTurno() == Turno.ROJO ? Color.RED : Color.BLUE));
+  public void aniadirLineaSos(int[] coord) {
+    Color color = getTurno() == Turno.ROJO ? Color.RED : Color.BLUE;
+    lineasSos.add(new LineaSos(coord, color));
   }
 
   public EstadoJuego getEstadoJuego() {
@@ -287,5 +322,4 @@ public class JuegoSimple {
     }
     return numeroCeldasVacias;
   }
-
 }
