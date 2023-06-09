@@ -10,3 +10,4 @@ public class UserGreeting {
                 profiles.fetchNicknameFor(id));
     }
 }
+

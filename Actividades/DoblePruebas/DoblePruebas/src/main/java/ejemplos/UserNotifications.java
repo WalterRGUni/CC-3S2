@@ -6,6 +6,7 @@ public class UserNotifications {
         this.mailServer = mailServer;
     }
     public void welcomeNewUser(String email) {
-
+        mailServer.sendEmail(email, "Bienvenido!",
+                "Bienvenido a tu cuenta");
     }
 }
