@@ -6,7 +6,6 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
 
   private TipoJugador jugadorAzul; // Tipo de jugador(Computadora o Humano)
   private TipoJugador jugadorRojo; // Tipo de jugador(Computadora o Humano)
-  private final int AUTO_TIEMPO = 700;
 
   public AutoJuegoGeneral(int tamanio, TipoJugador jugadorAzul, TipoJugador jugadorRojo) {
     super(tamanio);
@@ -51,7 +50,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
         int ladoTablero = getGui().getLadoTablero();
         getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
         try {
-          Thread.sleep(AUTO_TIEMPO);
+          Thread.sleep(AutoJuego.TIEMPO_JUGADA);
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
@@ -63,7 +62,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
       }
       int ladoTablero = getGui().getLadoTablero();
       try {
-        Thread.sleep(AUTO_TIEMPO);
+        Thread.sleep(AutoJuego.TIEMPO_JUGADA);
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
@@ -71,7 +70,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
       while (realizaJugadaSos()) {
         getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
         try {
-          Thread.sleep(AUTO_TIEMPO);
+          Thread.sleep(AutoJuego.TIEMPO_JUGADA);
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
@@ -90,7 +89,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
         int ladoTablero = getGui().getLadoTablero();
         getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
         try {
-          Thread.sleep(AUTO_TIEMPO);
+          Thread.sleep(AutoJuego.TIEMPO_JUGADA);
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
@@ -98,7 +97,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
         while (realizaJugadaSos()) {
           getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
           try {
-            Thread.sleep(AUTO_TIEMPO);
+            Thread.sleep(AutoJuego.TIEMPO_JUGADA);
           } catch (InterruptedException e) {
             throw new RuntimeException(e);
           }
@@ -116,7 +115,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
         int ladoTablero = getGui().getLadoTablero();
         getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
         try {
-          Thread.sleep(AUTO_TIEMPO);
+          Thread.sleep(AutoJuego.TIEMPO_JUGADA);
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
@@ -124,7 +123,7 @@ public class AutoJuegoGeneral extends JuegoGeneral implements AutoJuego {
         while (realizaJugadaSos()) {
           getGui().getPanelCentral().paintImmediately(0, 0, ladoTablero, ladoTablero);
           try {
-            Thread.sleep(AUTO_TIEMPO);
+            Thread.sleep(AutoJuego.TIEMPO_JUGADA);
           } catch (InterruptedException e) {
             throw new RuntimeException(e);
           }

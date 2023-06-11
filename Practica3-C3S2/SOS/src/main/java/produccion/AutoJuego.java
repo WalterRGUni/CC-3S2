@@ -5,6 +5,8 @@ package produccion;
  */
 public interface AutoJuego {
 
+  int TIEMPO_JUGADA = 700; // Duración de una jugada de la computadora en ms
+
   /**
    * @param jugador Color del jugador (Azul o Rojo)
    * @return el tipo de jugador (Computadora o Humano)
