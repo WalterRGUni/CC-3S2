@@ -9,6 +9,12 @@ public class Basket {
     private BigDecimal totalValue = BigDecimal.ZERO;
     private Map<Product, Integer> basket = new HashMap< >();
 
+    /**
+     * Precondiciones:
+     * - La cantidad ingresada (atyToAdd) debe ser mayor a cero
+     * Postcondiciones:
+     * - Se añade un elemento a basket con el producto y la cantidad dados
+     */
     public void add(Product product, int qtyToAdd) {
 
     }

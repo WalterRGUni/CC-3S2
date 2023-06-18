@@ -3,8 +3,8 @@ package Contract;
 public class TaxCalculator {
 
     /**
-     * Precondiciones: parámetro value >= 0
-     * Postcondiciones: valor devuelto >= 0
+     * Precondiciones: parámetro de entrada value >= 0
+     * Postcondiciones: valor devuelto taxValue >= 0
      */
     public double calculateTax(double value) {
         if(value < 0) {
