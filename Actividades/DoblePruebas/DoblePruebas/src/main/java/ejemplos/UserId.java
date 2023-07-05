@@ -1,7 +1,8 @@
 package ejemplos;
 
 public class UserId {
-    public UserId(String id){
-
+    private long id;
+    public UserId(long id){
+        this.id = id;
     }
 }

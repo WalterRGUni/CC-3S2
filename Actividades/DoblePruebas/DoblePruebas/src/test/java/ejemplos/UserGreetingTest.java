@@ -9,16 +9,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class UserGreetingTest {
+    private static  final UserId USER_ID  = new UserId(1234);
     @Mock
     private UserProfiles profiles;
 
     @Test
     void formatsGreetingWithName() {
-        when(profiles.fetchNicknameFor(any()))
+        when(profiles.fetchNicknameFor(USER_ID))
                 .thenReturn("Kapumota");
-        var greeting = new UserGreeting(profiles);
+        var greetings = new UserGreeting(profiles);
         String actual =
-                greeting.formatGreeting(new UserId(""));
+                greetings.formatGreeting(USER_ID);
         assertThat(actual)
                 .isEqualTo("Hola y bienvenido, Kapumota");
     }
