@@ -1,6 +1,7 @@
 public class EconomyFlight extends Flight {
+
     public EconomyFlight(String id) {
-        this.id = id;
+        super(id);
     }
 
     @Override

@@ -7,6 +7,10 @@ public abstract class Flight {
     protected String id;
     protected List<Passenger> passengers = new ArrayList<Passenger>();
 
+    public Flight(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }

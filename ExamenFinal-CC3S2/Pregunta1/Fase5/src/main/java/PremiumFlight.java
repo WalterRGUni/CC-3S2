@@ -1,11 +1,12 @@
-public class PremiumFlight extends Flight{
+public class PremiumFlight extends Flight {
+
     public PremiumFlight(String id) {
-        this.id = id;
+        super(id);
     }
 
     @Override
     public boolean addPassenger(Passenger passenger) {
-        if (passenger.isVip()) {
+        if(passenger.isVip()) {
             return passengers.add(passenger);
         }
         return false;
@@ -13,6 +14,9 @@ public class PremiumFlight extends Flight{
 
     @Override
     public boolean removePassenger(Passenger passenger) {
-        return passengers.remove(passenger);
+        if(passenger.isVip()) {
+            return passengers.remove(passenger);
+        }
+        return false;
     }
 }

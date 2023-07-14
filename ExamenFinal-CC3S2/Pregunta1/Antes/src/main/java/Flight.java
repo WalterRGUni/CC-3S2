@@ -3,7 +3,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Flight {
-
     private String id;
     private List<Passenger> passengers = new ArrayList<Passenger>();
     private String flightType;
@@ -13,17 +12,13 @@ public class Flight {
         this.flightType = flightType;
     }
 
-
-
     public String getId() {
         return id;
     }
 
-
     public List<Passenger> getPassengersList() {
         return Collections.unmodifiableList(passengers);
     }
-
 
     public String getFlightType() {
         return flightType;
@@ -31,7 +26,7 @@ public class Flight {
 
     public boolean addPassenger(Passenger passenger) {
         switch (flightType) {
-            case "Economica":
+            case "Economico":
                 return passengers.add(passenger);
             case "Negocios":
                 if (passenger.isVip()) {
@@ -43,7 +38,6 @@ public class Flight {
         }
 
     }
-
 
     public boolean removePassenger(Passenger passenger) {
         switch (flightType) {
@@ -60,6 +54,4 @@ public class Flight {
                 throw new RuntimeException("Tipo desconocido: " + flightType);
         }
     }
-
-
 }

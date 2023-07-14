@@ -1,7 +1,9 @@
 public class BusinessFlight extends Flight {
+
     public BusinessFlight(String id) {
-        this.id = id;
+        super(id);
     }
+
     @Override
     public boolean addPassenger(Passenger passenger) {
         if (passenger.isVip()) {

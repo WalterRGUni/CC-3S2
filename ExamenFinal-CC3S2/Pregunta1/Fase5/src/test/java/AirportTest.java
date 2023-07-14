@@ -3,8 +3,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AirportTest {
 
@@ -34,7 +33,9 @@ public class AirportTest {
                         () -> assertEquals("1", economyFlight.getId()),
                         () -> assertEquals(true, economyFlight.addPassenger(checha)),
                         () -> assertEquals(1, economyFlight.getPassengersList().size()),
-                        () -> assertEquals("Checha", economyFlight.getPassengersList().get(0).getName()),
+                        () -> assertEquals(false, economyFlight.addPassenger(checha)),
+                        () -> assertEquals(1, economyFlight.getPassengersList().size()),
+                        () -> assertTrue(economyFlight.getPassengersList().contains(checha)),
                         () -> assertEquals(true, economyFlight.removePassenger(checha)),
                         () -> assertEquals(0, economyFlight.getPassengersList().size())
                 );
@@ -51,7 +52,9 @@ public class AirportTest {
                         () -> assertEquals("1", economyFlight.getId()),
                         () -> assertEquals(true, economyFlight.addPassenger(lore)),
                         () -> assertEquals(1, economyFlight.getPassengersList().size()),
-                        () -> assertEquals("Lore", economyFlight.getPassengersList().get(0).getName()),
+                        () -> assertEquals(false, economyFlight.addPassenger(lore)),
+                        () -> assertEquals(1, economyFlight.getPassengersList().size()),
+                        () -> assertTrue(economyFlight.getPassengersList().contains(lore)),
                         () -> assertEquals(false, economyFlight.removePassenger(lore)),
                         () -> assertEquals(1, economyFlight.getPassengersList().size())
                 );
@@ -100,6 +103,8 @@ public class AirportTest {
                 assertAll("Verifica todas las condiciones para un pasajero VIP y un vuelo de negocios",
                         () -> assertEquals(true, businessFlight.addPassenger(lore)),
                         () -> assertEquals(1, businessFlight.getPassengersList().size()),
+                        () -> assertEquals(false, businessFlight.addPassenger(lore)),
+                        () -> assertEquals(1, businessFlight.getPassengersList().size()),
                         () -> assertEquals(false, businessFlight.removePassenger(lore)),
                         () -> assertEquals(1, businessFlight.getPassengersList().size())
                 );
@@ -146,6 +151,8 @@ public class AirportTest {
             public void testpremiumFlightVipPassenger() {
                 assertAll("Verifica todas las condiciones para un pasajero VIP y un vuelo premium",
                         () -> assertEquals(true, premiumFlight.addPassenger(lore)),
+                        () -> assertEquals(1, premiumFlight.getPassengersList().size()),
+                        () -> assertEquals(false, premiumFlight.addPassenger(lore)),
                         () -> assertEquals(1, premiumFlight.getPassengersList().size()),
                         () -> assertEquals(true, premiumFlight.removePassenger(lore)),
                         () -> assertEquals(0, premiumFlight.getPassengersList().size())
